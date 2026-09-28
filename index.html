@@ -313,6 +313,32 @@ button{cursor:pointer;font-family:var(--ff)}
   #nav .nav-lk{display:none}
 }
 @media print{@page{size:auto !important}body{background:#fff;print-color-adjust:exact;-webkit-print-color-adjust:exact}#nav,#hero{position:static !important}button{display:none !important}}
+
+/* ── VIDEO GALLERY ──────────────────────────── */
+.vid-section-hdr{display:flex;align-items:center;justify-content:space-between;margin:32px 0 18px}
+.vid-section-title{font-size:19px;font-weight:700;color:#1a1a1a;border-left:3px solid #F26522;padding-left:12px}
+.vid-section-sub{font-size:12px;color:#888}
+.vid-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-bottom:36px}
+.vid-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.vid-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.13);border-color:#F26522}
+.vid-thumb{background:linear-gradient(135deg,#111 0%,#2a2a2a 60%,#1a1a1a 100%);height:148px;display:flex;align-items:center;justify-content:center;position:relative}
+.vid-play{width:54px;height:54px;background:#F26522;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(242,101,34,.45);transition:transform .15s}
+.vid-card:hover .vid-play{transform:scale(1.1)}
+.vid-play svg{fill:white;width:22px;height:22px;margin-left:4px}
+.vid-duration{position:absolute;bottom:8px;right:10px;background:rgba(0,0,0,.78);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;letter-spacing:.3px}
+.vid-tag-row{position:absolute;top:10px;left:10px;display:flex;gap:5px;flex-wrap:wrap}
+.vid-tag{background:#F26522;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.6px}
+.vid-tag.vt-wireless{background:#0071CE}
+.vid-tag.vt-gui{background:#6B21A8}
+.vid-tag.vt-voice{background:#059669}
+.vid-tag.vt-industrial{background:#7C3AED}
+.vid-tag.vt-rtos{background:#0E7490}
+.vid-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:5px}
+.vid-title{font-size:14px;font-weight:700;color:#1a1a1a;line-height:1.35}
+.vid-desc{font-size:12px;color:#5a5a5a;line-height:1.55;flex:1}
+.vid-cta{font-size:12px;font-weight:700;color:#F26522;margin-top:10px;display:flex;align-items:center;gap:4px}
+.vid-divider{border:none;border-top:1px solid #eee;margin:28px 0 22px}
+
 </style>
 </head>
 <body>
@@ -326,7 +352,6 @@ button{cursor:pointer;font-family:var(--ff)}
   <div class="nav-sp"></div>
   <a class="nav-lk" href="https://www.nxp.com/products" target="_blank">All Products</a>
   <a class="nav-lk" href="https://mcuxpresso.nxp.com/appcodehub" target="_blank">App Code Hub</a>
-  <a class="nav-lk" href="https://www.nxp.com/design/development-boards" target="_blank">Dev Boards</a>
   <button class="nav-btn" onclick="window.open('https://www.nxp.com/support','_blank')">Support ↗</button>
 </header>
 
@@ -435,7 +460,141 @@ button{cursor:pointer;font-family:var(--ff)}
 /* ═══════════════════════════════
    FAMILY CATALOG
 ═══════════════════════════════ */
+
+/* ═══════════════════════════════════════
+   DEMO VIDEOS  — real NXP Smarter World URLs
+═══════════════════════════════════════ */
+const VBASE='https://www.nxp.com/company/about-nxp/smarter-world-videos/';
+const VIDEOS={
+  'MCXN947':[
+    {title:'Multiple Face Detection on MCX N94x',desc:'Real-time multi-face detection on the MCXN947 eIQ® Neutron NPU. Zero CPU load during inference — the NPU handles it independently.',url:VBASE+'FACE-DETECTION-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'MNIST Image Recognition on MCX N94x',desc:'Fashion-MNIST classification inference demo using the eIQ® Neutron NPU. Demonstrates edge AI image recognition without cloud connectivity.',url:VBASE+'MNIST-FASHION-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'eIQ® Neutron NPU Benchmark',desc:'Head-to-head benchmark: NPU-accelerated vs CPU-only TF Lite Micro inference on MCXN947. Quantifies the real performance gap.',url:VBASE+'NPU-BENCHMARK-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'Multiple Person Detection on MCX N94x',desc:'Real-time multiple person detection using edge AI on MCXN947 NPU. Suitable for security cameras and smart building occupancy sensors.',url:VBASE+'PERSON-DETECTION-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'CIFAR-10 Image Recognition on MCX N94x',desc:'CIFAR-10 dataset inference running entirely on the MCXN947 Neutron NPU — INT8 model classification accuracy and throughput.',url:VBASE+'LABEL-CIFAR10-IMAGE-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'On-Device Training: Fan Anomaly Detection',desc:'On-device neural network training for industrial fan anomaly detection on MCXN94x. Detects bearing faults without sending data to the cloud.',url:VBASE+'FAN-ANOMALY-DETECTION-MCXN94-VID',dur:'',tags:['AI/ML','Industrial']},
+    {title:'Zephyr Display Portability Demo',desc:'Zephyr LVGL GUI demo flashed onto FRDM-MCXN947 without code changes — cross-platform portability via MCUXpresso for VS Code.',url:VBASE+'ZEPHYR-DISPLAY-PORTABILITY-DEMO-MCUXPRESSO-VID',dur:'10:52',tags:['RTOS','GUI']},
+    {title:'Wi-Fi Touchscreen LCD: IW416 + MCX MCU',desc:'IW416 Wi-Fi module integrated with MCX N MCU driving a touchscreen LCD — full wireless HMI stack demo.',url:VBASE+'WI-FI-TOUCHSCREEN-LCD-DEMO-MCXN-IW416-VID',dur:'',tags:['Wi-Fi','GUI']}
+  ],
+  'MCXN946':[
+    {title:'Multiple Face Detection on MCX N94x',desc:'Real-time multi-face detection on MCXN946 — same dual Cortex-M33 + NPU platform as MCXN947.',url:VBASE+'FACE-DETECTION-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'eIQ® Neutron NPU Benchmark',desc:'NPU-accelerated vs CPU-only inference benchmark — applicable to MCXN946.',url:VBASE+'NPU-BENCHMARK-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'Zephyr Display Portability Demo',desc:'Zephyr LVGL GUI running on MCX N hardware via MCUXpresso for VS Code.',url:VBASE+'ZEPHYR-DISPLAY-PORTABILITY-DEMO-MCUXPRESSO-VID',dur:'10:52',tags:['RTOS']}
+  ],
+  'MCXN548':[
+    {title:'Multiple Person Detection on MCX N54x',desc:'Real-time person detection on MCXN548 Neutron NPU — same eIQ acceleration as N947 family.',url:VBASE+'PERSON-DETECTION-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'eIQ® Neutron NPU Benchmark',desc:'NPU benchmark applicable to MCXN548 — shows edge AI throughput at 150 MHz.',url:VBASE+'NPU-BENCHMARK-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'Zephyr Display Portability Demo',desc:'Zephyr LVGL demo running on MCX N family boards.',url:VBASE+'ZEPHYR-DISPLAY-PORTABILITY-DEMO-MCUXPRESSO-VID',dur:'10:52',tags:['RTOS']}
+  ],
+  'MCXN547':[
+    {title:'CIFAR-10 Image Recognition on MCX N',desc:'CIFAR-10 edge inference on MCX N Neutron NPU — applicable to MCXN547.',url:VBASE+'LABEL-CIFAR10-IMAGE-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'eIQ® Neutron NPU Benchmark',desc:'NPU benchmark on MCX N at 150 MHz — applicable to MCXN547.',url:VBASE+'NPU-BENCHMARK-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'Zephyr Display Portability Demo',desc:'Zephyr LVGL GUI running on MCX N family via MCUXpresso for VS Code.',url:VBASE+'ZEPHYR-DISPLAY-PORTABILITY-DEMO-MCUXPRESSO-VID',dur:'10:52',tags:['RTOS']}
+  ],
+  'MCXN236':[
+    {title:'eIQ® Neutron NPU Benchmark',desc:'NPU-accelerated inference benchmark applicable to the MCXN236 — same eIQ Neutron NPU architecture as the N947.',url:VBASE+'NPU-BENCHMARK-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'Multiple Person Detection on MCX N',desc:'Real-time person detection using the eIQ Neutron NPU — applicable to MCX N2xx series.',url:VBASE+'PERSON-DETECTION-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'Zephyr Display Portability Demo',desc:'Zephyr LVGL cross-platform display demo on MCX N family.',url:VBASE+'ZEPHYR-DISPLAY-PORTABILITY-DEMO-MCUXPRESSO-VID',dur:'10:52',tags:['RTOS']}
+  ],
+  'MCXN235':[
+    {title:'eIQ® Neutron NPU Benchmark',desc:'NPU benchmark on MCX N — applicable to MCXN235 (same NPU architecture).',url:VBASE+'NPU-BENCHMARK-MCXN947-VID',dur:'',tags:['AI/ML']},
+    {title:'CIFAR-10 Image Recognition on MCX N',desc:'CIFAR-10 classification inference on MCX N Neutron NPU.',url:VBASE+'LABEL-CIFAR10-IMAGE-MCXN947-VID',dur:'',tags:['AI/ML']}
+  ],
+  'MCXW71':[
+    {title:'Channel Sounding with Pixel 10 & MCXW72LOC',desc:'Channel Sounding measurements using a Google Pixel 10 and MCX W72 localization board — the same BLE 5.4 Channel Sounding capability is in the MCXW71 family.',url:VBASE+'CHANNEL-SOUNDING-PIXEL-10-MCXW72LOC',dur:'1:40',tags:['Wireless']}
+  ],
+  'MCXW72':[
+    {title:'Bluetooth Localization with FRDM-MCXW72',desc:'Bluetooth Channel Sounding on FRDM-MCXW72 for precise indoor positioning. A more reliable alternative to RSSI — runs using built-in FRDM board antennas.',url:VBASE+'BLUETOOTH-LOCALIZATION-FRDM-MCXW72',dur:'2:00',tags:['Wireless']},
+    {title:'Channel Sounding with Pixel 10 & MCXW72LOC',desc:'With Android 16 Ranging module, a Pixel 10 acts as Channel Sounding initiator against the MCXW72 localization board. New standard for sub-1m indoor ranging.',url:VBASE+'CHANNEL-SOUNDING-PIXEL-10-MCXW72LOC',dur:'1:40',tags:['Wireless']}
+  ],
+  'MCXW716':[
+    {title:'Bluetooth Localization with FRDM-MCXW72',desc:'Bluetooth Channel Sounding for accurate indoor positioning — applicable to MCX W716.',url:VBASE+'BLUETOOTH-LOCALIZATION-FRDM-MCXW72',dur:'2:00',tags:['Wireless']},
+    {title:'Channel Sounding with Pixel 10 & MCXW72LOC',desc:'Android 16 + MCX W localization board demo for sub-1m BLE ranging.',url:VBASE+'CHANNEL-SOUNDING-PIXEL-10-MCXW72LOC',dur:'1:40',tags:['Wireless']}
+  ],
+  'MCXW727':[
+    {title:'Bluetooth Localization with FRDM-MCXW72',desc:'Bluetooth Channel Sounding — same MCX W platform as MCXW727.',url:VBASE+'BLUETOOTH-LOCALIZATION-FRDM-MCXW72',dur:'2:00',tags:['Wireless']},
+    {title:'Channel Sounding with Pixel 10 & MCXW72LOC',desc:'Sub-1m indoor BLE ranging demo applicable to MCX W727.',url:VBASE+'CHANNEL-SOUNDING-PIXEL-10-MCXW72LOC',dur:'1:40',tags:['Wireless']}
+  ],
+  'MCXW748':[
+    {title:'Bluetooth Localization with FRDM-MCXW72',desc:'BLE Channel Sounding for precise indoor positioning — same Multi-protocol MCX W radio platform.',url:VBASE+'BLUETOOTH-LOCALIZATION-FRDM-MCXW72',dur:'2:00',tags:['Wireless']},
+    {title:'Channel Sounding with Pixel 10 & MCXW72LOC',desc:'Android 16 + MCX W Channel Sounding — applicable to MCX W748 with same BLE 5.4 radio.',url:VBASE+'CHANNEL-SOUNDING-PIXEL-10-MCXW72LOC',dur:'1:40',tags:['Wireless']}
+  ],
+  'MCXW235':[
+    {title:'Bluetooth Localization with FRDM-MCXW72',desc:'BLE Channel Sounding for sub-1m indoor ranging — MCX W wireless platform series.',url:VBASE+'BLUETOOTH-LOCALIZATION-FRDM-MCXW72',dur:'2:00',tags:['Wireless']}
+  ],
+  'MCXW236':[
+    {title:'Bluetooth Localization with FRDM-MCXW72',desc:'BLE Channel Sounding demo — applicable to MCX W236 multi-protocol radio.',url:VBASE+'BLUETOOTH-LOCALIZATION-FRDM-MCXW72',dur:'2:00',tags:['Wireless']},
+    {title:'Channel Sounding with Pixel 10 & MCXW72LOC',desc:'Pixel 10 + MCX W Channel Sounding — same radio architecture as MCXW236.',url:VBASE+'CHANNEL-SOUNDING-PIXEL-10-MCXW72LOC',dur:'1:40',tags:['Wireless']}
+  ],
+  'MCXW343':[
+    {title:'Channel Sounding with Pixel 10 & MCXW72LOC',desc:'BLE Channel Sounding for precise ranging — MCX W wireless MCU family.',url:VBASE+'CHANNEL-SOUNDING-PIXEL-10-MCXW72LOC',dur:'1:40',tags:['Wireless']}
+  ],
+  'MCXW345':[
+    {title:'Bluetooth Localization with FRDM-MCXW72',desc:'BLE Channel Sounding demo — applicable to MCX W345.',url:VBASE+'BLUETOOTH-LOCALIZATION-FRDM-MCXW72',dur:'2:00',tags:['Wireless']}
+  ],
+  'MCXC141':[{title:'Level Up from 8-Bit: Meet the MCX C Series',desc:'How MCX C simplifies upgrading from 8-bit MCUs — motion detection demo with FXLS8974CF accelerometer and joystick control via CMSIS drivers on the FRDM board.',url:VBASE+'LEVELUP-FROM-8BIT-MEET-MCXC-SERIES-VID',dur:'2:08',tags:['Getting Started']}],
+  'MCXC142':[{title:'Level Up from 8-Bit: Meet the MCX C Series',desc:'How MCX C simplifies upgrading from 8-bit MCUs.',url:VBASE+'LEVELUP-FROM-8BIT-MEET-MCXC-SERIES-VID',dur:'2:08',tags:['Getting Started']}],
+  'MCXC143':[{title:'Level Up from 8-Bit: Meet the MCX C Series',desc:'How MCX C simplifies upgrading from 8-bit MCUs.',url:VBASE+'LEVELUP-FROM-8BIT-MEET-MCXC-SERIES-VID',dur:'2:08',tags:['Getting Started']}],
+  'MCXC144':[{title:'Level Up from 8-Bit: Meet the MCX C Series',desc:'How MCX C simplifies the transition from 8-bit — motion detection + touch joystick on FRDM board.',url:VBASE+'LEVELUP-FROM-8BIT-MEET-MCXC-SERIES-VID',dur:'2:08',tags:['Getting Started']}],
+  'MCXC161':[{title:'Level Up from 8-Bit: Meet the MCX C Series',desc:'How MCX C Series simplifies upgrading from 8-bit microcontrollers.',url:VBASE+'LEVELUP-FROM-8BIT-MEET-MCXC-SERIES-VID',dur:'2:08',tags:['Getting Started']}],
+  'MCXC162':[{title:'Level Up from 8-Bit: Meet the MCX C Series',desc:'How MCX C Series simplifies upgrading from 8-bit microcontrollers.',url:VBASE+'LEVELUP-FROM-8BIT-MEET-MCXC-SERIES-VID',dur:'2:08',tags:['Getting Started']}],
+  'MCXC163':[{title:'Level Up from 8-Bit: Meet the MCX C Series',desc:'How MCX C Series simplifies upgrading from 8-bit microcontrollers.',url:VBASE+'LEVELUP-FROM-8BIT-MEET-MCXC-SERIES-VID',dur:'2:08',tags:['Getting Started']}],
+  'MCXC164':[{title:'Level Up from 8-Bit: Meet the MCX C Series',desc:'How MCX C Series simplifies upgrading from 8-bit microcontrollers.',url:VBASE+'LEVELUP-FROM-8BIT-MEET-MCXC-SERIES-VID',dur:'2:08',tags:['Getting Started']}],
+  'MIMXRT595S':[
+    {title:'Speech to Intent Local Voice Control on i.MX RT',desc:'VIT Speech to Intent: local voice control using natural language understanding on i.MX RT500 Crossover MCU — deep learning on the edge, no cloud required.',url:VBASE+'iMX-RT500-SMART-WATCH-DEMO',dur:'1:25',tags:['Voice AI']}
+  ],
+  'MIMXRT533S':[{title:'Speech to Intent Local Voice Control on i.MX RT',desc:'VIT Speech to Intent on i.MX RT5xx Crossover MCU.',url:VBASE+'iMX-RT500-SMART-WATCH-DEMO',dur:'1:25',tags:['Voice AI']}],
+  'MIMXRT555S':[
+    {title:'Speech to Intent Local Voice Control on i.MX RT',desc:'VIT Speech to Intent demo on i.MX RT5xx.',url:VBASE+'iMX-RT500-SMART-WATCH-DEMO',dur:'1:25',tags:['Voice AI']},
+    {title:'Smart Voice Solution with VIT, S2I and Matter Demo',desc:'NXP Voice Intelligent Technology running Speech-to-Intent plus Matter device commissioning on i.MX RT5xx.',url:VBASE+'SMART-VOICE-MATTER-DEMO-VID',dur:'',tags:['Voice AI']}
+  ],
+  'MIMXRT685S':[
+    {title:'Speech to Intent Local Voice Control on i.MX RT',desc:'Local voice command recognition via NXP VIT on i.MX RT6xx crossover MCU — no cloud needed.',url:VBASE+'iMX-RT500-SMART-WATCH-DEMO',dur:'1:25',tags:['Voice AI']},
+    {title:'Smart Voice Solution with VIT, S2I and Matter Demo',desc:'Voice + Matter protocol integration on i.MX RT6xx.',url:VBASE+'SMART-VOICE-MATTER-DEMO-VID',dur:'',tags:['Voice AI']}
+  ],
+  'MIMXRT633S':[
+    {title:'Speech to Intent Local Voice Control on i.MX RT',desc:'VIT Speech to Intent on i.MX RT6xx crossover MCU.',url:VBASE+'iMX-RT500-SMART-WATCH-DEMO',dur:'1:25',tags:['Voice AI']}
+  ],
+  'MIMXRT1062':[
+    {title:'How to Use eIQ ML for AI-Driven HMIs',desc:'NXP eIQ powering Diehl Controls 3Sense AI technology on i.MX RT1060 — AI models for next-gen HMI covering MOVE, TOUCH, and PRESS pattern recognition.',url:VBASE+'DIEHLS-SMARTSENSING-DEMO',dur:'1:42',tags:['AI/ML','GUI']},
+    {title:'Au-Zone Smart City — Vehicle Detection',desc:'DeepView Vision Starter Kit Micro on i.MX RT for real-world vehicle detection in a smart city parking use case.',url:VBASE+'AU-ZONE-SMART-CITY-DEMO',dur:'4:51',tags:['Vision AI']},
+    {title:'Anomaly Detection with i.MX RT 1060',desc:'Machine learning-based anomaly detection on i.MX RT1060 — predictive maintenance without cloud.',url:VBASE+'ANOMALYDETECTION_IMXRT1060',dur:'',tags:['AI/ML']},
+    {title:'Facial Recognition with i.MX RT 1060',desc:'Real-time facial recognition on i.MX RT1060 Crossover MCU using the eIQ computer vision stack.',url:VBASE+'FACIALRECOGNITION_IMXRT1060',dur:'',tags:['Vision AI']},
+    {title:'Embedded Wizard GUI Demo on i.MX RT EVK',desc:'Embedded Wizard running a variety of GUI demos on i.MX RT evaluation kit — smooth animations and complex UI.',url:VBASE+'EMBEDDED-WIZARD-GUI',dur:'2:18',tags:['GUI']}
+  ],
+  'MIMXRT1064':[
+    {title:'How to Use eIQ ML for AI-Driven HMIs',desc:'NXP eIQ powering 3Sense AI for next-gen HMI on i.MX RT1060/64.',url:VBASE+'DIEHLS-SMARTSENSING-DEMO',dur:'1:42',tags:['AI/ML','GUI']},
+    {title:'Anomaly Detection with i.MX RT 1060',desc:'ML-based anomaly detection on i.MX RT1060/64.',url:VBASE+'ANOMALYDETECTION_IMXRT1060',dur:'',tags:['AI/ML']},
+    {title:'Facial Recognition with i.MX RT 1060',desc:'Real-time facial recognition on i.MX RT1060/64.',url:VBASE+'FACIALRECOGNITION_IMXRT1060',dur:'',tags:['Vision AI']},
+    {title:'Embedded Wizard GUI Demo on i.MX RT EVK',desc:'Embedded Wizard GUI demos on i.MX RT EVK.',url:VBASE+'EMBEDDED-WIZARD-GUI',dur:'2:18',tags:['GUI']},
+    {title:'Au-Zone Smart City — Vehicle Detection',desc:'Smart city vehicle detection demo on i.MX RT with DeepView Vision Starter Kit.',url:VBASE+'AU-ZONE-SMART-CITY-DEMO',dur:'4:51',tags:['Vision AI']}
+  ],
+  'MIMXRT1061':[
+    {title:'How to Use eIQ ML for AI-Driven HMIs',desc:'eIQ-powered AI HMI demo on i.MX RT1060 platform.',url:VBASE+'DIEHLS-SMARTSENSING-DEMO',dur:'1:42',tags:['AI/ML']},
+    {title:'Anomaly Detection with i.MX RT 1060',desc:'ML anomaly detection on i.MX RT1060.',url:VBASE+'ANOMALYDETECTION_IMXRT1060',dur:'',tags:['AI/ML']}
+  ],
+  'MIMXRT1052':[
+    {title:'i.MX RT1050 Running Embedded Wizard GUI',desc:'Embedded Wizard powered GUI application on i.MX RT1050 EVK — rich graphics at MCU cost.',url:VBASE+'IMX-RT1050-EMBEDDED-WIZARD',dur:'',tags:['GUI']},
+    {title:'Embedded Wizard GUI Demo',desc:'Variety of Embedded Wizard demos on i.MX RT evaluation kit.',url:VBASE+'EMBEDDED-WIZARD-GUI',dur:'2:18',tags:['GUI']},
+    {title:'Qt for MCUs Thermostat Demo — i.MX RT1050',desc:'Qt for MCUs thermostat demo on i.MX RT1050 EVK — professional embedded GUI with Qt ecosystem.',url:VBASE+'QT_MCUDEMO_i.MXRT1050',dur:'',tags:['GUI']}
+  ],
+  'MIMXRT1051':[
+    {title:'i.MX RT1050 Running Embedded Wizard GUI',desc:'Embedded Wizard GUI demo on i.MX RT1050.',url:VBASE+'IMX-RT1050-EMBEDDED-WIZARD',dur:'',tags:['GUI']},
+    {title:'Qt for MCUs Thermostat Demo — i.MX RT1050',desc:'Qt for MCUs thermostat demo on i.MX RT1050.',url:VBASE+'QT_MCUDEMO_i.MXRT1050',dur:'',tags:['GUI']}
+  ],
+  'MCXE31B':[
+    {title:'FRDM MCXE31B: CAN, Modbus and Zephyr in Action',desc:'CAN bus, Modbus RTU protocol, and Zephyr RTOS running simultaneously on the FRDM-MCXE31B development board — industrial connectivity demo.',url:VBASE+'NXP-FRDM-MCXE31B-CAN-MODBUS-ZEPHYR-VID',dur:'',tags:['Industrial','RTOS']}
+  ]
+};
+
+/* helper: tag CSS class */
+function vidTagClass(t){
+  const m={'Wireless':'vt-wireless','GUI':'vt-gui','Voice AI':'vt-voice','Industrial':'vt-industrial','RTOS':'vt-rtos','Vision AI':'vt-wireless','Getting Started':''};
+  return m[t]||'';
+}
+
 const FAM={
+'MCX-E':{nm:'MCX E Series',tp:'MCU',tg:'Industrial-grade Cortex-M33 with dual CAN-FD, RS-485/Modbus and Zephyr RTOS support',tags:['CAN-FD × 2','Modbus','RS-485','Zephyr','Cortex-M33','Industrial'],pts:['MCXE31B']},
 'MCX-N':{nm:'MCX N Series',tp:'Crossover',tg:'Dual-core Cortex-M33 + on-chip NPU for edge AI and industrial IoT',tags:['Edge AI','Dual-Core','150 MHz','EdgeLock SE','Ethernet','USB HS'],pts:['MCXN947','MCXN948','MCXN548','MCXN547','MCXN236','MCXN235']},
 'MCX-A':{nm:'MCX A Series',tp:'MCU',tg:'Mainstream Cortex-M33 for industrial sensing, consumer and IoT',tags:['TrustZone','CAN-FD','USB FS','96 MHz','EdgeLock Lite'],pts:['MCXA156','MCXA155','MCXA154','MCXA153','MCXA152','MCXA145','MCXA144','MCXA143','MCXA134','MCXA133','MCXA132']},
 'MCX-C':{nm:'MCX C Series',tp:'MCU',tg:'Ultra-cost-optimized Cortex-M0+ for high-volume, price-sensitive apps',tags:['Cortex-M0+','48 MHz','Touch Sense','LCD','DAC','Ultra-Low Cost'],pts:['MCXC141','MCXC142','MCXC143','MCXC144','MCXC161','MCXC162','MCXC163','MCXC164']},
@@ -453,6 +612,53 @@ const FAM={
    PRODUCT DATABASE
 ═══════════════════════════════ */
 const P={
+
+
+/* ──── MCXE31B ──── */
+'MCXE31B':{fam:'MCX-E',tp:'Industrial MCU',tg:'Cortex-M33 @ 96 MHz with dual CAN-FD, Modbus RTU, RS-485, and native Zephyr RTOS support for industrial networking',
+url:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-e-series-microcontrollers:MCX-E-SERIES',
+tags:['Cortex-M33','CAN-FD × 2','Modbus','RS-485','Zephyr','Industrial'],
+apps:[
+  {e:'🏭',n:'Industrial PLC',d:'Programmable logic controller with dual CAN-FD bus for factory automation fieldbus'},
+  {e:'⚡',n:'Energy Meter Gateway',d:'Modbus RTU slave/master with RS-485 for smart metering and SCADA integration'},
+  {e:'🔌',n:'Motor Drive Controller',d:'BLDC / stepper control with CAN-FD-based command bus'},
+  {e:'🌐',n:'Building Automation',d:'BACnet-over-RS-485 or Modbus TCP gateway for HVAC and lighting control'},
+  {e:'🔧',n:'Industrial IoT Node',d:'Sensor aggregation with Modbus RTU → MQTT bridging over CAN or UART'},
+  {e:'🚗',n:'Automotive Body Module',d:'Dual-bus CAN-FD for automotive body electronics with ISO 26262 readiness'}
+],
+specs:{'Core':'Cortex-M33 @ 96 MHz','Flash':'256 KB','SRAM':'64 KB','CAN-FD':'2 × CAN-FD 2.0B (8 Mbps)','RS-485':'2 × hardware RS-485 UART','Package':'LQFP64 / QFN48','Temp':'−40 to +125 °C','Security':'TrustZone-M, TRNG, AES'},
+feats:{
+  'Industrial Connectivity':['2 × CAN-FD 2.0B at up to 8 Mbps data phase — dual independent buses','2 × hardware RS-485 UART with auto direction control — no external transceiver control needed','Modbus RTU / ASCII protocol support via hardware UART with DMA','LP-FlexComm SPI / I2C / UART configurable ports','I3C for modern sensor interfaces'],
+  'Core & Security':['Cortex-M33 @ 96 MHz with DSP/FPU extensions','TrustZone-M hardware secure/non-secure partition','TRNG + AES-128/256 hardware accelerators','Secure boot with code signing support'],
+  'RTOS & Ecosystem':['Zephyr RTOS with native CAN-FD and Modbus stack support','FreeRTOS + MCUXpresso SDK support','MCUXpresso for VS Code IDE integration','FRDM-MCXE31B Freedom Board with Arduino headers']
+},
+simple:'The MCXE31B is designed for factory-floor equipment — machines that need to talk to each other over industrial wiring. It handles two CAN buses (the standard language of factory and automotive systems) and RS-485/Modbus (the wiring standard found in virtually every industrial building). It runs Zephyr, the open-source RTOS built for connected embedded devices, making it easy for developers to get started quickly.',
+res:{
+  'Documentation':[
+    {e:'📄',t:'MCXE31B Product Page',d:'Datasheet, reference manual, and block diagram',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-e-series-microcontrollers:MCX-E-SERIES'},
+    {e:'📖',t:'MCX E Series Overview',d:'Family comparison, selection guide, and key features',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-e-series-microcontrollers:MCX-E-SERIES#documentation'}
+  ],
+  'Development Boards':[
+    {e:'🔌',t:'FRDM-MCXE31B Freedom Board',d:'FRDM evaluation board with CAN-FD, RS-485, and Arduino headers',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/general-purpose-mcus/frdm-development-boards:FRDM'}
+  ],
+  'Software & SDK':[
+    {e:'💻',t:'MCUXpresso SDK — MCXE31B',d:'Zephyr + FreeRTOS drivers, CAN-FD, Modbus middleware',u:'https://mcuxpresso.nxp.com/en/select?device=MCXE31B'},
+    {e:'⚙️',t:'Zephyr RTOS for NXP MCX',d:'Native Zephyr board support for MCX E series',u:'https://docs.zephyrproject.org/latest/boards/nxp/index.html'}
+  ]
+},
+demos:[
+  {t:'CAN-FD Multi-Frame Industrial Gateway',d:'Dual CAN-FD bridge demo: CAN-FD bus A ↔ CAN-FD bus B protocol translation with FreeRTOS task scheduling.',tags:['db-iot','db-gh'],meta:['CAN-FD','FreeRTOS','Gateway'],u:'https://mcuxpresso.nxp.com/appcodehub?search=CAN-FD+gateway+MCXE'},
+  {t:'Modbus RTU Slave + RS-485 Demo',d:'Modbus RTU slave running on RS-485 hardware UART with DMA. Compatible with standard Modbus masters (e.g. Siemens S7, Schneider).',tags:['db-iot','db-gh'],meta:['Modbus RTU','RS-485','DMA'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Modbus+RTU+RS485+MCX'},
+  {t:'Zephyr CAN-FD Shell Demo',d:'Zephyr shell over USB-CDC with live CAN-FD frame send/receive commands — interactive industrial protocol debugging tool.',tags:['db-iot','db-gh'],meta:['Zephyr','CAN-FD','Shell'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Zephyr+CAN-FD+MCXE'},
+  {t:'Modbus TCP → RTU Bridge (FreeRTOS + lwIP)',d:'Modbus TCP/IP server bridging to Modbus RTU slave on RS-485. Full SCADA connectivity demo over Ethernet.',tags:['db-iot','db-gh'],meta:['Modbus TCP','lwIP','RS-485'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Modbus+TCP+RTU+bridge'},
+  {t:'ISO 11898-1 CAN-FD BusLoad Stress Test',d:'Continuously transmits max-payload CAN-FD frames at 8 Mbps data rate on dual buses simultaneously — validates real-world industrial timing.',tags:['db-iot','db-gh'],meta:['CAN-FD','8 Mbps','Stress Test'],u:'https://mcuxpresso.nxp.com/appcodehub?search=CAN-FD+stress+test+MCX'},
+  {t:'TrustZone-M Secure CAN-FD Logging',d:'TrustZone-M partitioned application: non-secure CAN-FD receive → secure flash logging with HMAC authentication. Tamper-evident industrial audit trail.',tags:['db-sec','db-gh'],meta:['TrustZone-M','CAN-FD','Secure Log'],u:'https://mcuxpresso.nxp.com/appcodehub?search=TrustZone+CAN+secure+log'},
+  {t:'BLDC Motor Control via CAN-FD Commands',d:'Sensorless BLDC motor FOC loop receiving setpoint commands over CAN-FD — typical industrial servo drive architecture.',tags:['db-mtr','db-gh'],meta:['BLDC','FOC','CAN-FD'],u:'https://mcuxpresso.nxp.com/appcodehub?search=BLDC+motor+CAN-FD'},
+  {t:'Low-Power RS-485 Wakeup on Modbus Address',d:'Deep sleep with RS-485 hardware wakeup: MCU sleeps at <8 µA and wakes only when addressed by Modbus master.',tags:['db-iot','db-gh'],meta:['Deep Sleep','RS-485 Wakeup','Modbus'],u:'https://mcuxpresso.nxp.com/appcodehub?search=low+power+RS485+wakeup'},
+  {t:'Secure OTA over CAN-FD',d:'Signed firmware update delivered over CAN-FD bus. TRNG-based key verification before flash write — field-safe OTA for industrial equipment.',tags:['db-sec','db-iot'],meta:['OTA','CAN-FD','Signed Image'],u:'https://mcuxpresso.nxp.com/appcodehub?search=OTA+CAN-FD+firmware+update'},
+  {t:'Multi-Drop RS-485 Sensor Network',d:'MCXE31B as Modbus master polling 8 × RS-485 slave sensor nodes with DMA-driven UART and FreeRTOS round-robin scheduling.',tags:['db-iot','db-gh'],meta:['Modbus Master','Multi-Drop','RS-485 DMA'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Modbus+master+RS485+sensor'}
+],
+cs:['STM32G0B1','SAMC21N18A']},
 
 /* ──── MCXN947 ──── */
 'MCXN947':{fam:'MCX-N',tp:'Crossover MCU',tg:'Dual-core Cortex-M33 @ 150 MHz with on-chip NPU, EdgeLock SE050, dual USB HS/FS, CAN-FD × 3, and 100 Mbps Ethernet',
@@ -934,7 +1140,14 @@ function getProd(pn){return P[pn]||makeFallback(pn);}
 function renderHome(){
   const mg=document.getElementById('mcu-grid'),pg=document.getElementById('mpu-grid');
   mg.innerHTML=pg.innerHTML='';let mc=0,pc=0;
-  Object.entries(FAM).forEach(([k,f])=>{
+  // Count videos per family for ordering (most demos first)
+  const vidCount=(famKey)=>Object.keys(VIDEOS).filter(pn=>FAM[famKey]&&FAM[famKey].pts.includes(pn)).length;
+  const sortedFams=Object.entries(FAM).sort(([ak,af],[bk,bf])=>{
+    if(af.tp==='MPU'&&bf.tp!=='MPU')return 1;
+    if(af.tp!=='MPU'&&bf.tp==='MPU')return -1;
+    return vidCount(bk)-vidCount(ak);
+  });
+  sortedFams.forEach(([k,f])=>{
     const isMPU=f.tp==='MPU';
     const el=document.createElement('div');el.className='fc';
     const bc={MCU:'fb-mcu',MPU:'fb-mpu',Crossover:'fb-cross',Wireless:'fb-wifi'}[f.tp]||'fb-mcu';
@@ -974,9 +1187,12 @@ function goProduct(pn){
   document.getElementById('pv-type-tag').textContent=d.tp;
   document.getElementById('pv-tagline').textContent=d.tg;
   document.getElementById('pv-tags').innerHTML=d.tags.map(t=>`<span class="pv-tag">${t}</span>`).join('');
+  const buyUrl=`https://www.nxp.com/search#q=${encodeURIComponent(_pn)}&t=products&s=relevance`;
+  const pageUrl=d.url||buyUrl;
   document.getElementById('pv-actions').innerHTML=
-    `<a class="btn btn-primary" href="${d.url||'https://www.nxp.com/search#q='+encodeURIComponent(_pn)+'&t=products'}" target="_blank">NXP Product Page ↗</a>`+
-    `<a class="btn btn-outline" href="https://mcuxpresso.nxp.com/en/select?device=${encodeURIComponent(_pn)}" target="_blank">SDK Download</a>`;
+    `<a class="btn btn-primary" href="${buyUrl}" target="_blank" rel="noopener">Order / Evaluate ↗</a>`+
+    `<a class="btn btn-outline btn-blue" href="${pageUrl}" target="_blank" rel="noopener">Product Page</a>`+
+    `<a class="btn btn-outline" href="https://mcuxpresso.nxp.com/en/select?device=${encodeURIComponent(_pn)}" target="_blank" rel="noopener">SDK Download</a>`;
   swTab('ov',document.querySelector('.tab[data-tab="ov"]'));
   buildOv(d);buildTc(d);buildRs(d);buildDm(d);buildCpTab(d);
 }
@@ -1008,15 +1224,39 @@ function buildRs(d){
 /* TAB: DEMOS — each with unique appcodehub search URL */
 function buildDm(d){
   const hubUrl=`https://mcuxpresso.nxp.com/appcodehub?search=${encodeURIComponent(_pn)}`;
-  const banner=`<div class="demos-banner"><div class="demos-banner-text"><strong>NXP App Code Hub</strong>Each project below links directly to its filtered page on NXP's official application code repository.</div><a class="demos-banner-link" href="${hubUrl}" target="_blank" rel="noopener">Browse All ↗</a></div>`;
+  const banner='';
   const cards=(d.demos||[]).map(dm=>{
     const badgeMap={'db-iot':'IoT','db-ml':'ML / AI','db-sec':'Security','db-mtr':'Motor','db-wls':'Wireless','db-gh':'GitHub'};
     const badges=dm.tags.map(t=>`<span class="db ${t}">${badgeMap[t]||t}</span>`).join('');
     const meta=dm.meta.map(m=>`<span class="demo-mi">◦ ${m}</span>`).join('');
     return `<a class="demo-card" href="${dm.u}" target="_blank" rel="noopener"><div class="demo-top"><div class="demo-title">${dm.t}</div><div class="demo-badges">${badges}</div></div><div class="demo-desc">${dm.d}</div><div class="demo-meta">${meta}</div></a>`;
   }).join('');
-  const footer=`<div class="demo-footer">More examples at <a href="${hubUrl}" target="_blank" rel="noopener">mcuxpresso.nxp.com/appcodehub</a> — search <strong>${_pn}</strong></div>`;
-  document.getElementById('tp-dm').innerHTML=banner+`<div class="demo-list">${cards}</div>`+(d.demos&&d.demos.length?footer:'');
+  const footer=`<div class="demo-footer">Explore all ${_pn} projects on <a href="${hubUrl}" target="_blank" rel="noopener">NXP App Code Hub ↗</a> &nbsp;·&nbsp; <a href="https://mcuxpresso.nxp.com/appcodehub" target="_blank" rel="noopener">Browse All Projects</a></div>`;
+  
+  // VIDEO GALLERY
+  const vids=VIDEOS[_pn]||[];
+  let vidSection='';
+  if(vids.length>0){
+    const vcards=vids.map(v=>{
+      const tagHtml=v.tags.map(t=>`<span class="vid-tag ${vidTagClass(t)}">${t}</span>`).join('');
+      const durHtml=v.dur?`<div class="vid-duration">${v.dur}</div>`:'';
+      return `<a class="vid-card" href="${v.url}" target="_blank" rel="noopener">
+        <div class="vid-thumb">
+          <div class="vid-tag-row">${tagHtml}</div>
+          <div class="vid-play"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="5,3 19,12 5,21"/></svg></div>
+          ${durHtml}
+        </div>
+        <div class="vid-body">
+          <div class="vid-title">${v.title}</div>
+          <div class="vid-desc">${v.desc}</div>
+          <div class="vid-cta">Watch on NXP.com →</div>
+        </div>
+      </a>`;
+    }).join('');
+    vidSection=`<div class="vid-section-hdr"><div class="vid-section-title">Demo Videos</div><div class="vid-section-sub">${vids.length} video${vids.length>1?'s':''} · NXP Smarter World</div></div><div class="vid-grid">${vcards}</div><hr class="vid-divider">`;
+  }
+  
+  document.getElementById('tp-dm').innerHTML=vidSection+banner+`<div class="demo-list">${cards}</div>`+(d.demos&&d.demos.length?footer:'');
 }
 
 /* TAB: COMPARE */

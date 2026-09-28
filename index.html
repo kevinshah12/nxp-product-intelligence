@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NXP — MCU & MPU Product Intelligence</title>
+<style>
+:root{
+  --or:#F26522;--or-dk:#D4501A;--or-lt:#FFF5EF;--or-md:#FFD4BB;
+  --bl:#0095DA;--bl-dk:#006EA0;--bl-lt:#EEF7FF;
+  --gn:#6DC05F;--gn-lt:#F0FAF0;
+  --dk:#1A1A1A;--wh:#FFFFFF;
+  --s0:#FFFFFF;--s1:#F7F7F7;--s2:#EEEEEE;--s3:#E2E2E2;
+  --t1:#1A1A1A;--t2:#555555;--t3:#888888;--t4:#BBBBBB;
+  --b1:#E4E4E4;--b2:#CCCCCC;
+  --sh1:0 1px 4px rgba(0,0,0,.06);--sh2:0 4px 16px rgba(0,0,0,.09);--sh3:0 12px 36px rgba(0,0,0,.12);
+  --ff:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Helvetica,Arial,sans-serif;
+  --mn:"SF Mono","Cascadia Code","Menlo",Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff);background:var(--s1);color:var(--t1);font-size:14px;line-height:1.6;min-height:100vh}
+a{color:var(--bl);text-decoration:none}a:hover{text-decoration:underline}
+button{cursor:pointer;font-family:var(--ff)}
+/* NAV */
+#nav{background:#fff;border-bottom:1px solid var(--b1);height:56px;display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:900;gap:14px;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.nav-logo{display:flex;align-items:center;gap:2px;cursor:pointer;flex-shrink:0;user-select:none}
+.nl-n{font-size:22px;font-weight:900;color:#F26522;letter-spacing:-.02em}
+.nl-x{font-size:22px;font-weight:900;color:#6DC05F;letter-spacing:-.02em}
+.nl-p{font-size:22px;font-weight:900;color:#0095DA;letter-spacing:-.02em}
+.nav-div{width:1px;height:18px;background:var(--b1);flex-shrink:0}
+.nav-title{font-size:12px;color:var(--t3);font-weight:400;white-space:nowrap}
+.nav-sp{flex:1}
+.nav-lk{font-size:12px;font-weight:600;color:var(--t2);padding:5px 9px;border-radius:4px;transition:all .15s;white-space:nowrap;text-decoration:none}
+.nav-lk:hover{color:var(--or);background:var(--or-lt);text-decoration:none}
+.nav-btn{padding:7px 16px;background:var(--or);color:#fff;border:none;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;transition:all .15s}
+.nav-btn:hover{background:var(--or-dk)}
+/* HERO */
+#hero{background:#fff;padding:52px 24px 48px;border-bottom:1px solid var(--b1)}
+.hero-inner{max-width:660px;margin:0 auto;text-align:center}
+.hero-ey{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--or);margin-bottom:14px}
+.hero-h{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;color:var(--dk);letter-spacing:-.03em;line-height:1.14;margin-bottom:10px}
+.hero-h em{font-style:normal;color:var(--or)}
+.hero-sub{font-size:15px;color:var(--t2);margin-bottom:30px;line-height:1.55}
+.srch-wrap{position:relative;max-width:520px;margin:0 auto}
+.srch-bar{display:flex;align-items:center;background:#fff;border:2px solid var(--b1);border-radius:8px;box-shadow:var(--sh2);transition:border-color .15s}
+.srch-bar:focus-within{border-color:var(--or)}
+#q{flex:1;padding:13px 16px;border:none;background:transparent;font-size:14px;color:var(--t1);outline:none;font-family:var(--ff)}
+#q::placeholder{color:var(--t3)}
+.srch-btn{margin:5px;padding:7px 16px;background:var(--or);color:#fff;border:none;border-radius:5px;font-size:13px;font-weight:700;transition:background .15s;flex-shrink:0}
+.srch-btn:hover{background:var(--or-dk)}
+#acdrop{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1px solid var(--b1);border-radius:8px;box-shadow:var(--sh3);z-index:500;overflow:hidden;max-height:360px;overflow-y:auto;display:none}
+.ac-grp{padding:6px 14px 3px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);background:var(--s1);border-bottom:1px solid var(--b1)}
+.ac-row{display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;border-bottom:1px solid var(--s2);transition:background .1s}
+.ac-row:last-child{border-bottom:none}
+.ac-row:hover,.ac-row.sel{background:var(--or-lt)}
+.ac-pn{font-family:var(--mn);font-size:13px;font-weight:700;color:var(--t1);min-width:115px}
+.ac-desc{font-size:12px;color:var(--t2);flex:1}
+.ac-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;flex-shrink:0}
+.ab-nxp{background:var(--or-lt);color:var(--or)}
+.ab-cmp{background:var(--s2);color:var(--t3)}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:16px}
+.hchip{padding:5px 12px;border:1.5px solid var(--b1);border-radius:20px;font-size:11px;font-weight:700;font-family:var(--mn);color:var(--t2);cursor:pointer;background:#fff;transition:all .15s}
+.hchip:hover{border-color:var(--or);color:var(--or);background:var(--or-lt)}
+/* WRAP */
+#wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+/* BREADCRUMB */
+.bc{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t3);padding:18px 0 0;flex-wrap:wrap}
+.bc-lk{color:var(--or);font-weight:600;cursor:pointer}.bc-lk:hover{opacity:.75}
+.bc-sep{color:var(--t4)}.bc-cur{color:var(--t1);font-weight:600}
+/* SECTION HEADS */
+.sec-head{display:flex;align-items:baseline;gap:8px;margin:28px 0 14px}
+.sec-head:first-child{margin-top:24px}
+.sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t3)}
+.sec-cnt{font-size:11px;color:var(--t4)}
+/* HOME FAMILY GRID */
+#home{padding-bottom:48px}
+.fam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.fc{background:#fff;border:1.5px solid var(--b1);border-radius:8px;padding:18px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.fc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--or);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.fc:hover{border-color:var(--or);box-shadow:var(--sh2);transform:translateY(-2px)}.fc:hover::after{transform:scaleX(1)}
+.fc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.fc-name{font-size:15px;font-weight:700;color:var(--dk)}
+.fc-badge{font-size:9px;font-weight:800;padding:3px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em;flex-shrink:0}
+.fb-mcu{background:var(--or-lt);color:var(--or)}.fb-mpu{background:#f0f0f0;color:var(--t2)}
+.fb-cross{background:var(--bl-lt);color:var(--bl)}.fb-wifi{background:var(--gn-lt);color:var(--gn)}
+.fc-desc{font-size:12px;color:var(--t2);line-height:1.45;margin-bottom:10px}
+.fc-foot{display:flex;justify-content:space-between;align-items:center}
+.fc-cnt{font-size:11px;color:var(--t4)}.fc-arr{font-size:14px;color:var(--or);opacity:0;transition:opacity .15s}
+.fc:hover .fc-arr{opacity:1}
+/* FAMILY VIEW */
+#fv{display:none;padding-bottom:48px}
+.fam-hdr{background:#fff;border:1.5px solid var(--b1);border-radius:8px;padding:22px 24px;margin:18px 0 20px;display:flex;align-items:flex-start;gap:18px}
+.fam-icon{width:48px;height:48px;background:var(--or);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fam-icon svg{width:24px;height:24px;fill:#fff}
+.fam-name{font-size:20px;font-weight:800;margin-bottom:4px}
+.fam-desc{font-size:13px;color:var(--t2);line-height:1.5}
+.fam-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.ftag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:4px;background:var(--s1);border:1px solid var(--b1);color:var(--t2)}
+.parts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:7px}
+.pc{background:#fff;border:1.5px solid var(--b1);border-radius:6px;padding:10px 14px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:space-between}
+.pc:hover{border-color:var(--or);background:var(--or-lt)}
+.pc-pn{font-family:var(--mn);font-size:12px;font-weight:700;color:var(--dk)}
+.pc-arrow{font-size:11px;color:var(--t4);transition:all .15s}.pc:hover .pc-arrow{color:var(--or);transform:translateX(2px)}
+/* PRODUCT VIEW */
+#pv{display:none;padding-bottom:48px}
+.pv-banner{background:#fff;border:1.5px solid var(--b1);border-radius:8px;padding:24px 28px;margin:18px 0 4px}
+.pv-top{display:flex;align-items:flex-start;gap:18px;flex-wrap:wrap;margin-bottom:18px}
+.pv-pn-blk{flex:1;min-width:220px}
+.pv-pn{font-family:var(--mn);font-size:28px;font-weight:800;color:var(--dk);display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.pv-type-tag{font-size:10px;font-weight:800;padding:4px 9px;border-radius:3px;background:var(--or);color:#fff;text-transform:uppercase;letter-spacing:.07em;font-family:var(--ff)}
+.pv-tagline{font-size:14px;color:var(--t2);margin-bottom:12px;line-height:1.5;max-width:600px}
+.pv-tags{display:flex;gap:6px;flex-wrap:wrap}
+.pv-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--s1);border:1px solid var(--b1);color:var(--t2)}
+.pv-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:6px;font-size:13px;font-weight:700;border:none;transition:all .15s;cursor:pointer;font-family:var(--ff);text-decoration:none;line-height:1}
+.btn:hover{text-decoration:none}
+.btn-primary{background:var(--or);color:#fff}.btn-primary:hover{background:var(--or-dk);color:#fff}
+.btn-outline{background:#fff;color:var(--t1);border:1.5px solid var(--b2)}.btn-outline:hover{background:var(--s1)}
+.btn-blue{background:var(--bl);color:#fff}.btn-blue:hover{background:var(--bl-dk);color:#fff}
+.btn-sm{padding:7px 13px;font-size:12px}
+/* TABS */
+.tab-bar{display:flex;background:#fff;border:1.5px solid var(--b1);border-bottom:none;border-radius:8px 8px 0 0;overflow-x:auto;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab{padding:12px 20px;font-size:13px;font-weight:600;color:var(--t3);background:transparent;border:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:all .15s;font-family:var(--ff)}
+.tab:hover{color:var(--dk);background:var(--s1)}.tab.active{color:var(--or);border-bottom-color:var(--or)}
+.tab-body{background:#fff;border:1.5px solid var(--b1);border-top:2px solid var(--b1);border-radius:0 0 8px 8px;padding:24px;margin-bottom:16px}
+.tab-panel{display:none}.tab-panel.active{display:block}
+/* OVERVIEW TAB */
+.ov-intro{font-size:15px;line-height:1.75;color:var(--dk);max-width:760px;margin-bottom:20px}
+.simple-box{background:var(--s1);border-left:4px solid var(--or);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:26px}
+.simple-lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--or);margin-bottom:6px}
+.simple-txt{font-size:13px;line-height:1.7;color:var(--t2)}
+.apps-lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:12px}
+.apps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px}
+.app-card{background:var(--s1);border:1px solid var(--b1);border-radius:6px;padding:13px;display:flex;align-items:flex-start;gap:10px}
+.app-emoji{font-size:18px;flex-shrink:0;margin-top:1px}
+.app-name{font-size:13px;font-weight:700;margin-bottom:2px}
+.app-desc{font-size:11px;color:var(--t2);line-height:1.4}
+/* SPECS TAB */
+.specs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:8px;margin-bottom:24px}
+.spec-tile{background:var(--s1);border:1px solid var(--b1);border-radius:6px;padding:13px}
+.spec-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:3px}
+.spec-value{font-family:var(--mn);font-size:13px;font-weight:700;color:var(--dk)}
+.feat-section-head{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin:20px 0 9px;padding-bottom:6px;border-bottom:1px solid var(--b1)}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:5px;margin-bottom:20px}
+.feat-row{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;background:var(--s1);border-radius:4px;font-size:12px;line-height:1.45}
+.feat-dot{width:5px;height:5px;border-radius:50%;background:var(--or);margin-top:5px;flex-shrink:0}
+/* RESOURCES TAB */
+.res-section-head{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin:18px 0 9px}
+.res-section-head:first-child{margin-top:0}
+.res-list{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+.res-card{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--s1);border:1.5px solid var(--b1);border-radius:6px;cursor:pointer;transition:all .15s;text-decoration:none;color:inherit}
+.res-card:hover{border-color:var(--or);background:var(--or-lt);text-decoration:none;color:inherit}
+.res-icon{width:34px;height:34px;border-radius:5px;background:#fff;border:1px solid var(--b1);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.res-title{font-size:13px;font-weight:700;color:var(--dk);margin-bottom:1px}
+.res-desc{font-size:11px;color:var(--t2)}
+.res-arrow{margin-left:auto;color:var(--t4);font-size:13px;flex-shrink:0}
+.res-card:hover .res-arrow{color:var(--or)}
+/* DEMOS TAB */
+.demos-banner{background:var(--bl-lt);border:1.5px solid #C5DCEF;border-radius:8px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.demos-banner-text{font-size:13px;color:var(--bl);font-weight:500}
+.demos-banner-text strong{display:block;font-weight:800;font-size:14px;margin-bottom:2px}
+.demos-banner-link{margin-left:auto;padding:7px 14px;background:var(--bl);color:#fff;border-radius:5px;font-size:12px;font-weight:700;flex-shrink:0;text-decoration:none;transition:background .15s}
+.demos-banner-link:hover{background:var(--bl-dk);text-decoration:none;color:#fff}
+.demo-list{display:flex;flex-direction:column;gap:8px}
+.demo-card{background:var(--s1);border:1.5px solid var(--b1);border-radius:7px;padding:14px 16px;text-decoration:none;display:block;color:inherit;transition:all .15s}
+.demo-card:hover{border-color:var(--or);background:#fff;box-shadow:var(--sh1);text-decoration:none;color:inherit}
+.demo-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:5px}
+.demo-title{font-size:13px;font-weight:700;color:var(--dk)}
+.demo-badges{display:flex;gap:4px;flex-shrink:0;flex-wrap:wrap}
+.db{font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:.04em}
+.db-iot{background:var(--bl-lt);color:var(--bl)}.db-ml{background:#F3E8FF;color:#7C3AED}
+.db-sec{background:var(--gn-lt);color:#2D8A20}.db-mtr{background:#FFF3E0;color:#D97706}
+.db-wls{background:var(--gn-lt);color:var(--gn)}.db-gh{background:#1A1A1A;color:#fff}
+.demo-desc{font-size:12px;color:var(--t2);line-height:1.5}
+.demo-meta{display:flex;gap:10px;margin-top:7px;flex-wrap:wrap}
+.demo-mi{font-size:11px;color:var(--t4)}
+.demo-footer{margin-top:16px;padding:12px 14px;background:#fff;border:1.5px dashed var(--b2);border-radius:6px;text-align:center;font-size:13px;color:var(--t2)}
+.demo-footer a{color:var(--or);font-weight:700}
+/* COMPARE TAB */
+.cmp-prompt{text-align:center;padding:8px 0 20px}
+.cmp-prompt-title{font-size:16px;font-weight:800;margin-bottom:5px}
+.cmp-prompt-sub{font-size:13px;color:var(--t2);margin-bottom:18px}
+.cmp-input-row{max-width:460px;margin:0 auto;display:flex;gap:8px}
+#cq{flex:1;padding:10px 14px;border:1.5px solid var(--b2);border-radius:6px;background:#fff;color:var(--dk);font-size:13px;font-family:var(--mn);outline:none}
+#cq:focus{border-color:var(--or)}
+.cmp-qks{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px}
+.cqb{padding:5px 11px;border-radius:20px;border:1.5px solid var(--b1);background:#fff;color:var(--t2);font-size:11px;font-family:var(--mn);font-weight:700;cursor:pointer;transition:all .15s}
+.cqb:hover{border-color:var(--or);color:var(--or);background:var(--or-lt)}
+
+/* ════════════════════════════════════════
+   COMPARISON VIEW — Apple-style
+════════════════════════════════════════ */
+#cv{display:none;padding-bottom:64px}
+
+/* Sticky comparison bar */
+#cv-sticky{position:sticky;top:56px;background:#fff;border-bottom:1px solid var(--b1);z-index:100;padding:0}
+.cv-sticky-inner{max-width:1120px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:16px}
+.cv-stk-nxp{font-family:var(--mn);font-size:17px;font-weight:800;color:var(--or)}
+.cv-stk-vs{font-size:10px;font-weight:800;color:var(--t4);padding:0 4px;letter-spacing:.08em;text-transform:uppercase}
+.cv-stk-cmp{font-family:var(--mn);font-size:17px;font-weight:800;color:var(--dk)}
+.cv-stk-sp{flex:1}
+.cv-stk-verdict{font-size:11px;font-weight:700;color:var(--or);padding:5px 14px;background:var(--or-lt);border-radius:20px;white-space:nowrap}
+.cv-stk-back{padding:6px 12px;border:1.5px solid var(--b2);border-radius:5px;font-size:11px;font-weight:700;color:var(--t2);background:#fff;transition:all .15s}
+.cv-stk-back:hover{border-color:var(--or);color:var(--or)}
+
+/* Compare hero */
+.cv-hero{background:#fff;border:1.5px solid var(--b1);border-radius:12px;margin:18px 0 0;padding:32px;display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center}
+.cvh-side{text-align:center}
+.cvh-label{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+.cvh-pn{font-family:var(--mn);font-size:30px;font-weight:900;margin-bottom:4px}
+.cvh-pn.nxp-pn{color:var(--or)}
+.cvh-pn.cmp-pn{color:var(--dk)}
+.cvh-sub{font-size:12px;color:var(--t3);margin-bottom:16px}
+.cvh-score{font-size:64px;font-weight:200;letter-spacing:-.04em;line-height:1}
+.cvh-score.nxp-sc{color:var(--or)}
+.cvh-score.cmp-sc{color:var(--t3)}
+.cvh-wins{display:inline-block;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:800;margin-top:8px}
+.cw-nxp{background:var(--or-lt);color:var(--or)}
+.cw-cmp{background:var(--s2);color:var(--t3)}
+.cvh-vs{display:flex;flex-direction:column;align-items:center;gap:6px}
+.cvh-vs-badge{width:44px;height:44px;border-radius:50%;border:2px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:var(--t4)}
+.cvh-verdict-pill{background:var(--or);color:#fff;font-size:10px;font-weight:800;padding:5px 12px;border-radius:20px;text-align:center;white-space:nowrap}
+
+/* NXP Exclusive section — dark Apple-style */
+.excl-wrap{background:var(--dk);border-radius:12px;padding:32px;margin:16px 0}
+.excl-top{margin-bottom:24px}
+.excl-eyebrow{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--or);margin-bottom:8px}
+.excl-title{font-size:22px;font-weight:800;color:#fff;line-height:1.3}
+.excl-title span{color:var(--or)}
+.excl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.excl-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:20px;transition:background .2s}
+.excl-card:hover{background:rgba(255,255,255,.09)}
+.excl-card-name{font-size:15px;font-weight:800;color:#fff;margin-bottom:6px}
+.excl-card-desc{font-size:12px;color:rgba(255,255,255,.45);line-height:1.55;margin-bottom:14px}
+.excl-card-gap{border-top:1px solid rgba(255,255,255,.08);padding-top:10px}
+.excl-gap-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.2);display:block;margin-bottom:3px}
+.excl-gap-val{font-size:11px;color:rgba(255,255,255,.25)}
+
+/* Benchmark section */
+.bench-wrap{background:#fff;border:1.5px solid var(--b1);border-radius:12px;padding:28px;margin:16px 0}
+.bench-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:20px}
+.bench-cols{display:grid;grid-template-columns:130px 1fr 1fr;gap:0;border-bottom:1px solid var(--s2)}
+.bench-cols:last-of-type{border-bottom:none}
+.bench-col-hdr{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 0 10px;color:var(--t3)}
+.bench-col-hdr.nxp-hdr{color:var(--or)}
+.bench-rows{display:contents}
+.bench-row{display:grid;grid-template-columns:130px 1fr 1fr;gap:0;align-items:center;padding:12px 0;border-bottom:1px solid var(--s2)}
+.bench-row:last-child{border-bottom:none}
+.bench-row-lbl{font-size:12px;font-weight:700;color:var(--t1);padding-right:16px}
+.bench-bar-cell{padding-right:20px}
+.bench-bar-bg{height:9px;background:var(--s2);border-radius:5px;overflow:hidden;margin-bottom:4px}
+.bench-bar-fill{height:100%;border-radius:5px;transform:scaleX(0);transform-origin:left;transition:transform .9s cubic-bezier(.4,0,.2,1)}
+.bench-bar-fill.nxp-bar{background:var(--or)}
+.bench-bar-fill.cmp-bar{background:#B0B0B0}
+.bench-bar-fill.go{transform:scaleX(1)}
+.bench-bar-val{font-size:11px;font-weight:700}
+.bench-bar-val.nxp-val{color:var(--or)}.bench-bar-val.cmp-val{color:var(--t3)}
+.bench-winner{display:inline-block;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;text-transform:uppercase;margin-left:6px}
+.bw-nxp{background:var(--or-lt);color:var(--or)}.bw-tie{background:var(--s2);color:var(--t4)}
+.bw-cmp{background:var(--s2);color:var(--t3)}
+
+/* Spec table */
+.spec-tbl-wrap{background:#fff;border:1.5px solid var(--b1);border-radius:12px;overflow:hidden;margin:16px 0}
+.spec-tbl-head{padding:14px 20px;background:var(--s1);border-bottom:1px solid var(--b1)}
+.spec-tbl-head-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--t3)}
+.stbl{width:100%;border-collapse:collapse;font-size:13px}
+.stbl thead th{padding:10px 16px;background:var(--s1);font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);border-bottom:1px solid var(--b1);text-align:left}
+.stbl thead th.nxp-th{color:var(--or)}
+.stbl tbody td{padding:12px 16px;border-bottom:1px solid var(--s2);vertical-align:middle}
+.stbl tbody tr:last-child td{border-bottom:none}
+.stbl tbody tr:hover td{background:var(--s1)}
+.stbl-nxp-win td:nth-child(2){font-weight:700;color:var(--dk)}
+.stbl-nxp-win td:nth-child(3){color:var(--t3)}
+.win-badge{font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;display:inline-block;white-space:nowrap}
+.wb-nxp{background:var(--or-lt);color:var(--or)}.wb-tie{background:var(--s2);color:var(--t4)}.wb-cmp{background:var(--s2);color:var(--t3)}
+
+/* Feature matrix */
+.feat-matrix-wrap{background:#fff;border:1.5px solid var(--b1);border-radius:12px;overflow:hidden;margin:16px 0}
+.fmtbl{width:100%;border-collapse:collapse;font-size:12px}
+.fmtbl thead th{padding:10px 16px;background:var(--s1);font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);border-bottom:1px solid var(--b1);text-align:center}
+.fmtbl thead th:first-child{text-align:left}
+.fmtbl thead th.nxp-th{color:var(--or)}
+.fmtbl tbody td{padding:10px 16px;border-bottom:1px solid var(--s2);text-align:center;vertical-align:middle}
+.fmtbl tbody td:first-child{text-align:left;font-weight:500;color:var(--dk)}
+.fmtbl tbody tr:last-child td{border-bottom:none}
+.fmtbl tbody tr:hover td{background:var(--s1)}
+.ck-yes{color:#2D8A20;font-size:16px;font-weight:900}.ck-no{color:var(--t4);font-size:16px}
+.ck-partial{font-size:11px;font-weight:700;color:#D97706}
+
+/* Radar */
+.radar-wrap{background:#fff;border:1.5px solid var(--b1);border-radius:12px;padding:24px;margin:16px 0}
+.radar-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:10px}
+.radar-legend{display:flex;gap:20px;justify-content:center;margin-bottom:12px}
+.rleg{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--t2);font-weight:600}
+.rleg-dot{width:10px;height:10px;border-radius:50%}
+#rsvg{display:block;margin:0 auto}
+
+/* CTA at bottom of compare */
+.cmp-cta{background:var(--or);border-radius:12px;padding:28px 32px;margin:16px 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.cmp-cta-text{flex:1}
+.cmp-cta-title{font-size:17px;font-weight:800;color:#fff;margin-bottom:4px}
+.cmp-cta-sub{font-size:13px;color:rgba(255,255,255,.7)}
+.cmp-cta-btn{padding:11px 22px;background:#fff;color:var(--or);border:none;border-radius:6px;font-size:13px;font-weight:800;cursor:pointer;transition:all .15s;white-space:nowrap;text-decoration:none;display:inline-block}
+.cmp-cta-btn:hover{background:var(--or-lt);text-decoration:none}
+
+@media(max-width:700px){
+  .cv-hero{grid-template-columns:1fr;gap:16px}.cvh-vs{flex-direction:row}
+  .bench-row{grid-template-columns:100px 1fr;}.bench-row .bench-bar-cell:last-of-type{display:none}
+  .fam-hdr{flex-direction:column}
+  #nav .nav-lk{display:none}
+}
+@media print{@page{size:auto !important}body{background:#fff;print-color-adjust:exact;-webkit-print-color-adjust:exact}#nav,#hero{position:static !important}button{display:none !important}}
+</style>
+</head>
+<body>
+
+<header id="nav">
+  <div class="nav-logo" onclick="showHome()">
+    <span class="nl-n">N</span><span class="nl-x">X</span><span class="nl-p">P</span>
+  </div>
+  <div class="nav-div"></div>
+  <span class="nav-title">MCU &amp; MPU Product Intelligence</span>
+  <div class="nav-sp"></div>
+  <a class="nav-lk" href="https://www.nxp.com/products" target="_blank">All Products</a>
+  <a class="nav-lk" href="https://mcuxpresso.nxp.com/appcodehub" target="_blank">App Code Hub</a>
+  <a class="nav-lk" href="https://www.nxp.com/design/development-boards" target="_blank">Dev Boards</a>
+  <button class="nav-btn" onclick="window.open('https://www.nxp.com/support','_blank')">Support ↗</button>
+</header>
+
+<section id="hero">
+  <div class="hero-inner">
+    <span class="hero-ey">NXP Semiconductors</span>
+    <h1 class="hero-h">Find, Explore &amp; <em>Compare</em><br>MCUs and MPUs</h1>
+    <p class="hero-sub">Search any NXP part number to explore specs, docs, demos — or type a competitor part number to compare head-to-head.</p>
+    <div class="srch-wrap">
+      <div class="srch-bar">
+        <input id="q" type="text" autocomplete="off" spellcheck="false"
+               placeholder="Try: MCXN947 · MCXW71 · MIMXRT1064 · STM32H563…" aria-label="Search parts">
+        <button class="srch-btn" onclick="doSearch()">Search</button>
+      </div>
+      <div id="acdrop"></div>
+    </div>
+    <div class="hero-chips">
+      <span class="hchip" onclick="goProduct('MCXN947')">MCXN947</span>
+      <span class="hchip" onclick="goProduct('MCXW71')">MCXW71</span>
+      <span class="hchip" onclick="goProduct('MIMXRT1064')">MIMXRT1064</span>
+      <span class="hchip" onclick="goProduct('LPC55S69')">LPC55S69</span>
+      <span class="hchip" onclick="goProduct('MCXA153')">MCXA153</span>
+      <span class="hchip" onclick="goProduct('MIMX8MP8')">i.MX 8M Plus</span>
+    </div>
+  </div>
+</section>
+
+<div id="wrap">
+  <div id="home">
+    <div class="sec-head"><span class="sec-lbl">MCU &amp; Crossover Families</span><span class="sec-cnt" id="mcu-cnt"></span></div>
+    <div class="fam-grid" id="mcu-grid"></div>
+    <div class="sec-head"><span class="sec-lbl">MPU / Application Processor Families</span><span class="sec-cnt" id="mpu-cnt"></span></div>
+    <div class="fam-grid" id="mpu-grid"></div>
+  </div>
+
+  <div id="fv">
+    <div class="bc"><span class="bc-lk" onclick="showHome()">All Families</span><span class="bc-sep">›</span><span class="bc-cur" id="fv-bc"></span></div>
+    <div class="fam-hdr" id="fam-hdr-blk"></div>
+    <div class="sec-head"><span class="sec-lbl">Part Numbers</span><span class="sec-cnt" id="fv-cnt"></span></div>
+    <div class="parts-grid" id="fv-grid"></div>
+  </div>
+
+  <div id="pv">
+    <div class="bc">
+      <span class="bc-lk" onclick="showHome()">All Families</span><span class="bc-sep">›</span>
+      <span class="bc-lk" id="pv-fam-bc" onclick="goFamBc()"></span><span class="bc-sep">›</span>
+      <span class="bc-cur" id="pv-pn-bc"></span>
+    </div>
+    <div class="pv-banner">
+      <div class="pv-top">
+        <div class="pv-pn-blk">
+          <div class="pv-pn"><span id="pv-pn-text">—</span><span class="pv-type-tag" id="pv-type-tag">MCU</span></div>
+          <div class="pv-tagline" id="pv-tagline"></div>
+          <div class="pv-tags" id="pv-tags"></div>
+        </div>
+        <div class="pv-actions" id="pv-actions"></div>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab active" data-tab="ov" onclick="swTab('ov',this)">Overview</button>
+      <button class="tab" data-tab="tc" onclick="swTab('tc',this)">Technical Specs</button>
+      <button class="tab" data-tab="rs" onclick="swTab('rs',this)">Resources &amp; Docs</button>
+      <button class="tab" data-tab="dm" onclick="swTab('dm',this)">Demo Projects</button>
+      <button class="tab" data-tab="cp" onclick="swTab('cp',this)">Compare</button>
+    </div>
+    <div class="tab-body">
+      <div id="tp-ov" class="tab-panel active"></div>
+      <div id="tp-tc" class="tab-panel"></div>
+      <div id="tp-rs" class="tab-panel"></div>
+      <div id="tp-dm" class="tab-panel"></div>
+      <div id="tp-cp" class="tab-panel"></div>
+    </div>
+  </div>
+
+  <div id="cv">
+    <div id="cv-sticky">
+      <div class="cv-sticky-inner">
+        <span class="cv-stk-nxp" id="cvs-nxp"></span>
+        <span class="cv-stk-vs">vs</span>
+        <span class="cv-stk-cmp" id="cvs-cmp"></span>
+        <div class="cv-stk-sp"></div>
+        <span class="cv-stk-verdict" id="cvs-verdict"></span>
+        <button class="cv-stk-back" onclick="backToProd()">← Back to Product</button>
+      </div>
+    </div>
+    <div class="bc" style="padding-top:12px">
+      <span class="bc-lk" onclick="showHome()">All Families</span><span class="bc-sep">›</span>
+      <span class="bc-lk" id="cv-pbc" onclick="backToProd()"></span><span class="bc-sep">›</span>
+      <span class="bc-cur">Comparison</span>
+    </div>
+    <div id="cv-hero-blk"></div>
+    <div id="cv-excl-blk"></div>
+    <div id="cv-bench-blk"></div>
+    <div id="cv-spec-blk"></div>
+    <div id="cv-feat-blk"></div>
+    <div class="radar-wrap">
+      <div class="radar-title">Capability Radar — 8 Dimensions</div>
+      <div class="radar-legend" id="radar-legend"></div>
+      <svg id="rsvg" width="420" height="360" viewBox="0 0 420 360"></svg>
+    </div>
+    <div id="cv-cta-blk"></div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════
+   FAMILY CATALOG
+═══════════════════════════════ */
+const FAM={
+'MCX-N':{nm:'MCX N Series',tp:'Crossover',tg:'Dual-core Cortex-M33 + on-chip NPU for edge AI and industrial IoT',tags:['Edge AI','Dual-Core','150 MHz','EdgeLock SE','Ethernet','USB HS'],pts:['MCXN947','MCXN948','MCXN548','MCXN547','MCXN236','MCXN235']},
+'MCX-A':{nm:'MCX A Series',tp:'MCU',tg:'Mainstream Cortex-M33 for industrial sensing, consumer and IoT',tags:['TrustZone','CAN-FD','USB FS','96 MHz','EdgeLock Lite'],pts:['MCXA156','MCXA155','MCXA154','MCXA153','MCXA152','MCXA145','MCXA144','MCXA143','MCXA134','MCXA133','MCXA132']},
+'MCX-C':{nm:'MCX C Series',tp:'MCU',tg:'Ultra-cost-optimized Cortex-M0+ for high-volume, price-sensitive apps',tags:['Cortex-M0+','48 MHz','Touch Sense','LCD','DAC','Ultra-Low Cost'],pts:['MCXC141','MCXC142','MCXC143','MCXC144','MCXC161','MCXC162','MCXC163','MCXC164']},
+'MCX-W':{nm:'MCX W Series',tp:'Wireless',tg:'Multi-protocol wireless MCU — BLE 5.3 + IEEE 802.15.4 + Matter/Thread/Zigbee',tags:['BLE 5.3','802.15.4','Matter','Thread','Zigbee','EdgeLock SE'],pts:['MCXW71','MCXW72','MCXW716','MCXW727','MCXW748','MCXW235','MCXW236']},
+'RT-10':{nm:'i.MX RT 10xx',tp:'Crossover',tg:'Cortex-M7 up to 1 GHz for rich HMI, motor control, and industrial networking',tags:['Cortex-M7','600 MHz','4 MB Flash','2D GPU PxP','Dual USB HS','100 Mbps Eth'],pts:['MIMXRT1011','MIMXRT1015','MIMXRT1021','MIMXRT1024','MIMXRT1051','MIMXRT1052','MIMXRT1061','MIMXRT1062','MIMXRT1064']},
+'RT-11':{nm:'i.MX RT 11xx',tp:'Crossover',tg:'Dual-core CM7+CM4 up to 1 GHz, GPU, MIPI-DSI for premium HMI',tags:['Dual CM7+CM4','800 MHz+400 MHz','MIPI-DSI','2D/3D GPU','LPDDR4','MIPI-CSI'],pts:['MIMXRT1165','MIMXRT1166','MIMXRT1173','MIMXRT1175','MIMXRT1176','MIMXRT1187','MIMXRT1189']},
+'RT-5':{nm:'i.MX RT 5xx/6xx',tp:'Crossover',tg:'Ultra-low-power CM33/DSP crossover with on-chip SRAM for edge voice/audio',tags:['Cortex-M33','HiFi4 DSP','eIQ','USB HS','Ultra-Low Power','4.5 MB SRAM'],pts:['MIMXRT533S','MIMXRT555S','MIMXRT595S','MIMXRT633S','MIMXRT685S']},
+'LPC55':{nm:'LPC5500/55Sx',tp:'MCU',tg:'Security-first Cortex-M33 with PUF, CASPER, TrustZone-M and PRINCE flash encryption',tags:['Cortex-M33','CASPER','PUF','PRINCE','TrustZone-M','FIDO2'],pts:['LPC5502','LPC5504','LPC5506','LPC5512','LPC5514','LPC5516','LPC5524','LPC5526','LPC5528','LPC55S06','LPC55S16','LPC55S26','LPC55S28','LPC55S36','LPC55S66','LPC55S69']},
+'KIN':{nm:'Kinetis',tp:'MCU',tg:'Legacy Cortex-M0+/M4/M7 family — migration to MCX recommended',tags:['Cortex-M0+/M4/M7','USB HS','CAN','12-bit ADC','Migration Path'],pts:['MKE16Z256','MKE17Z512','MK22FN512','MK64FN1M0','MK66FN2M0']},
+'IMX8':{nm:'i.MX 8 Series',tp:'MPU',tg:'Quad/Dual Cortex-A53 + M4/M7 for Linux/Android industrial and automotive',tags:['Quad A53 1.8 GHz','M7 800 MHz','NPU 2.3 TOPS','HDMI 2.0','2× GbE TSN','LPDDR4'],pts:['MIMX8MP8','MIMX8MM6','MIMX8MN6','MIMX8ML8']},
+'IMX9':{nm:'i.MX 9 Series',tp:'MPU',tg:'16nm Cortex-A55 + M33 real-time domain with eIQ Neutron NPU',tags:['16nm FinFET','Dual A55 1.7 GHz','eIQ Neutron NPU','M33 Real-Time','Dual GbE TSN'],pts:['MIMX9352','MIMX9351','MIMX9311']}
+};
+
+/* ═══════════════════════════════
+   PRODUCT DATABASE
+═══════════════════════════════ */
+const P={
+
+/* ──── MCXN947 ──── */
+'MCXN947':{fam:'MCX-N',tp:'Crossover MCU',tg:'Dual-core Cortex-M33 @ 150 MHz with on-chip NPU, EdgeLock SE050, dual USB HS/FS, CAN-FD × 3, and 100 Mbps Ethernet',
+tags:['Dual CM33','150 MHz','eIQ NPU','EdgeLock SE050','USB HS+FS','3× CAN-FD','100 Mbps Ethernet','16-bit ADC'],
+specs:{'CPU Core':'Dual Cortex-M33 @ 150 MHz','Flash':'2 MB on-chip','SRAM':'512 KB (3 power banks)','NPU':'eIQ Neutron NPU on-die','Secure Element':'EdgeLock SE050 (silicon-isolated)','ADC':'2 × 16-bit SAR @ 2 Msps','USB':'HS (480 Mbps) + FS (12 Mbps)','CAN-FD':'3 × CAN-FD 2.0B @ 8 Mbps','Ethernet':'100 Mbps + IEEE 1588','Temperature':'-40 to 125 °C','Package':'LQFP144 / HVQFN144'},
+feats:{'Core & Security':['Dual Cortex-M33 @ 150 MHz — each core independent with dedicated TCM','eIQ Neutron NPU on-die: TF Lite Micro inference at <5 ms, <8 mA','EdgeLock SE050: silicon-isolated key vault — CPU bus cannot access key material','TRNG, AES-128/256 accelerator, SHA-256/384, ECC P-256','TrustZone-M on both cores with secure boot chain'],'Connectivity':['Dual USB: HS (480 Mbps) + FS (12 Mbps) simultaneously active','3 × CAN-FD 2.0B @ up to 8 Mbps data phase','100 Mbps Ethernet MAC + IEEE 1588 precision time','LP-FlexComm × 10 (SPI/I2C/UART configurable per port)'],'Analog':['2 × 16-bit SAR ADC @ 2 Msps — simultaneous sampling for precision power metering','16-bit DAC for analog output','4 × analog comparators for fast protection circuits'],'Upgrade Path':['Pin-compatible with MCXN548 (single-core cost-down variant)','Software-compatible with MCXA153 — same MCUXpresso SDK driver APIs']},
+desc:'The MCXN947 is NXP\'s flagship MCX microcontroller — the only device in its class combining dual Cortex-M33 cores, an on-chip Neural Processing Unit, a hardware Secure Element, dual USB High-Speed ports, triple CAN-FD, and 100 Mbps Ethernet in a single chip. Built for industrial IoT gateways, smart appliances, and edge AI nodes needing both deterministic real-time control and on-device machine learning inference.',
+simple:'Imagine two powerful chips in one — one handles smart AI tasks like recognising voice commands or detecting equipment faults before they happen, while the other manages real-time control like a motor. The security engine is a physical vault inside the chip; even if an attacker dumps the chip\'s memory, your encryption keys cannot be read out. All this in a single chip that costs less than a cup of coffee.',
+apps:[{e:'🤖',n:'Edge AI Gateway',d:'ML inference + industrial fieldbus + cloud reporting in one chip'},{e:'🔌',n:'Smart Appliance Hub',d:'Voice control + motor drive + USB diagnostics'},{e:'⚡',n:'EV Charging Controller',d:'OCPP 2.0 + CAN-FD + Ethernet, all in one SoC'},{e:'🏭',n:'Industrial IoT Node',d:'Predictive maintenance with on-chip NPU vibration analysis'},{e:'🔒',n:'Secure Edge Device',d:'TLS gateway with hardware-rooted keys via SE050'},{e:'🎛️',n:'Multi-Motor Controller',d:'Dual-core: one core per motor axis with shared CAN-FD bus'}],
+res:{'Documentation':[
+{e:'📄',t:'MCXN947 Datasheet',d:'Electrical specs, pinout, AC/DC characteristics',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-n-series-microcontrollers/mcxn-series:MCX-N-SERIES#documentation'},
+{e:'📖',t:'MCXN947 Reference Manual (MCXN947RM)',d:'Register-level peripheral guide, 2800+ pages',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-n-series-microcontrollers/mcxn-series:MCX-N-SERIES#documentation'}],
+'Development Boards':[
+{e:'🔌',t:'FRDM-MCXN947 Freedom Board',d:'Arduino + MikroBus headers, onboard DAP-Link, USB-C',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/general-purpose-mcus/frdm-development-board-for-mcx-n94-n54-mcus:FRDM-MCXN947'},
+{e:'📐',t:'FRDM-MCXN947 Schematics & BOM',d:'Full schematic PDF and bill of materials',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/general-purpose-mcus/frdm-development-board-for-mcx-n94-n54-mcus:FRDM-MCXN947#design-resources'}],
+'Software & SDK':[
+{e:'💻',t:'MCUXpresso SDK — MCXN947',d:'Drivers, FreeRTOS, middleware, 100+ examples',u:'https://mcuxpresso.nxp.com/en/select?device=MCXN947'},
+{e:'⚙️',t:'MCUXpresso IDE',d:'Eclipse-based IDE with RTOS awareness',u:'https://www.nxp.com/mcuxpresso/ide'},
+{e:'🤖',t:'eIQ ML Toolkit',d:'TF Lite Micro, ONNX, model quantization tools',u:'https://www.nxp.com/eiq'}]},
+url:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-n-series-microcontrollers/mcxn-series:MCX-N-SERIES',
+demos:[
+{t:'MCXN947 NPU vs TensorFLM Benchmark',d:'Performance benchmark comparing NPU-accelerated vs CPU-only TF Lite Micro inference. Real-time results on TFT LCD. On-chip NPU accelerates AI/ML algorithms — demonstrates the performance gap vs software-only execution.',tags:['db-ml','db-gh'],meta:['eIQ NPU','TF Lite Micro','FRDM-MCXN947'],u:'https://mcuxpresso.nxp.com/appcodehub?search=NPU+TensorFLM+benchmark+MCXN947'},
+{t:'Dual-Core Motor FOC + Safety Monitor',d:'Primary CM33 runs 100 kHz FOC loop for BLDC. Secondary CM33 handles real-time safety watchdog and CAN-FD reporting independently — no shared CPU resource conflict.',tags:['db-mtr','db-gh'],meta:['Dual-Core','FOC 100 kHz','CAN-FD'],u:'https://mcuxpresso.nxp.com/appcodehub?search=dual+core+motor+FOC+MCXN947'},
+{t:'EdgeLock SE050 — TLS Mutual Authentication',d:'HTTPS client using SE050 device certificate for mutual TLS. Private key never exposed to CPU bus — demonstrates hardware-rooted identity.',tags:['db-sec','db-gh'],meta:['SE050','mTLS','wolfSSL'],u:'https://mcuxpresso.nxp.com/appcodehub?search=SE050+TLS+mutual+auth'},
+{t:'Industrial Modbus TCP / CAN-FD Gateway',d:'Modbus RTU-to-TCP bridge over 100 Mbps Ethernet with 3× CAN-FD. FreeRTOS + lwIP stack for multi-bus industrial gateway.',tags:['db-iot','db-gh'],meta:['Ethernet','CAN-FD × 3','Modbus TCP'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Modbus+TCP+CAN-FD+MCXN947'},
+{t:'USB Composite Device — CDC + HID + MSC',d:'Simultaneously exposes virtual COM port, HID device, and mass storage over a single USB HS connection. Driver-free on all OS.',tags:['db-iot','db-gh'],meta:['USB HS','CDC+HID+MSC','No Driver'],u:'https://mcuxpresso.nxp.com/appcodehub?search=USB+composite+CDC+HID+MSC+MCXN947'},
+{t:'16-bit ADC Precision Power Metering',d:'Dual 16-bit ADC in simultaneous sampling at 2 Msps. Phase-accurate current + voltage measurement for energy monitoring at <0.1% error.',tags:['db-mtr','db-gh'],meta:['16-bit ADC','2 Msps','Power Metering'],u:'https://mcuxpresso.nxp.com/appcodehub?search=ADC+power+metering+MCXN947'},
+{t:'FreeRTOS Multi-Core IPC Mailbox Demo',d:'Inter-core communication using hardware mailbox and shared TCM. Benchmarks >60 Mbps throughput with <1 µs round-trip latency.',tags:['db-iot','db-gh'],meta:['FreeRTOS','IPC','Mailbox'],u:'https://mcuxpresso.nxp.com/appcodehub?search=multicore+IPC+mailbox+MCXN947'},
+{t:'Anomaly Detection — Vibration on NPU',d:'INT8 neural network running on eIQ Neutron NPU for factory equipment vibration-based anomaly detection. Predictive maintenance demo.',tags:['db-ml','db-gh'],meta:['NPU INT8','Accelerometer','Predictive Maint.'],u:'https://mcuxpresso.nxp.com/appcodehub?search=anomaly+detection+NPU+MCXN947'},
+{t:'Secure OTA Firmware Update (AWS IoT)',d:'Signed firmware update over MQTT/TLS from AWS IoT Core. SE050 validates signature before flash write — tamper-proof OTA.',tags:['db-sec','db-iot'],meta:['OTA','AWS IoT','SE050 Sign'],u:'https://mcuxpresso.nxp.com/appcodehub?search=OTA+firmware+update+AWS+MCXN947'},
+{t:'IEEE 1588 / PTP Precision Time Demo',d:'IEEE 1588v2 Precision Time Protocol over 100 Mbps Ethernet. Achieves <100 ns time synchronization across network nodes.',tags:['db-iot','db-gh'],meta:['IEEE 1588','PTP','<100 ns sync'],u:'https://mcuxpresso.nxp.com/appcodehub?search=IEEE+1588+PTP+MCXN947'}],
+cs:['STM32H563','STM32H743','RA6E2']},
+
+/* ──── MCXA156 ──── */
+'MCXA156':{fam:'MCX-A',tp:'MCU',tg:'Top-tier MCX A — Cortex-M33 @ 96 MHz with 2× CAN-FD, USB FS, TrustZone-M, 256 KB flash',
+tags:['Cortex-M33','96 MHz','2× CAN-FD','USB FS','TrustZone-M','EdgeLock Lite','256 KB Flash'],
+specs:{'CPU Core':'Cortex-M33 @ 96 MHz + DSP + FPU','Flash':'256 KB on-chip','SRAM':'96 KB','USB':'Full-Speed 12 Mbps (Device)','CAN-FD':'2 × CAN-FD 2.0B @ 8 Mbps','ADC':'2 × 12-bit SAR, 1 Msps, 16 ch','Timers':'3× FlexPWM + 4× FTM','UART/SPI/I2C':'3× LP-FlexComm (configurable)','Temperature':'-40 to 105 °C','Package':'LQFP64 / QFN48'},
+feats:{'Core & Security':['Cortex-M33 @ 96 MHz with full DSP/SIMD extensions and single-precision FPU','TrustZone-M: hardware-enforced secure/non-secure world partition','EdgeLock Lite: TRNG, AES-128/256 hardware accelerator, key hierarchy','Secure provisioning workflow compatible with MCUXpresso Secure Provisioning Tool','Pin-compatible with MCXN947 — PCB upgrade path to dual-core + NPU + Ethernet'],'Connectivity':['2 × CAN-FD 2.0B at up to 8 Mbps data phase — dual independent buses','USB Full-Speed 2.0 Device: driver-free CDC, HID, MSC on Windows/macOS/Linux','3 × LP-FlexComm: SPI / I2C / UART configurable per port','Low-Power UART: autonomous wake-from-deep-sleep on UART start bit','1 × I3C for modern sensor interfaces'],'Analog':['2 × 12-bit SAR ADC @ 1 Msps with 16 input channels total','Simultaneous dual-channel sampling for phase-accurate power measurement','4 × analog comparators for fast over-current and zero-crossing detection','12-bit DAC for waveform generation or analog threshold reference'],'Power':['Deep sleep at <5 µA with RTC, LP-UART, and wakeup-on-pin active','Dynamic voltage-frequency scaling across run modes','Multiple power domains with independent on/off control']},
+desc:'The MCXA156 is the highest-featured member of the MCX A family — the only MCX A device with dual CAN-FD buses. This makes it ideal for automotive body modules and industrial gateway applications that must bridge two independent CAN-FD networks simultaneously. It runs the full Cortex-M33 core (with DSP extensions and FPU) at 96 MHz with TrustZone-M security, USB Full-Speed Device, 256 KB flash, and 96 KB SRAM. Because every MCX A part is pin-compatible, a design built around MCXA156 can scale up to MCXN947 (dual-core, NPU, Ethernet) without a PCB revision.',
+simple:'The MCXA156 is a top-of-the-range microcontroller in the MCX A family. Think of it as having two separate CAN-FD network ports — great for cars and factory machines that have multiple communication buses. It also has USB built in (no extra chip needed), a built-in security engine that keeps your keys safe, and it runs a modern processor core that can do digital signal processing. Best of all, it is pin-for-pin compatible with NXP\'s more powerful chips, so you can upgrade your product later without redesigning the circuit board.',
+apps:[{e:'🚗',n:'Automotive Body Control Module',d:'Dual CAN-FD bridges powertrain + chassis bus simultaneously'},{e:'🏭',n:'Industrial CAN-FD Gateway',d:'Transparent bridge between J1939 and ISO 15765-2 buses'},{e:'🔌',n:'EV Charging Controller',d:'OCPP communications with dual CAN-FD + USB diagnostics'},{e:'💡',n:'Building Automation Unit',d:'HVAC/BMS with dual fieldbus + USB commissioning port'},{e:'⚡',n:'Motor Drive with Fieldbus',d:'Sensorless BLDC + CAN-FD status reporting + USB logging'},{e:'🔧',n:'Industrial Sensor Hub',d:'Multi-bus aggregation with USB data export to host PC'}],
+res:{'Documentation':[
+{e:'📄',t:'MCXA156 Product Page & Datasheet',d:'Full electrical characteristics, pinout diagram, package dimensions',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-a-series-microcontrollers:MCX-A-SERIES#documentation'},
+{e:'📖',t:'MCX A Series Reference Manual',d:'Complete peripheral register reference for all MCX A devices',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-a-series-microcontrollers:MCX-A-SERIES#documentation'},
+{e:'📋',t:'MCX A Series Application Note (AN13870)',d:'Getting started guide: clocks, power, CAN-FD, USB setup',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-a-series-microcontrollers:MCX-A-SERIES#documentation'}],
+'Development Boards':[
+{e:'🔌',t:'FRDM-MCXA156 Freedom Board',d:'Arduino-compatible headers, USB-C, onboard J-Link / DAP-Link',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/general-purpose-mcus/frdm-development-board-for-mcx-a14x-a15x-mcus:FRDM-MCXA153'},
+{e:'📐',t:'FRDM-MCXA153/156 Schematics & BOM',d:'Full EVK schematic PDF and bill of materials download',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/general-purpose-mcus/frdm-development-board-for-mcx-a14x-a15x-mcus:FRDM-MCXA153#design-resources'}],
+'Software & SDK':[
+{e:'💻',t:'MCUXpresso SDK — MCXA156',d:'Full SDK: drivers, FreeRTOS, USB stack, CAN-FD, dual-ADC examples',u:'https://mcuxpresso.nxp.com/en/select?device=MCXA156'},
+{e:'⚙️',t:'MCUXpresso IDE',d:'Eclipse-based IDE with RTOS awareness, power profiling, trace',u:'https://www.nxp.com/mcuxpresso/ide'},
+{e:'🔒',t:'MCUXpresso Secure Provisioning Tool',d:'Key injection and secure boot provisioning workflow for MCXA156',u:'https://www.nxp.com/design/design-center/software/development-software/mcuxpresso-software-and-tools-/mcuxpresso-secure-provisioning-tool:MCUXPRESSO-SECURE-PROVISIONING'}]},
+url:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-a-series-microcontrollers:MCX-A-SERIES',
+demos:[
+{t:'Dual CAN-FD Bus Gateway (J1939 ↔ ISO-TP)',d:'Bidirectional transparent bridge between two independent CAN-FD buses at 5 Mbps. ISO-TP segmented messaging, FreeRTOS CAN scheduler. Only possible on MCXA156 — the only MCX A with 2× CAN-FD.',tags:['db-iot','db-gh'],meta:['2× CAN-FD','ISO-TP','J1939','FreeRTOS'],u:'https://mcuxpresso.nxp.com/appcodehub?search=CAN-FD+gateway+MCX+A'},
+{t:'USB CDC Virtual COM Port — No Driver',d:'Driver-free USB Full-Speed CDC virtual serial port. Enumerates as COM port on Windows, /dev/tty on Linux/macOS with zero INF files. Bridges to LP-UART.',tags:['db-iot','db-gh'],meta:['USB FS','CDC','No INF Driver'],u:'https://mcuxpresso.nxp.com/appcodehub?search=USB+CDC+virtual+COM+MCXA'},
+{t:'TrustZone-M Secure/Non-Secure Partition',d:'Secure world owns TRNG, AES keys, and crypto API. Non-secure world calls into secure world via NSC. Full TF-M-lite partition demo.',tags:['db-sec','db-gh'],meta:['TrustZone-M','TRNG','AES-128'],u:'https://mcuxpresso.nxp.com/appcodehub?search=TrustZone+secure+partition+MCXA'},
+{t:'BLDC Sensorless FOC (Back-EMF)',d:'3-phase brushless DC sensorless FOC using back-EMF zero-crossing. 3× FlexPWM with dead-time insertion, overcurrent via analog comparator. 20 kHz update rate.',tags:['db-mtr','db-gh'],meta:['BLDC','Back-EMF ZC','FlexPWM'],u:'https://mcuxpresso.nxp.com/appcodehub?search=BLDC+sensorless+motor+control+MCX'},
+{t:'Dual ADC Simultaneous Sampling — PFC',d:'Phase-accurate dual 12-bit ADC at 1 Msps in simultaneous mode. Power factor correction current + voltage measurement with <0.1% phase error.',tags:['db-mtr','db-gh'],meta:['Dual ADC','PFC','Simultaneous'],u:'https://mcuxpresso.nxp.com/appcodehub?search=ADC+simultaneous+power+factor+MCXA'},
+{t:'FreeRTOS Multi-Peripheral Sensor Hub',d:'FreeRTOS managing 3× I2C sensors (IMU, barometer, humidity) + 1× SPI ADC via DMA. Priority-based scheduling with <1 µs IRQ latency.',tags:['db-iot','db-gh'],meta:['FreeRTOS','I2C+SPI','DMA'],u:'https://mcuxpresso.nxp.com/appcodehub?search=FreeRTOS+sensor+hub+MCXA'},
+{t:'Low-Power Deep Sleep + UART Wake',d:'Complete power sequence: active → deep sleep at <5 µA → wake on LP-UART start bit → resume. Measures real sleep current on FRDM board.',tags:['db-iot','db-gh'],meta:['Deep Sleep <5µA','LP-UART Wake','Power Profile'],u:'https://mcuxpresso.nxp.com/appcodehub?search=low+power+UART+wake+deep+sleep+MCXA'},
+{t:'Modbus RTU Slave over CAN-FD',d:'Modbus RTU industrial protocol implemented over CAN-FD physical layer. Sensor node registers exposed to PLC via Modbus function codes.',tags:['db-iot','db-gh'],meta:['Modbus RTU','CAN-FD','PLC Integration'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Modbus+RTU+CAN-FD+industrial+MCX'},
+{t:'CAN-FD ISO 11898-1 Stress Test',d:'CAN-FD loopback and bus-load stress test at 8 Mbps data phase. Measures bit error rate, bus recovery time, and latency at 100% load.',tags:['db-iot','db-gh'],meta:['CAN-FD 8 Mbps','ISO 11898-1','Stress Test'],u:'https://mcuxpresso.nxp.com/appcodehub?search=CAN-FD+stress+test+ISO+MCXA'},
+{t:'USB HID Diagnostic + Live ADC Scope',d:'USB HID class tool reporting live ADC readings, CAN-FD frame counters, and GPIO states to a Python host application. No custom driver required.',tags:['db-iot','db-gh'],meta:['USB HID','Live ADC','Diagnostic Tool'],u:'https://mcuxpresso.nxp.com/appcodehub?search=USB+HID+ADC+diagnostic+MCXA'}],
+cs:['STM32C092','RA6E2','STM32G071']},
+
+/* ──── MCXA153 ──── */
+'MCXA153':{fam:'MCX-A',tp:'MCU',tg:'Mainstream Cortex-M33 @ 96 MHz with CAN-FD, USB FS, TrustZone and MCX pin-compatible upgrade path to MCX N',
+tags:['Cortex-M33','96 MHz','CAN-FD','USB FS','TrustZone','EdgeLock Lite'],
+specs:{'CPU Core':'Cortex-M33 @ 96 MHz + DSP + FPU','Flash':'256 KB','SRAM':'96 KB','USB':'Full-Speed 12 Mbps','CAN-FD':'1 × CAN-FD 2.0B @ 8 Mbps','ADC':'2 × 12-bit SAR, 1 Msps','UART/SPI/I2C':'3× LP-FlexComm','Temperature':'-40 to 105 °C','Package':'LQFP64 / QFN48'},
+feats:{'Core & Security':['Cortex-M33 @ 96 MHz with DSP and FPU (vs M0+ on competing entry MCUs)','TrustZone-M — hardware isolation of secure and non-secure firmware','EdgeLock Lite: software key hierarchy and secure provisioning workflow','TRNG for cryptographically secure random number generation'],'Connectivity':['USB Full-Speed 2.0 Device (12 Mbps) — driver-free CDC, HID, MSC','1 × CAN-FD 2.0B at up to 8 Mbps data phase','3 × LP-FlexComm (SPI, I2C, UART configurable per port)','Low-Power UART with wake-from-deep-sleep capability'],'Upgrade Path':['Pin-compatible across entire MCX A family (MCXA132 → MCXA156)','Software-compatible with MCX N (add NPU, Ethernet, dual-core) — no PCB redesign']},
+desc:'The MCXA153 is the mainstream member of the MCX A family — a Cortex-M33 MCU with USB FS, CAN-FD, and TrustZone for connected industrial and consumer products. Its pin-compatibility across the MCX A and N families makes it easy to scale up to the dual-core MCXN947 without a PCB redesign.',
+simple:'The MCXA153 is a mainstream microcontroller for everyday connected products. It has USB built in (plug directly into a computer), one CAN-FD network bus (common in cars and factories), and a security engine. It is the mid-range of the MCX A family — more features than the basic models, and the same pins as the top models, so you can upgrade later.',
+apps:[{e:'🏭',n:'Industrial Sensor Node',d:'CAN-FD data reporting with USB diagnostics port'},{e:'🏠',n:'Smart Appliance',d:'Motor control + USB firmware update + security provisioning'},{e:'🔧',n:'Power Tool',d:'USB connectivity for calibration and data logging'},{e:'💡',n:'Building Control Panel',d:'HVAC/lighting control with CAN-FD fieldbus'},{e:'🔌',n:'EV Charger',d:'OCPP via UART Wi-Fi module with CAN-FD status'},{e:'🎛️',n:'Industrial HMI Interface',d:'USB HID input device with real-time CAN-FD feedback'}],
+res:{'Documentation':[
+{e:'📄',t:'MCXA153 Datasheet',d:'Electrical characteristics, pinout, AC/DC tables',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-a-series-microcontrollers:MCX-A-SERIES#documentation'},
+{e:'📖',t:'MCX A Series Reference Manual',d:'All peripheral registers — SPI, I2C, CAN-FD, ADC',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-a-series-microcontrollers:MCX-A-SERIES#documentation'}],
+'Development Boards':[
+{e:'🔌',t:'FRDM-MCXA153 Freedom Board',d:'Arduino + MikroBus headers, USB-C, onboard DAP-Link',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/general-purpose-mcus/frdm-development-board-for-mcx-a14x-a15x-mcus:FRDM-MCXA153'},
+{e:'📐',t:'FRDM-MCXA153 Schematics & BOM',d:'Full schematic PDF and bill of materials',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/general-purpose-mcus/frdm-development-board-for-mcx-a14x-a15x-mcus:FRDM-MCXA153#design-resources'}],
+'Software & SDK':[
+{e:'💻',t:'MCUXpresso SDK — MCXA153',d:'Drivers, FreeRTOS, USB stack, CAN-FD examples',u:'https://mcuxpresso.nxp.com/en/select?device=MCXA153'}]},
+url:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-a-series-microcontrollers:MCX-A-SERIES',
+demos:[
+{t:'USB CDC Virtual COM Port (Driver-free)',d:'Driver-free virtual serial port over USB FS, bridged to UART. Plug-and-play on Windows, macOS, and Linux without INF file.',tags:['db-iot','db-gh'],meta:['USB FS','CDC','No Driver'],u:'https://mcuxpresso.nxp.com/appcodehub?search=USB+CDC+virtual+COM+MCXA'},
+{t:'CAN-FD ISO-TP Messaging @ 5 Mbps',d:'ISO-TP segmented messaging over CAN-FD at 5 Mbps data phase. Tested at 100% bus load with zero frame loss.',tags:['db-iot','db-gh'],meta:['CAN-FD','ISO-TP','5 Mbps'],u:'https://mcuxpresso.nxp.com/appcodehub?search=CAN-FD+ISO-TP+MCXA'},
+{t:'FreeRTOS + MQTT Sensor Telemetry',d:'Temperature + humidity sensor publishing to MQTT broker over UART Wi-Fi module. Multi-task RTOS scheduling.',tags:['db-iot','db-gh'],meta:['FreeRTOS','MQTT','Sensor'],u:'https://mcuxpresso.nxp.com/appcodehub?search=FreeRTOS+MQTT+sensor+MCXA'},
+{t:'TrustZone-M Secure/Non-Secure Demo',d:'Secure world manages keys and crypto; non-secure world handles application logic. Full partition with NSC gateway.',tags:['db-sec','db-gh'],meta:['TrustZone-M','NSC','TRNG'],u:'https://mcuxpresso.nxp.com/appcodehub?search=TrustZone+secure+partition+MCXA'},
+{t:'Dual ADC Simultaneous Sampling',d:'Two ADC channels sampled simultaneously at 1 Msps. Phase-accurate current + voltage for power factor correction.',tags:['db-mtr','db-gh'],meta:['Dual ADC','1 Msps','PFC'],u:'https://mcuxpresso.nxp.com/appcodehub?search=ADC+simultaneous+MCXA'},
+{t:'BLDC Sensorless Motor Control',d:'Back-EMF zero-crossing sensorless BLDC. 3-phase PWM with dead-time, overcurrent via analog comparator.',tags:['db-mtr','db-gh'],meta:['BLDC','Sensorless','Back-EMF'],u:'https://mcuxpresso.nxp.com/appcodehub?search=BLDC+sensorless+MCX'},
+{t:'Low-Power UART Wake from Deep Sleep',d:'System enters deep sleep at <5 µA, wakes on LP-UART start bit. Autonomous peripheral wake without CPU.',tags:['db-iot','db-gh'],meta:['Deep Sleep','LP-UART','Wake'],u:'https://mcuxpresso.nxp.com/appcodehub?search=low+power+UART+deep+sleep+MCX'},
+{t:'Modbus RTU Slave over CAN-FD',d:'Modbus RTU protocol over CAN-FD physical layer. Sensor integration with industrial PLC via function codes.',tags:['db-iot','db-gh'],meta:['Modbus RTU','CAN-FD','Industrial'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Modbus+CAN-FD+industrial+MCX'},
+{t:'USB HID Game Controller',d:'USB HID class — 4-axis analog joystick with 12 buttons using 12-bit ADC inputs. No custom driver.',tags:['db-iot','db-gh'],meta:['USB HID','ADC','HID Class'],u:'https://mcuxpresso.nxp.com/appcodehub?search=USB+HID+MCXA'},
+{t:'I2C + SPI Multi-Sensor Hub',d:'Hub reading 3× I2C sensors (IMU, barometer, humidity) and 1× SPI ADC via DMA simultaneously. Sensor fusion.',tags:['db-iot','db-gh'],meta:['I2C+SPI','DMA','Sensor Fusion'],u:'https://mcuxpresso.nxp.com/appcodehub?search=I2C+SPI+sensor+hub+MCXA'}],
+cs:['STM32C092','RA6E2','SAMD51']},
+
+/* ──── MCXA145 (No USB variant) ──── */
+'MCXA145':{fam:'MCX-A',tp:'MCU',tg:'Cost-optimized Cortex-M33 @ 96 MHz with CAN-FD, TrustZone-M — no USB, smaller package',
+tags:['Cortex-M33','96 MHz','CAN-FD','TrustZone-M','No USB','QFN32'],
+specs:{'CPU Core':'Cortex-M33 @ 96 MHz + DSP + FPU','Flash':'256 KB','SRAM':'96 KB','USB':'None','CAN-FD':'1 × CAN-FD 2.0B','ADC':'1 × 12-bit SAR, 1 Msps','Timers':'2× FlexPWM + 2× FTM','UART/SPI/I2C':'2× LP-FlexComm','Temperature':'-40 to 105 °C','Package':'QFN32 / LQFP48'},
+feats:{'Core & Security':['Cortex-M33 @ 96 MHz with DSP/FPU — far beyond Cortex-M0+ competition at this price','TrustZone-M hardware security partition','EdgeLock Lite TRNG and key hierarchy'],'Connectivity':['1 × CAN-FD 2.0B for fieldbus connectivity','2 × LP-FlexComm (UART/SPI/I2C)','Low-Power UART autonomous wake from sleep'],'Cost & Size':['QFN32 package — compact footprint for space-constrained designs','No USB reduces BOM cost vs MCXA153 when USB not needed','Pin-compatible upgrade path to MCXA153/156 or MCXN947']},
+desc:'The MCXA145 is the cost-optimized member of the MCX A family — it drops USB to reduce price and package size, while keeping CAN-FD, TrustZone-M, and the full Cortex-M33 core. It targets industrial node applications where CAN-FD fieldbus is the primary communication path and USB is not required.',
+simple:'The MCXA145 is a smaller, cheaper version of the MCXA153 — it removes the USB port to save cost and shrink the chip, but keeps everything else: the modern Cortex-M33 processor, CAN-FD bus, and security engine. Good choice for fieldbus-connected industrial nodes where you don\'t need to plug into a PC.',
+apps:[{e:'🏭',n:'Industrial Field Node',d:'CAN-FD sensor node in a factory automation network'},{e:'🚗',n:'Automotive Sub-Module',d:'Body electronics module with CAN-FD only (no USB needed)'},{e:'💡',n:'Smart Lighting Node',d:'DALI / CAN-FD addressable lighting controller'},{e:'⚡',n:'Power Monitoring Node',d:'Energy metering sensor in a building management network'},{e:'🌡️',n:'Environmental Sensor',d:'Temperature/pressure/humidity node on industrial bus'},{e:'🔧',n:'Actuator Controller',d:'CAN-FD addressable motor driver for robotics'}],
+res:{'Documentation':[
+{e:'📄',t:'MCXA145 Datasheet & Product Page',d:'Pinout, electrical specs, package dimensions',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-a-series-microcontrollers:MCX-A-SERIES#documentation'},
+{e:'📖',t:'MCX A Series Reference Manual',d:'Peripheral register reference for all MCX A parts',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-a-series-microcontrollers:MCX-A-SERIES#documentation'}],
+'Development Boards':[
+{e:'🔌',t:'MCX A Family FRDM Board',d:'Evaluate MCX A family peripherals including CAN-FD',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/general-purpose-mcus/frdm-development-board-for-mcx-a14x-a15x-mcus:FRDM-MCXA153'}],
+'Software & SDK':[
+{e:'💻',t:'MCUXpresso SDK — MCXA145',d:'Full SDK: CAN-FD, ADC, LP-FlexComm drivers + FreeRTOS',u:'https://mcuxpresso.nxp.com/en/select?device=MCXA145'}]},
+url:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-a-series-microcontrollers:MCX-A-SERIES',
+demos:[
+{t:'CAN-FD Node — ISO-TP Segmented Messaging',d:'ISO-TP over CAN-FD at 5 Mbps. Multi-frame segmented messaging for large payloads, FreeRTOS queued reception.',tags:['db-iot','db-gh'],meta:['CAN-FD','ISO-TP','FreeRTOS'],u:'https://mcuxpresso.nxp.com/appcodehub?search=CAN-FD+ISO-TP+MCX+A'},
+{t:'TrustZone-M Key Storage Demo',d:'Secure world stores device keys using EdgeLock Lite TRNG. AES-128 encrypt/decrypt in secure world; plaintext never leaves secure partition.',tags:['db-sec','db-gh'],meta:['TrustZone-M','AES-128','TRNG'],u:'https://mcuxpresso.nxp.com/appcodehub?search=TrustZone+key+storage+MCXA'},
+{t:'Low-Power CAN-FD Wakeup Node',d:'Node sleeps at <10 µA, wakes on CAN-FD frame reception. Demonstrates autonomous CAN-FD wakeup with sub-1 ms response.',tags:['db-iot','db-gh'],meta:['Deep Sleep','CAN-FD Wake','<10 µA'],u:'https://mcuxpresso.nxp.com/appcodehub?search=low+power+CAN-FD+wakeup+MCX'},
+{t:'ADC-Based Sensor Sampling with DMA',d:'12-bit ADC continuous sampling at 1 Msps with DMA circular buffer. FreeRTOS consumer processes samples without CPU polling.',tags:['db-iot','db-gh'],meta:['ADC 1Msps','DMA Circular','FreeRTOS'],u:'https://mcuxpresso.nxp.com/appcodehub?search=ADC+DMA+sampling+MCXA'},
+{t:'Modbus RTU Field Device over CAN-FD',d:'Modbus RTU slave with CAN-FD as physical layer. PLC reads temperature, humidity, and GPIO states from this node.',tags:['db-iot','db-gh'],meta:['Modbus RTU','CAN-FD','Sensor Node'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Modbus+RTU+field+CAN-FD'},
+{t:'BLDC Motor Control — CAN-FD Command',d:'Sensorless BLDC FOC receiving setpoint and reporting status over CAN-FD. Decentralized motor node architecture.',tags:['db-mtr','db-gh'],meta:['BLDC','CAN-FD Command','Sensorless'],u:'https://mcuxpresso.nxp.com/appcodehub?search=BLDC+motor+CAN-FD+command'},
+{t:'I2C Multi-Sensor Aggregator',d:'Polls 4× I2C sensors on two LP-FlexComm buses. Aggregates data, filters with moving average, reports over CAN-FD.',tags:['db-iot','db-gh'],meta:['I2C','Multi-Sensor','CAN-FD Report'],u:'https://mcuxpresso.nxp.com/appcodehub?search=I2C+sensor+aggregator+CAN'},
+{t:'FreeRTOS + CAN-FD + Cortex-M33 DSP',d:'DSP-accelerated signal processing pipeline: FFT on ADC data → feature extraction → CAN-FD reporting. Leverages M33 SIMD.',tags:['db-iot','db-gh'],meta:['FreeRTOS','DSP FFT','CAN-FD'],u:'https://mcuxpresso.nxp.com/appcodehub?search=FreeRTOS+DSP+FFT+MCX'},
+{t:'Power Management — Multi-Mode Demo',d:'Complete power mode transitions: run → sleep → deep sleep → lowest power. Measures current at each mode with FRDM board.',tags:['db-iot','db-gh'],meta:['Power Modes','µA Measurement','Deep Sleep'],u:'https://mcuxpresso.nxp.com/appcodehub?search=power+management+modes+MCX+A'},
+{t:'Secure Boot + Code Signing',d:'HAB-based secure boot: RSA-2048 signed firmware image. BootROM verifies signature before execution. Demonstrates key provisioning.',tags:['db-sec','db-gh'],meta:['Secure Boot','Code Signing','RSA-2048'],u:'https://mcuxpresso.nxp.com/appcodehub?search=secure+boot+code+signing+MCX+A'}],
+cs:['STM32C092','RA2E1']},
+
+/* ──── MCXC144 ──── */
+'MCXC144':{fam:'MCX-C',tp:'MCU',tg:'Ultra-low-cost Cortex-M0+ @ 48 MHz with LCD controller, touch sense, and DAC',
+tags:['Cortex-M0+','48 MHz','LCD Controller','Touch Sense','DAC','Ultra-Low Cost'],
+specs:{'CPU Core':'Cortex-M0+ @ 48 MHz','Flash':'256 KB','SRAM':'32 KB','ADC':'1 × 16-bit SAR','DAC':'1 × 12-bit DAC','LCD':'Segment LCD controller (up to 36×8)','Touch Sense':'Up to 16 electrodes (TSI)','UART/SPI/I2C':'2× UART, 1× SPI, 1× I2C','Temperature':'-40 to 105 °C','Package':'LQFP80 / QFN64'},
+feats:{'Core':['Cortex-M0+ @ 48 MHz — industry-standard ARMv6-M architecture','Low-power design: 1.71–3.6 V supply range','Multiple clock sources: IRC, XTAL, LPO for flexible power modes'],'Display & HMI':['Segment LCD controller — drive up to 36×8 LCD without external IC','Touch sensing interface (TSI) for up to 16 capacitive touch electrodes','12-bit DAC for waveform generation or audio output'],'Analog':['16-bit ADC with hardware averaging for noise reduction','4 × analog comparators for fast threshold detection','Internal 1.0 V voltage reference'],'Ultra-Low Power':['VLLS0 mode: <1 µA with wakeup-on-pin','LCD runs in LLS mode while MCU is in deep sleep','Touch scan runs autonomously in low-power mode']},
+desc:'The MCXC144 is the top of the MCX C ultra-low-cost family — targeting mass-market, high-volume products that need a display and touch interface without adding a display driver IC. The built-in segment LCD controller and Touch Sense Interface (TSI) enable complete HMI solutions at the lowest possible BOM cost.',
+simple:'The MCXC144 is a basic but feature-packed chip for simple products that need to display information on a segment LCD screen (like the digits on a microwave oven) and respond to touch buttons — all without buying any extra display chips. It is designed for very high volume, low-cost consumer products like appliance panels, simple meters, and basic remote controls.',
+apps:[{e:'🏠',n:'Home Appliance Panel',d:'Segment LCD + touch keys for microwave, washing machine'},{e:'🔋',n:'Battery Monitor',d:'SOC display with touch interface and low-power operation'},{e:'🌡️',n:'Digital Thermometer',d:'LCD display of temperature with touch calibration'},{e:'💧',n:'Water Quality Meter',d:'pH/TDS display with multi-parameter segment LCD'},{e:'🔌',n:'Smart Power Strip',d:'Energy display + touch control for individual outlets'},{e:'🎛️',n:'Industrial Simple HMI',d:'Segment LCD status display with push-button interface'}],
+res:{'Documentation':[
+{e:'📄',t:'MCXC144 Datasheet',d:'Electrical characteristics, pin functions, LCD matrix timing',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m0-plus-mcus:MCX-C-SERIES#documentation'},
+{e:'📖',t:'MCX C Series Reference Manual',d:'LCD, TSI, ADC, power management registers',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m0-plus-mcus:MCX-C-SERIES#documentation'}],
+'Development Boards':[
+{e:'🔌',t:'FRDM-KL46Z (MCX C Compatible EVK)',d:'FRDM board with segment LCD and touch pad — pin-compatible evaluation',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/freedom-development-platform-for-kinetis-kl3x-and-kl4x-mcus:FRDM-KL46Z'}],
+'Software & SDK':[
+{e:'💻',t:'MCUXpresso SDK — MCXC144',d:'LCD, TSI, ADC, low-power mode drivers and examples',u:'https://mcuxpresso.nxp.com/en/select?device=MCXC144'}]},
+url:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m0-plus-mcus:MCX-C-SERIES',
+demos:[
+{t:'Segment LCD Driver — 36×8 Matrix',d:'Full segment LCD matrix drive at 1/4 duty with LCD waveform generator. Demonstrates digit, symbol, and animation on 36-segment display.',tags:['db-iot','db-gh'],meta:['LCD Matrix','36-Seg','VLCD'],u:'https://mcuxpresso.nxp.com/appcodehub?search=segment+LCD+driver+MCXC'},
+{t:'Capacitive Touch Sense (TSI) — 16 Keys',d:'16-electrode self-capacitance touch scan using TSI hardware. Auto-calibration, noise filtering, and multi-key detection.',tags:['db-iot','db-gh'],meta:['TSI Touch','16 Keys','Auto-Cal'],u:'https://mcuxpresso.nxp.com/appcodehub?search=capacitive+touch+TSI+MCXC'},
+{t:'Low-Power LCD + Touch in LLS Mode',d:'LCD continues driving segments while MCU is in LLS deep sleep. Touch scan wakes the MCU on electrode contact.',tags:['db-iot','db-gh'],meta:['LLS Deep Sleep','LCD Active','Touch Wake'],u:'https://mcuxpresso.nxp.com/appcodehub?search=low+power+LCD+touch+LLS'},
+{t:'16-bit ADC Temperature Sensor Display',d:'16-bit ADC with hardware averaging samples NTC thermistor. Linearized temperature displayed on segment LCD with ±0.5°C accuracy.',tags:['db-iot','db-gh'],meta:['16-bit ADC','NTC','LCD Display'],u:'https://mcuxpresso.nxp.com/appcodehub?search=ADC+temperature+LCD+MCXC'},
+{t:'12-bit DAC Waveform Generator',d:'DAC-based sine/triangle/sawtooth waveform generator at up to 20 kHz. Frequency and amplitude controlled by touch keys, displayed on LCD.',tags:['db-iot','db-gh'],meta:['12-bit DAC','Waveform Gen','Touch Control'],u:'https://mcuxpresso.nxp.com/appcodehub?search=DAC+waveform+generator+MCX+C'},
+{t:'VLLS0 Ultra-Low Power — <1 µA',d:'Complete power optimization: active → VLLS0 at <1 µA. Wakes on RTC alarm or external pin. Demonstrates minimum power configuration.',tags:['db-iot','db-gh'],meta:['VLLS0 <1µA','RTC Wake','Pin Wake'],u:'https://mcuxpresso.nxp.com/appcodehub?search=ultra+low+power+VLLS+MCX+C'},
+{t:'SPI + I2C Sensor Integration',d:'SPI + I2C sensor reading in low-power polling mode. Data averaged and displayed on LCD; edge trigger wakes from sleep.',tags:['db-iot','db-gh'],meta:['SPI','I2C','Low-Power Poll'],u:'https://mcuxpresso.nxp.com/appcodehub?search=SPI+I2C+sensor+MCX+C'},
+{t:'UART Bootloader (In-Application)',d:'In-application UART bootloader supporting firmware update over serial port without external programmer.',tags:['db-iot','db-gh'],meta:['UART Bootloader','IAP','Firmware Update'],u:'https://mcuxpresso.nxp.com/appcodehub?search=UART+bootloader+in-application+MCX'},
+{t:'Energy Metering — Pulse Counting',d:'Pulse counting from energy meter opto-isolated output. Accumulates kWh count in retention RAM across power cycles.',tags:['db-iot','db-gh'],meta:['Pulse Count','Energy Meter','Retention RAM'],u:'https://mcuxpresso.nxp.com/appcodehub?search=energy+meter+pulse+count+MCX+C'},
+{t:'Simple RTOS — Task Scheduler',d:'Cooperative task scheduler for Cortex-M0+ with round-robin scheduling. Demonstrates RTOS on constrained 32 KB SRAM.',tags:['db-iot','db-gh'],meta:['Cortex-M0+','Cooperative RTOS','32 KB'],u:'https://mcuxpresso.nxp.com/appcodehub?search=cooperative+RTOS+M0+MCX+C'}],
+cs:['STM32C092','STM32G071']},
+
+/* ──── MCXW71 ──── */
+'MCXW71':{fam:'MCX-W',tp:'Wireless MCU',tg:'BLE 5.3 + IEEE 802.15.4 + Matter/Thread/Zigbee with dedicated hardware Secure Element on-die',
+tags:['BLE 5.3','802.15.4','Matter','Thread','Zigbee','EdgeLock SE050','-105 dBm','2 µA'],
+specs:{'CPU Core':'Cortex-M33 @ 96 MHz','Flash':'1 MB on-chip','SRAM':'256 KB','BLE':'5.3 (Coded PHY: −105 dBm)','IEEE 802.15.4':'Yes (Thread, Zigbee, Matter)','Tx Power':'+7 dBm (BLE) / +8 dBm (802.15.4)','Secure Element':'EdgeLock SE050 on-die','Deep Sleep':'2 µA (RTC on)','Wakeup Time':'<1 ms from deep sleep','Package':'QFN48 / Module'},
+feats:{'RF & Protocols':['BLE 5.3 with Coded PHY: −105 dBm sensitivity at 125 kbps (vs −102 dBm on nRF5340)','+7 dBm TX power — 4 dB more than nRF5340\'s +3 dBm max','IEEE 802.15.4: Thread v1.3, Zigbee 3.0, Matter 1.x certified','Concurrent BLE + 802.15.4 scheduler: <1 ms coexistence latency','BLE Coded PHY S=8: ~150 m range (vs ~90 m on nRF5340)'],'Security':['EdgeLock SE050 on-die: silicon-isolated key vault inaccessible on CPU bus','P-256 ECDH, P-256 ECDSA, AES-128/256, SHA-256/384 in SE','TRNG seeded from quantum noise in SE','Only wireless MCU in class with true hardware SE — nRF5340, ESP32-C6 use SW-only key storage'],'Power':['2 µA deep sleep (RTC active, wakeup-on-GPIO)','<5 mA active receive, <8 mA transmit at +7 dBm','<1 ms wakeup from deep sleep — fast response for low-latency sensors']},
+desc:'The MCXW71 is NXP\'s multi-protocol wireless MCU uniquely combining BLE 5.3 and IEEE 802.15.4 radios with a true hardware Secure Element (EdgeLock SE050) on-die — the only wireless MCU in this class with proper silicon-isolated key storage. Every competing device uses software key storage in CPU-accessible memory.',
+simple:'The MCXW71 is a wireless chip that speaks all four major smart home languages simultaneously: Bluetooth, Thread, Zigbee, and Matter. The unique thing about it is the security — it has a physical vault inside the chip where encryption keys are stored, completely separate from the main processor. If someone steals your device and tries to extract the keys, they simply cannot — the vault is physically isolated. Competing chips store keys in regular memory that can be extracted.',
+apps:[{e:'🏠',n:'Smart Home Device',d:'Matter 1.2 end-device: lock, light, sensor, switch'},{e:'🏢',n:'Building Automation',d:'Zigbee 3.0 mesh sensor + Thread border router'},{e:'🔒',n:'Access Control',d:'BLE-based door lock with SE050 credential storage'},{e:'📱',n:'Asset Tracker',d:'BLE 5.3 long-range location beacon at 2 µA sleep'},{e:'🏭',n:'Industrial Wireless Node',d:'Thread mesh sensor in factory with TLS-secured reporting'},{e:'🔋',n:'Battery-Powered Sensor',d:'3+ year battery life with 2 µA sleep, 5-second BLE report'}],
+res:{'Documentation':[
+{e:'📄',t:'MCXW71 Datasheet',d:'RF performance tables, power modes, pin diagram',u:'https://www.nxp.com/products/wireless-connectivity/multiprotocol-mcus/mcxw-series:MCXW#documentation'},
+{e:'📖',t:'MCXW71 Reference Manual',d:'Radio configuration, peripheral registers, BLE stack API',u:'https://www.nxp.com/products/wireless-connectivity/multiprotocol-mcus/mcxw-series:MCXW#documentation'}],
+'Development Boards':[
+{e:'🔌',t:'FRDM-MCXW71 EVK',d:'Freedom board with SMA antenna, USB-C, DAP-Link',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/frdm-development-board-for-mcxw71-wireless-mcu:FRDM-MCXW71'},
+{e:'📐',t:'FRDM-MCXW71 Schematics',d:'Full EVK schematic and RF layout guidance',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/frdm-development-board-for-mcxw71-wireless-mcu:FRDM-MCXW71#design-resources'}],
+'Software & SDK':[
+{e:'💻',t:'MCUXpresso SDK — MCXW71',d:'BLE / 802.15.4 stacks, Matter, OpenThread examples',u:'https://mcuxpresso.nxp.com/en/select?device=MCXW71'},
+{e:'🏠',t:'NXP Matter SDK',d:'Matter 1.2 certified stack for MCXW71',u:'https://github.com/nxp-imx/matter'}]},
+url:'https://www.nxp.com/products/wireless-connectivity/multiprotocol-mcus/mcxw-series:MCXW',
+demos:[
+{t:'Matter 1.2 Light — Thread Full Stack',d:'Complete Matter 1.2 device: Thread commissioning, OTA update, SE050 key provisioning. Tested vs CSA certification test harness.',tags:['db-wls','db-sec','db-gh'],meta:['Matter 1.2','Thread v1.3','EdgeLock SE'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Matter+light+Thread+MCXW71'},
+{t:'Concurrent BLE + Zigbee Coordinator',d:'Simultaneous BLE advertisement and Zigbee 3.0 coordinator. <1 ms coexistence scheduler latency — demonstrates dual-radio operation.',tags:['db-wls','db-gh'],meta:['BLE 5.3','Zigbee 3.0','Concurrent'],u:'https://mcuxpresso.nxp.com/appcodehub?search=BLE+Zigbee+concurrent+MCXW71'},
+{t:'SE050 ECDH P-256 Key Agreement',d:'Diffie-Hellman key agreement over P-256 using SE050 hardware accelerator. Private key generated and stored inside SE — never on CPU bus.',tags:['db-sec','db-gh'],meta:['SE050','ECDH P-256','HW Crypto'],u:'https://mcuxpresso.nxp.com/appcodehub?search=SE050+ECDH+P256+MCXW71'},
+{t:'BLE 5.3 Long-Range — Coded PHY S=8',d:'BLE Coded PHY (S=8) for 4× range vs standard BLE. RSSI vs distance measurement: ~150 m indoors vs ~90 m on competing devices.',tags:['db-wls','db-gh'],meta:['BLE Coded PHY','S=8','−105 dBm'],u:'https://mcuxpresso.nxp.com/appcodehub?search=BLE+coded+PHY+long+range+MCXW71'},
+{t:'Matter Smart Lock — BLE Commissioning',d:'Door lock accessory commissioned over BLE, controlled via Matter. SE050 provides tamper-resistant credential storage with P-256.',tags:['db-wls','db-sec'],meta:['Matter','BLE Commission','Smart Lock'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Matter+smart+lock+BLE+MCXW71'},
+{t:'Low-Power BLE Sensor Node — 2 µA Sleep',d:'BLE advertisement of temperature + humidity every 5 s. Power profile: 2 µA sleep, <1 ms wake, 8 mA TX. Demonstrates battery life optimization.',tags:['db-wls','db-iot'],meta:['BLE','2µA Deep Sleep','Battery Life'],u:'https://mcuxpresso.nxp.com/appcodehub?search=low+power+BLE+sensor+2uA+MCXW71'},
+{t:'Zigbee 3.0 Smart Plug + SE050 OTA',d:'Zigbee 3.0 certified smart plug. SE050-signed OTA firmware update — only accepts updates signed with device-provisioned key.',tags:['db-wls','db-sec'],meta:['Zigbee 3.0','OTA','SE050 Sign'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Zigbee+smart+plug+OTA+MCXW71'},
+{t:'Thread + BLE Concurrent Sensor Gateway',d:'Sensor data aggregated from Thread mesh network and relayed via BLE to smartphone. Dual-radio bridge architecture.',tags:['db-wls','db-iot'],meta:['Thread','BLE','Concurrent Bridge'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Thread+BLE+sensor+gateway+MCXW71'},
+{t:'Secure BLE Provisioning — FIDO FDO',d:'Wi-Fi credential provisioning over BLE using EdgeLock SE050 attestation per FIDO Device Onboard spec.',tags:['db-sec','db-gh'],meta:['FIDO FDO','BLE','SE050 Attest'],u:'https://mcuxpresso.nxp.com/appcodehub?search=BLE+provisioning+FIDO+SE050'},
+{t:'Bluetooth Mesh Lighting Network (4 Nodes)',d:'4-node BLE mesh with Generic OnOff and Level models. Demonstrates relay, proxy, and friend node functionality in a star + mesh topology.',tags:['db-wls','db-gh'],meta:['BLE Mesh','4 Nodes','Proxy/Friend'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Bluetooth+mesh+lighting+MCXW71'}],
+cs:['nRF5340','CC1352P7','ESP32-C6']},
+
+/* ──── MIMXRT1064 ──── */
+'MIMXRT1064':{fam:'RT-10',tp:'Crossover MCU',tg:'Cortex-M7 @ 600 MHz with 4 MB embedded flash, dual USB HS, PxP GPU, 100 Mbps Ethernet',
+tags:['Cortex-M7','600 MHz','4 MB Flash','PxP 2D GPU','Dual USB HS+FS','100 Mbps Eth','LVGL','3020 DMIPS'],
+specs:{'CPU Core':'Cortex-M7 @ 600 MHz + FPU','DMIPS':'3,020','Flash':'4 MB on-chip (no external chip needed)','SRAM':'1 MB ITCM+DTCM+OCRAM','USB':'HS (480 Mbps) + FS (12 Mbps) dual PHY','Ethernet':'100 Mbps + IEEE 1588','2D GPU':'PxP: rotate, scale, alpha blend','CAN-FD':'2 ×','External Memory':'FlexSPI: QSPI, HyperFlash, HyperRAM','Temperature':'-40 to 105 °C','Package':'LQFP144 / BGA196'},
+feats:{'Performance':['Cortex-M7 @ 600 MHz with double-precision FPU: 3,020 DMIPS — 25% faster than STM32H750','4 MB embedded flash — no external flash chip needed (STM32H750 has only 128 KB, mandates external flash)','1 MB split-TCM: zero-wait ITCM for code, DTCM for data, OCRAM shared'],'Graphics':['PxP 2D GPU: hardware rotate + scale + alpha compositing at zero CPU cost','Parallel CSI camera interface for vision applications','Dual FlexSPI supporting XiP from HyperFlash/QSPI at 133 MHz'],'Connectivity':['Dual USB HS + FS active simultaneously (2 independent PHYs)','100 Mbps Ethernet MAC + IEEE 1588 precision time','2 × CAN-FD for industrial multi-bus topology'],'Security':['HAB4 High-Assurance Boot: RSA-2048 signed image chain','SRK key provisioning and device lifecycle management','AES-128/256 DCP hardware engine']},
+desc:'The MIMXRT1064 is the cost-optimized i.MX RT1060 variant with 4 MB of embedded flash — a critical advantage over the STM32H750 which has only 128 KB and mandates an external flash chip adding BOM cost and complexity. Running at 600 MHz with 3,020 DMIPS, PxP hardware 2D GPU, dual USB, and 100 Mbps Ethernet, it is the benchmark platform for rich LCD HMI + industrial networking products.',
+simple:'The MIMXRT1064 is one of the fastest microcontrollers you can buy. It runs 25% faster than the closest ST competitor and, crucially, it has 4 MB of storage built in — the competing ST chip only has 128 KB and forces you to buy a separate storage chip. It has a built-in 2D graphics engine that handles screen animations without using any CPU time, dual USB ports active simultaneously, and 100 Mbps Ethernet. For any product with a screen, this is the go-to chip.',
+apps:[{e:'🖥️',n:'Industrial HMI',d:'60 fps LVGL touchscreen panel with Ethernet data feed'},{e:'📷',n:'Machine Vision',d:'Camera capture + JPEG encode + Ethernet streaming'},{e:'⚙️',n:'Multi-Axis Motor Controller',d:'100 kHz FOC loop + USB data logging + Ethernet status'},{e:'🌐',n:'Secure Web Server',d:'TLS 1.3 HTTPS dashboard served from internal flash'},{e:'🔒',n:'Secure Edge Gateway',d:'TLS 1.3 + HAB secure boot + USB + Ethernet'},{e:'🖨️',n:'Industrial Printer Controller',d:'USB Host + Ethernet + high-speed motor control'}],
+res:{'Documentation':[
+{e:'📄',t:'MIMXRT1064 Datasheet',d:'Electrical characteristics, pin table, package dimensions',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-crossover-mcus-mpus/i-mx-rt-crossover-mcus/i-mx-rt1060-crossover-mcu-with-arm-cortex-m7-core:i.MX-RT1060#documentation'},
+{e:'📖',t:'i.MX RT1060 Reference Manual',d:'IMXRT1060RM — 3000+ pages, all peripheral registers',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-crossover-mcus-mpus/i-mx-rt-crossover-mcus/i-mx-rt1060-crossover-mcu-with-arm-cortex-m7-core:i.MX-RT1060#documentation'}],
+'Development Boards':[
+{e:'🔌',t:'MIMXRT1064-EVK',d:'EVK with 4 MB flash, USB, Ethernet, LCD connector',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/i-mx-evaluation-and-development-boards/i-mx-rt1064-evaluation-kit:MIMXRT1064-EVK'},
+{e:'📐',t:'MIMXRT1064-EVK Schematics',d:'Full EVK schematic, BOM, Gerbers',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/i-mx-evaluation-and-development-boards/i-mx-rt1064-evaluation-kit:MIMXRT1064-EVK#design-resources'}],
+'Software & SDK':[
+{e:'💻',t:'MCUXpresso SDK — MIMXRT1064',d:'Drivers, LVGL port, FreeRTOS, USB, Ethernet examples',u:'https://mcuxpresso.nxp.com/en/select?device=MIMXRT1064'},
+{e:'🎨',t:'LVGL for i.MX RT',d:'LVGL graphics library port with PxP acceleration',u:'https://lvgl.io/nxp'}]},
+url:'https://www.nxp.com/products/processors-and-microcontrollers/arm-crossover-mcus-mpus/i-mx-rt-crossover-mcus/i-mx-rt1060-crossover-mcu-with-arm-cortex-m7-core:i.MX-RT1060',
+demos:[
+{t:'LVGL UI on TFT — 60 fps Hardware Accelerated',d:'Animated LVGL 8.x UI on 800×480 LCD at 60 fps using PxP hardware layer blending. Zero CPU cost for UI transitions.',tags:['db-iot','db-gh'],meta:['LVGL 8','PxP GPU','60fps'],u:'https://mcuxpresso.nxp.com/appcodehub?search=LVGL+touchscreen+MIMXRT1064'},
+{t:'HTTPS Web Server — TLS 1.3 from Flash',d:'Encrypted web server serving live sensor dashboard over 100 Mbps Ethernet from 4 MB internal flash — no cloud required.',tags:['db-iot','db-gh'],meta:['HTTPS','TLS 1.3','lwIP'],u:'https://mcuxpresso.nxp.com/appcodehub?search=HTTPS+web+server+TLS+MIMXRT1064'},
+{t:'Motor FOC @ 100 kHz — PMSM',d:'3-phase PMSM field-oriented control at 100 kHz current loop. Single-cycle FPU trig operations on CM7. Zero-crossing at 100% load.',tags:['db-mtr','db-gh'],meta:['FOC 100 kHz','PMSM','CM7 FPU'],u:'https://mcuxpresso.nxp.com/appcodehub?search=motor+FOC+PMSM+MIMXRT1064'},
+{t:'USB Composite — Host MSC + Device CDC',d:'Dual USB simultaneously: Host reads FAT32 thumb drive while Device exposes CDC virtual COM port. Both USB PHYs active.',tags:['db-iot','db-gh'],meta:['USB HS Dual','MSC+CDC','FAT32'],u:'https://mcuxpresso.nxp.com/appcodehub?search=USB+composite+host+device+MIMXRT1064'},
+{t:'Camera Capture → SDRAM → JPEG → HTTP',d:'Parallel camera at 30 fps, raw frames to SDRAM, JPEG-encoded on-the-fly, served via HTTP endpoint.',tags:['db-iot','db-gh'],meta:['CSI Camera','SDRAM','JPEG+HTTP'],u:'https://mcuxpresso.nxp.com/appcodehub?search=camera+JPEG+MIMXRT1064'},
+{t:'XiP from HyperFlash via FlexSPI',d:'Execute-in-place from 64 MB HyperFlash at 133 MHz. 1800 MB/s effective read throughput. Full XiP cache benchmark.',tags:['db-gh'],meta:['FlexSPI','HyperFlash','XiP 1800 MB/s'],u:'https://mcuxpresso.nxp.com/appcodehub?search=XiP+HyperFlash+FlexSPI+MIMXRT1064'},
+{t:'HAB4 Secure Boot — RSA-2048 Signed Image',d:'Complete HAB4 secure boot chain: SRK provisioning, RSA-2048 image signing, HAB event logging, and closed lifecycle.',tags:['db-sec','db-gh'],meta:['HAB4','RSA-2048','SRK Provision'],u:'https://mcuxpresso.nxp.com/appcodehub?search=HAB+secure+boot+MIMXRT1064'},
+{t:'EtherNet/IP Adapter — CIP Protocol',d:'CIP EtherNet/IP stack on lwIP FreeRTOS. Integrates with Allen-Bradley PLCs as a scanner target device.',tags:['db-iot','db-gh'],meta:['EtherNet/IP','CIP','FreeRTOS'],u:'https://mcuxpresso.nxp.com/appcodehub?search=EtherNetIP+CIP+MIMXRT1064'},
+{t:'FreeRTOS + AWS IoT Core MQTT',d:'Telemetry to AWS IoT Core over MQTT/TLS using coreMQTT and mutual TLS with device certificate.',tags:['db-iot','db-sec'],meta:['AWS IoT','coreMQTT','mTLS'],u:'https://mcuxpresso.nxp.com/appcodehub?search=FreeRTOS+AWS+MQTT+MIMXRT1064'},
+{t:'OpenCV Object Detection on Cortex-M7',d:'OpenCV Tiny + MobileNetV2 object detection at 5 fps entirely on CM7 @ 600 MHz. ML without an NPU.',tags:['db-ml','db-gh'],meta:['OpenCV','MobileNetV2','CM7 ML'],u:'https://mcuxpresso.nxp.com/appcodehub?search=OpenCV+object+detection+MIMXRT1064'}],
+cs:['STM32H750','STM32H743']},
+
+/* ──── LPC55S69 ──── */
+'LPC55S69':{fam:'LPC55',tp:'MCU',tg:'Security-first Cortex-M33 with PUF, CASPER hardware crypto, PRINCE flash encryption, FIDO2-ready',
+tags:['Cortex-M33','150 MHz','PUF','CASPER RSA-4096','PRINCE AES','FIDO2','TrustZone-M','USB HS'],
+specs:{'CPU Core':'Dual Cortex-M33 @ 150 MHz','Flash':'640 KB','SRAM':'320 KB','Security':'PUF + CASPER + PRINCE + TrustZone-M','USB':'High-Speed (480 Mbps)','CAN-FD':'1 ×','ADC':'Dual 16-bit SAR','Crypto':'CASPER: RSA-4096, ECDH P-256/521','PRINCE':'AES-128 XTS transparent flash encrypt','Temperature':'-40 to 105 °C','Package':'LQFP100 / BGA169'},
+feats:{'Security Hardware':['PUF (Physical Unclonable Function): device-unique key from SRAM start-up data — no external storage','CASPER hardware engine: RSA-4096 in 200 ms, ECDH P-256 in <50 ms — 100× faster than software','PRINCE: AES-128 XTS transparent flash encryption — runtime decryption at zero performance cost','TrustZone-M with 4 secure partitions (TF-M PSA Level 2 certified)','FIDO2 / WebAuthn authenticator demo — CSA tested'],'Connectivity':['USB 2.0 High-Speed (480 Mbps) with on-chip PHY','1 × CAN-FD for industrial fieldbus','Dual 16-bit ADC for precision analog measurement','6 × FlexComm (SPI/I2C/UART/I2S)']},
+desc:'The LPC55S69 is NXP\'s security flagship MCU — the only device in its class with PUF key storage, CASPER hardware RSA/ECDH acceleration, and PRINCE transparent flash encryption all on one die. It targets FIDO2 authenticators, secure edge gateways, and PSA-certified IoT endpoints.',
+simple:'The LPC55S69 is NXP\'s most security-focused microcontroller. It has three layers of hardware security: PUF (a physical fingerprint unique to each chip that generates encryption keys without any storage), CASPER (a hardware accelerator that does mathematical operations for public-key cryptography 100× faster than software), and PRINCE (which encrypts your program code as it sits in flash memory, so even if someone reads the chip\'s flash, they get gibberish).',
+apps:[{e:'🔑',n:'FIDO2 Security Key',d:'Hardware authenticator for WebAuthn/passkey login'},{e:'🏭',n:'Secure Industrial Gateway',d:'TLS-secured MQTT/HTTPS bridge with PSA-certified boot'},{e:'💳',n:'Smart Card Emulator',d:'NFC + USB CCID secure credential storage'},{e:'🔒',n:'Secure Element Companion',d:'Companion MCU with CASPER for host-side crypto offload'},{e:'🏥',n:'Medical Device Security',d:'IEC 62443 SL2 + PSA L2 certified platform'},{e:'🌐',n:'Secure IoT Endpoint',d:'TF-M + AWS IoT + PUF device identity provisioning'}],
+res:{'Documentation':[
+{e:'📄',t:'LPC55S69 Datasheet',d:'Pin descriptions, electrical characteristics, packages',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc5500-arm-cortex-m33/lpc55s6x-secure-microcontrollers:LPC55S6x#documentation'},
+{e:'📖',t:'LPC55S69 User Manual (UM11126)',d:'Full peripheral reference and register descriptions',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc5500-arm-cortex-m33/lpc55s6x-secure-microcontrollers:LPC55S6x#documentation'}],
+'Development Boards':[
+{e:'🔌',t:'LPC55S69-EVK',d:'EVK with USB HS, CAN FD, LPC-Link2 debugger',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/lpcxpresso55s69-development-board:LPC55S69-EVK'}],
+'Software & SDK':[
+{e:'💻',t:'MCUXpresso SDK — LPC55S69',d:'PUF, CASPER, PRINCE, TF-M, FIDO2 examples',u:'https://mcuxpresso.nxp.com/en/select?device=LPC55S69'},
+{e:'🔒',t:'Trusted Firmware-M (TF-M)',d:'PSA Level 2 certified TF-M port for LPC55S69',u:'https://www.trustedfirmware.org/projects/tf-m/'}]},
+url:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc5500-arm-cortex-m33/lpc55s6x-secure-microcontrollers:LPC55S6x',
+demos:[
+{t:'FIDO2 / WebAuthn Authenticator',d:'Full FIDO2 security key using PUF-derived P-256 credentials and CASPER hardware signing. Verified vs Chrome, Firefox, Windows Hello.',tags:['db-sec','db-gh'],meta:['FIDO2','CASPER P-256','PUF'],u:'https://mcuxpresso.nxp.com/appcodehub?search=FIDO2+WebAuthn+LPC55S69'},
+{t:'TF-M PSA Level 2 Boot + Crypto',d:'Trusted Firmware-M with 4 secure partitions — PSA L2 boot attestation, crypto service, and key derivation using CASPER.',tags:['db-sec','db-gh'],meta:['TF-M','PSA L2','4 Partitions'],u:'https://mcuxpresso.nxp.com/appcodehub?search=TF-M+PSA+certified+LPC55S69'},
+{t:'PUF Key Derivation — Device-Unique AES Key',d:'PUF-based key derivation from SRAM start-up data. Generates 128-bit AES key unique to each die — no external storage, no flash writes.',tags:['db-sec','db-gh'],meta:['PUF','AES Key Derive','Unique-per-Die'],u:'https://mcuxpresso.nxp.com/appcodehub?search=PUF+key+derivation+LPC55S69'},
+{t:'CASPER RSA-4096 TLS Server',d:'HTTPS server on FreeRTOS + lwIP using CASPER for RSA-4096 handshake acceleration. 200 ms RSA-4096 — 100× faster than SW.',tags:['db-sec','db-iot'],meta:['CASPER RSA-4096','TLS','200 ms'],u:'https://mcuxpresso.nxp.com/appcodehub?search=CASPER+RSA+TLS+LPC55S69'},
+{t:'PRINCE Transparent Flash Encryption',d:'USB HID bootloader encrypting firmware with PRINCE AES-128 XTS before flash write. Runtime decryption fully transparent to CPU.',tags:['db-sec','db-iot','db-gh'],meta:['PRINCE','AES-128 XTS','USB Bootloader'],u:'https://mcuxpresso.nxp.com/appcodehub?search=PRINCE+flash+encryption+LPC55S69'},
+{t:'TrustZone-M 4-Partition Demo',d:'Four TF-M secure partitions: crypto service, attestation, internal trusted storage, and platform HAL in secure world.',tags:['db-sec','db-gh'],meta:['TrustZone','4-Partition','TF-M'],u:'https://mcuxpresso.nxp.com/appcodehub?search=TrustZone+secure+partition+LPC55S69'},
+{t:'16-bit ADC Medical ECG Acquisition',d:'Dual 16-bit SAR ADC in simultaneous sampling for ECG signal. DMA + FIR filter pipeline demo for medical waveform acquisition.',tags:['db-iot','db-gh'],meta:['16-bit ADC','ECG','FIR DMA'],u:'https://mcuxpresso.nxp.com/appcodehub?search=ADC+ECG+LPC55S69'},
+{t:'Secure OTA with CASPER Image Verification',d:'OTA firmware update pipeline: image downloaded over HTTPS, RSA-2048 signature verified by CASPER before flash write.',tags:['db-sec','db-iot'],meta:['OTA','CASPER Verify','RSA-2048'],u:'https://mcuxpresso.nxp.com/appcodehub?search=OTA+CASPER+image+verify+LPC55S69'},
+{t:'USB HS FIDO2 HID Transport',d:'USB HID class transport for FIDO2 CTAP2 commands. 480 Mbps USB HS — faster response than FS alternatives.',tags:['db-sec','db-gh'],meta:['USB HS','CTAP2','FIDO2'],u:'https://mcuxpresso.nxp.com/appcodehub?search=USB+HID+FIDO2+CTAP+LPC55'},
+{t:'ECDSA P-256 Firmware Signing Tool',d:'Host-side Python signing script + LPC55S69 verification demo. Full code signing chain from development to device.',tags:['db-sec','db-gh'],meta:['ECDSA P-256','Code Sign','Python Tool'],u:'https://mcuxpresso.nxp.com/appcodehub?search=ECDSA+firmware+signing+LPC55'}],
+cs:['STM32L562','STM32H563']},
+
+/* ──── i.MX 8M Plus ──── */
+'MIMX8MP8':{fam:'IMX8',tp:'Application Processor',tg:'Quad Cortex-A53 @ 1.8 GHz + M7 @ 800 MHz + 2.3 TOPS NPU — industrial AI and multimedia platform',
+tags:['Quad A53 1.8 GHz','M7 800 MHz','2.3 TOPS NPU','HDMI 2.0','2× GbE TSN','4K Video'],
+specs:{'CPU (A-Core)':'Quad Cortex-A53 @ 1.8 GHz (AArch64)','CPU (RT-Core)':'Cortex-M7 @ 800 MHz','NPU':'VeriSilicon GC8000 — 2.3 TOPS INT8','RAM':'Up to 8 GB LPDDR4X','Display':'HDMI 2.0a (4K@30fps) + 2× MIPI-DSI','Camera':'2× MIPI-CSI + dual-core ISP (HDR)','Ethernet':'2× GbE + TSN 802.1Qbv/Qav/AS','USB':'2× USB 3.0 (5 Gbps) + 2× USB 2.0 + PCIe 3.0','Security':'EdgeLock Enclave + HAB + SECO + AES-256','OS':'Linux 6.x, Android 12, Yocto','Package':'14×14 mm FCPBGA'},
+feats:{'AI / ML':['VeriSilicon GC8000 NPU — 2.3 TOPS INT8 for real-time vision inference','TF Lite, ONNX, PyTorch Lite via eIQ Toolkit','Pre-optimized: YOLOv5 @ 30 fps, face recognition, anomaly detection'],'Multimedia':['HDMI 2.0a (4K@30fps) + 2× MIPI-DSI','Dual-core ISP: HDR tone mapping, noise reduction, auto-exposure','H.265 4K VPU hardware encode/decode','4× SAI audio interfaces with 32-ch TDM'],'Connectivity':['2× 1000BASE-T Ethernet with TSN (802.1Qbv/Qav)','2× USB 3.0 Gen1 OTG (5 Gbps) + 2× USB 2.0','PCIe 3.0 × 1 for NVMe SSD or Wi-Fi card','CAN-FD × 2 for vehicle/industrial integration'],'Security':['EdgeLock Enclave — isolated security subsystem, not accessible by A53 or M7','HAB + SECO + TRNG + AES-256 + ECC P-384','Arm TrustZone + OP-TEE for Linux TEE']},
+desc:'The i.MX 8M Plus is NXP\'s industrial AI computing platform — combining a quad Cortex-A53 Linux capable SoC with a dedicated 2.3 TOPS NPU, dual GbE with TSN, HDMI 4K, and an integrated M7 for real-time tasks. It is the platform of choice for industrial gateways, edge AI cameras, and advanced HMI systems.',
+simple:'The i.MX 8M Plus is like a complete mini-computer on a chip. It runs Linux or Android, has an AI chip on board doing 2.3 trillion operations per second for real-time vision tasks like detecting objects or recognising faces, outputs 4K video to a screen, connects to two Gigabit Ethernet networks simultaneously, and has a separate real-time processor that can run motor control or safety logic independent of Linux. The security engine is physically isolated from all the other processors — even Linux cannot access it.',
+apps:[{e:'🤖',n:'Industrial Edge AI Camera',d:'YOLOv5 30fps object detection + MQTT reporting + dual GbE'},{e:'🖥️',n:'Industrial HMI Panel',d:'Qt5/QML 1080p dashboard + EtherCAT + CAN-FD'},{e:'🌐',n:'TSN Industrial Gateway',d:'OPC-UA + Modbus TCP + 802.1Qbv deterministic Ethernet'},{e:'🤖',n:'Robotics Controller',d:'ROS2 + lidar + camera + real-time M7 motion control'},{e:'🚗',n:'Automotive Cluster',d:'Android Automotive AOSP instrument cluster with 4K output'},{e:'🏥',n:'Medical Imaging Terminal',d:'DICOM viewer + secure cloud sync + dual display'}],
+res:{'Documentation':[
+{e:'📄',t:'i.MX 8M Plus Datasheet',d:'SoC specs, power domains, pin table, package info',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-processors/i-mx-applications-processors/i-mx-8-series/i-mx-8m-plus-arm-cortex-a53-machine-learning-vision-multisensory-platform-for-iot-and-industrial:IMX8MPLUS#documentation'},
+{e:'📖',t:'i.MX 8M Plus Reference Manual (5000+ pages)',d:'IMX8MPRM — all subsystems and peripheral registers',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-processors/i-mx-applications-processors/i-mx-8-series/i-mx-8m-plus-arm-cortex-a53-machine-learning-vision-multisensory-platform-for-iot-and-industrial:IMX8MPLUS#documentation'}],
+'Development Boards':[
+{e:'🔌',t:'i.MX 8M Plus EVK',d:'PCIe, dual GbE TSN, HDMI 2.0, camera connectors, USB 3.0',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/evaluation-kit-for-the-i-mx-8m-plus-applications-processor:8MPLUSLPD4-EVK'},
+{e:'📐',t:'i.MX 8M Plus EVK Schematics',d:'Complete EVK schematic and BOM',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/evaluation-kit-for-the-i-mx-8m-plus-applications-processor:8MPLUSLPD4-EVK#design-resources'}],
+'Software & SDK':[
+{e:'🐧',t:'i.MX Linux BSP (Yocto)',d:'Linux 6.1 BSP with all peripheral drivers and ML tools',u:'https://www.nxp.com/design/design-center/software/embedded-software/i-mx-software/embedded-linux-for-i-mx-applications-processors:IMXLIBSDKDL'},
+{e:'🤖',t:'eIQ ML Toolkit for i.MX 8',d:'NPU compiler, profiler, model optimizer, Arm NN backend',u:'https://www.nxp.com/eiq'}]},
+url:'https://www.nxp.com/products/processors-and-microcontrollers/arm-processors/i-mx-applications-processors/i-mx-8-series/i-mx-8m-plus-arm-cortex-a53-machine-learning-vision-multisensory-platform-for-iot-and-industrial:IMX8MPLUS',
+demos:[
+{t:'YOLOv5 Object Detection @ 30 fps (NPU)',d:'Real-time YOLOv5 on live camera using GC8000 2.3 TOPS NPU. Full GStreamer pipeline with bounding box overlay at 30 fps.',tags:['db-ml','db-gh'],meta:['YOLOv5','2.3 TOPS NPU','GStreamer'],u:'https://mcuxpresso.nxp.com/appcodehub?search=YOLOv5+NPU+iMX8MP'},
+{t:'Qt5 Industrial SCADA HMI @ 60 fps',d:'Animated Qt5/QML SCADA dashboard at 60 fps on 1080p HDMI. Live sensor data over MQTT + GPU-accelerated transitions.',tags:['db-iot','db-gh'],meta:['Qt5 QML','1080p','GPU Accel'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Qt5+SCADA+HMI+iMX8MP'},
+{t:'TSN 802.1Qbv Time-Aware Shaper Demo',d:'IEEE 802.1Qbv AVB A/V bridging with <1 µs jitter. Dual GbE TSN for production-grade deterministic networking.',tags:['db-iot','db-gh'],meta:['TSN 802.1Qbv','AVB','<1µs Jitter'],u:'https://mcuxpresso.nxp.com/appcodehub?search=TSN+AVB+iMX8MP'},
+{t:'Face Recognition + Liveness Detection',d:'Real-time face recognition with anti-spoofing liveness detection using NPU. 30+ faces simultaneously, 30 fps.',tags:['db-ml','db-gh'],meta:['Face Recog','Liveness','30 fps'],u:'https://mcuxpresso.nxp.com/appcodehub?search=face+recognition+liveness+iMX8MP'},
+{t:'M7 FreeRTOS + A53 Linux AMP',d:'M7 runs 10 kHz motor controller independent of A53 Linux. AMP with RPMsg IPC, <10 µs inter-processor latency.',tags:['db-mtr','db-gh'],meta:['AMP','RPMsg','M7+A53'],u:'https://mcuxpresso.nxp.com/appcodehub?search=AMP+RPMsg+M7+A53+iMX8MP'},
+{t:'4K H.265 Hardware Video Decode',d:'H.265 4K@30fps hardware decode via VPU to HDMI 2.0 output. Zero CPU involvement — GPU + VPU pipeline.',tags:['db-iot','db-gh'],meta:['H.265','4K VPU','HDMI 2.0'],u:'https://mcuxpresso.nxp.com/appcodehub?search=H265+4K+video+iMX8MP'},
+{t:'ROS2 Humble Navigation + Sensor Fusion',d:'ROS2 Humble on Yocto BSP. DDS communication, LIDAR driver, camera fusion for autonomous navigation demo.',tags:['db-ml','db-gh'],meta:['ROS2 Humble','DDS','Sensor Fusion'],u:'https://mcuxpresso.nxp.com/appcodehub?search=ROS2+Humble+iMX8MP'},
+{t:'Dual ISP: HDR + Night Mode (Dual Camera)',d:'Two MIPI-CSI cameras with independent ISP pipelines. HDR tone-mapping and night-mode noise reduction simultaneously.',tags:['db-iot','db-gh'],meta:['Dual ISP','HDR','MIPI-CSI×2'],u:'https://mcuxpresso.nxp.com/appcodehub?search=dual+camera+ISP+HDR+iMX8MP'},
+{t:'EdgeLock Enclave — Secure Key Provisioning',d:'Device certificate provisioning using EdgeLock Enclave isolated from A53 and M7. OP-TEE TA + HAB attestation chain.',tags:['db-sec','db-gh'],meta:['EdgeLock Enclave','HAB','OP-TEE'],u:'https://mcuxpresso.nxp.com/appcodehub?search=EdgeLock+Enclave+iMX8MP'},
+{t:'OPC-UA + MQTT Industrial Gateway',d:'OPC-UA server bridging field device data to MQTT cloud. TLS 1.3 end-to-end with certificate provisioning via Enclave.',tags:['db-iot','db-gh'],meta:['OPC-UA','MQTT','TLS 1.3'],u:'https://mcuxpresso.nxp.com/appcodehub?search=OPC-UA+MQTT+gateway+iMX8MP'}],
+cs:['RK3568','AM6254','STM32MP157']},
+
+/* ──── i.MX 93 ──── */
+'MIMX9352':{fam:'IMX9',tp:'Application Processor',tg:'Dual Cortex-A55 @ 1.7 GHz on 16nm FinFET — eIQ Neutron NPU + M33 real-time + EdgeLock Enclave v2',
+tags:['16nm FinFET','Dual A55 1.7 GHz','eIQ Neutron NPU','M33 250 MHz','Dual GbE TSN','EdgeLock Enclave v2'],
+specs:{'CPU (A-Core)':'Dual Cortex-A55 @ 1.7 GHz (ARMv8.2-A)','CPU (RT-Core)':'Cortex-M33 @ 250 MHz','Process':'TSMC 16nm FinFET (vs 28nm competitors)','NPU':'eIQ Neutron (scalable TOPS)','RAM':'Up to 8 GB LPDDR4','Ethernet':'2× GbE with TSN 802.1Qbv','USB':'USB 3.1 OTG (5 Gbps) + USB 2.0','Security':'EdgeLock Enclave v2 (isolated from A55 + M33)','OS':'Linux 6.x, Android, Yocto','Package':'14×14 mm FCPBGA'},
+feats:{'16nm Advantage':['12 nm smaller process node than 28nm competing SoCs — 40% lower active power at same performance','Cortex-A55 is 15% more IPC-efficient than A53 at the same clock — beats 28nm A53 at 2 GHz with only 1.7 GHz'],'Real-Time Domain':['Cortex-M33 @ 250 MHz — eliminates need for a companion MCU on the board','Hard real-time isolated from Linux A55 cluster','CAN-FD × 2 accessible from M33 without A55 involvement'],'Security':['EdgeLock Enclave v2 — isolated from both A55 and M33','PQC-ready architecture + HABS secure boot + TRNG + AES-256']},
+desc:'The i.MX 93 is built on TSMC\'s 16nm FinFET process — 12nm smaller than any 28nm competing part — delivering significantly lower power and heat at equivalent performance. The integrated M33 real-time core at 250 MHz eliminates the need for a separate companion MCU, reducing BOM cost and board complexity.',
+simple:'The i.MX 93 is a modern, energy-efficient Linux processor made on a newer, smaller manufacturing process (16nm vs the competitors\' 28nm). Being smaller means it runs cooler, uses less battery, and costs less to power. It has a built-in safety processor (M33) that can handle hard real-time tasks like motor control while Linux runs independently — you don\'t need a second chip. Its security engine is physically isolated from everything else.',
+apps:[{e:'🤖',n:'Robotics Controller',d:'Vision + real-time I/O + cloud on one die'},{e:'🌐',n:'Industrial Gateway',d:'OPC-UA + MQTT + TSN bridge for Industry 4.0'},{e:'🏠',n:'Smart Building Panel',d:'Controller with touchscreen, sensors, and dual GbE'},{e:'🔌',n:'EV Charger Management',d:'OCPP 2.0 smart charging with TSN-synchronized grid'},{e:'🩺',n:'Patient Monitor',d:'Vital signs display + secure cloud logging'},{e:'📷',n:'Edge AI Camera',d:'NPU inference + M33 real-time I/O + Ethernet streaming'}],
+res:{'Documentation':[
+{e:'📄',t:'i.MX 93 Datasheet',d:'Architecture overview, power domains, package info',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-processors/i-mx-applications-processors/i-mx-9-series/i-mx-93-applications-processor-family-arm-cortex-a55-ml-acceleration-power-efficient-mpu:i.MX93#documentation'},
+{e:'📖',t:'i.MX 93 Reference Manual',d:'All subsystems and peripheral registers',u:'https://www.nxp.com/products/processors-and-microcontrollers/arm-processors/i-mx-applications-processors/i-mx-9-series/i-mx-93-applications-processor-family-arm-cortex-a55-ml-acceleration-power-efficient-mpu:i.MX93#documentation'}],
+'Development Boards':[
+{e:'🔌',t:'i.MX 93 EVK',d:'PCIe, USB 3.1, dual GbE, MIPI-DSI/CSI, audio',u:'https://www.nxp.com/design/design-center/development-boards-and-designs/i-mx93evk:i.MX93EVK'}],
+'Software & SDK':[
+{e:'🐧',t:'meta-imx Yocto Layer (i.MX 93)',d:'Linux 6.1 BSP, all drivers, ML tools',u:'https://github.com/nxp-imx/meta-imx'},
+{e:'🤖',t:'eIQ Neutron Tools',d:'NPU compiler, profiler, INT8/INT4 quantizer',u:'https://www.nxp.com/eiq'}]},
+url:'https://www.nxp.com/products/processors-and-microcontrollers/arm-processors/i-mx-applications-processors/i-mx-9-series/i-mx-93-applications-processor-family-arm-cortex-a55-ml-acceleration-power-efficient-mpu:i.MX93',
+demos:[
+{t:'eIQ Neutron NPU — MobileNetV3 30 fps',d:'MobileNetV3 image classification at 30 fps on eIQ Neutron NPU. INT8 quantization via NXP NPU compiler. No CPU involvement.',tags:['db-ml','db-gh'],meta:['eIQ Neutron','MobileNetV3','INT8'],u:'https://mcuxpresso.nxp.com/appcodehub?search=NPU+image+classification+iMX93'},
+{t:'M33 FreeRTOS + A55 Linux AMP',d:'M33 at 250 MHz runs 10 kHz FreeRTOS control loop independent of A55 Linux. RPMsg IPC with <10 µs latency.',tags:['db-mtr','db-gh'],meta:['AMP','RPMsg','M33+A55'],u:'https://mcuxpresso.nxp.com/appcodehub?search=AMP+M33+A55+FreeRTOS+iMX93'},
+{t:'EtherCAT Master + TSN 802.1Qbv',d:'IEEE 802.1Qbv Time-Aware Shaper at <100 ns jitter. EtherCAT master and PROFINET RT on dual GbE.',tags:['db-iot','db-gh'],meta:['TSN','EtherCAT','<100ns'],u:'https://mcuxpresso.nxp.com/appcodehub?search=EtherCAT+TSN+iMX93'},
+{t:'16nm Power Measurement vs 28nm SoC',d:'Side-by-side power profiling: i.MX 93 @ full A55 load vs equivalent 28nm SoC. Demonstrates ~40% active power reduction.',tags:['db-iot','db-gh'],meta:['16nm','Power Compare','40% Saving'],u:'https://mcuxpresso.nxp.com/appcodehub?search=power+measurement+16nm+iMX93'},
+{t:'OCPP 2.0 EV Charger Controller',d:'Open Charge Point Protocol 2.0 on Linux. TSN Ethernet + CAN-FD for smart EV charging station backend.',tags:['db-iot','db-gh'],meta:['OCPP 2.0','EV','TSN+CAN-FD'],u:'https://mcuxpresso.nxp.com/appcodehub?search=OCPP+EV+charger+iMX93'},
+{t:'OPC-UA + MQTT Industrial Gateway',d:'OPC-UA server bridging field devices to MQTT cloud. TLS 1.3 end-to-end with Enclave v2 certificate provisioning.',tags:['db-iot','db-gh'],meta:['OPC-UA','MQTT TLS 1.3','Enclave v2'],u:'https://mcuxpresso.nxp.com/appcodehub?search=OPC-UA+MQTT+gateway+iMX93'},
+{t:'EdgeLock Enclave v2 Secure Boot (HABS)',d:'HABS secure boot from BootROM through TF-A to Linux. Enclave v2 attestation and OTA signature verification.',tags:['db-sec','db-gh'],meta:['HABS','TF-A','Enclave v2'],u:'https://mcuxpresso.nxp.com/appcodehub?search=secure+boot+EdgeLock+Enclave+iMX93'},
+{t:'ROS2 SLAM Navigation',d:'SLAM on ROS2 Humble + OpenCV. Lidar + camera fusion for mobile robot autonomous navigation.',tags:['db-ml','db-gh'],meta:['ROS2','SLAM','OpenCV'],u:'https://mcuxpresso.nxp.com/appcodehub?search=ROS2+SLAM+iMX93'},
+{t:'DisplayPort + LVDS Dual Display',d:'Independent 4K content on DisplayPort and 1080p on LVDS simultaneously. GPU multi-plane composition.',tags:['db-iot','db-gh'],meta:['DisplayPort 4K','LVDS','Dual Display'],u:'https://mcuxpresso.nxp.com/appcodehub?search=DisplayPort+LVDS+iMX93'},
+{t:'Android Automotive on i.MX 93',d:'AOSP Android Automotive boot on i.MX 93 EVK. CAN-FD vehicle interface + GPU-accelerated instrument cluster.',tags:['db-iot','db-gh'],meta:['Android Auto','AOSP','CAN-FD'],u:'https://mcuxpresso.nxp.com/appcodehub?search=Android+Automotive+iMX93'}],
+cs:['RK3566','STM32MP257','AM6254']}
+};
+
+const COMP={
+'STM32H563':{v:'STMicroelectronics',tp:'MCU',tg:'ST Cortex-M33 @ 250 MHz (STM32H5)',core:'Cortex-M33 @ 250 MHz',flash:'2 MB',ram:'640 KB',usb:'1 × HS',canfd:'2×',eth:'None',npu:'None',sec:'TrustZone only (SW key storage)'},
+'STM32H750':{v:'STMicroelectronics',tp:'MCU',tg:'ST Cortex-M7 @ 480 MHz — only 128 KB internal flash',core:'Cortex-M7 @ 480 MHz',flash:'128 KB + ext required',ram:'1 MB',usb:'1 × HS',canfd:'2×',eth:'100 Mbps',npu:'None',sec:'RDP + Secure Boot'},
+'STM32H743':{v:'STMicroelectronics',tp:'MCU',tg:'ST Cortex-M7 @ 480 MHz (2 MB flash)',core:'Cortex-M7 @ 480 MHz',flash:'2 MB',ram:'1 MB',usb:'1 × HS',canfd:'2×',eth:'100 Mbps',npu:'None',sec:'RDP + Secure Boot'},
+'STM32C092':{v:'STMicroelectronics',tp:'MCU',tg:'ST entry-level Cortex-M0+ @ 48 MHz',core:'Cortex-M0+ @ 48 MHz',flash:'256 KB',ram:'32 KB',usb:'None',canfd:'1×',npu:'None',sec:'RDP only'},
+'STM32G071':{v:'STMicroelectronics',tp:'MCU',tg:'ST general-purpose Cortex-M0+ @ 64 MHz',core:'Cortex-M0+ @ 64 MHz',flash:'128 KB',ram:'36 KB',usb:'None',canfd:'None',npu:'None',sec:'RDP only'},
+'STM32MP157':{v:'STMicroelectronics',tp:'MPU',tg:'ST dual Cortex-A7 + M4 (28nm)',core:'Dual A7 @ 800 MHz + M4',ram:'1 GB DDR3 max',npu:'None',eth:'Dual GbE',sec:'BootROM + ETZPC'},
+'STM32MP257':{v:'STMicroelectronics',tp:'MPU',tg:'ST dual A35 + M33 + NPU (28nm)',core:'Dual A35 @ 1.5 GHz + M33',ram:'Up to 4 GB DDR4',npu:'1.35 TOPS',eth:'Dual GbE',sec:'STSAFE + BootROM'},
+'nRF5340':{v:'Nordic Semiconductor',tp:'Wireless MCU',tg:'Nordic dual CM33 BLE 5.4 + 802.15.4',core:'Dual CM33 128+64 MHz',flash:'1.25 MB',ram:'576 KB',ble:'5.4',ieee154:'Yes',sec:'CryptoCell-312 (no HW SE)',txpwr:'+3 dBm'},
+'CC1352P7':{v:'Texas Instruments',tp:'Wireless MCU',tg:'TI multi-band sub-GHz + 2.4 GHz',core:'Cortex-M4F @ 48 MHz',flash:'704 KB',ram:'144 KB',ble:'5.0',ieee154:'Yes',sec:'Crypto accelerator (no HW SE)',txpwr:'+14 dBm sub-GHz'},
+'ESP32-C6':{v:'Espressif',tp:'Wireless MCU',tg:'ESP32 Wi-Fi 6 + BLE 5 + 802.15.4',core:'RISC-V @ 160 MHz',flash:'ext only',ram:'512 KB',ble:'5.0',ieee154:'Yes',sec:'eFuse only (no HW SE)',txpwr:'+20 dBm Wi-Fi'},
+'RK3568':{v:'Rockchip',tp:'MPU',tg:'Rockchip quad A55 @ 2 GHz (28nm)',core:'Quad A55 @ 2 GHz',ram:'Up to 8 GB DDR4',npu:'0.8 TOPS',eth:'Dual GbE',sec:'No secure enclave'},
+'RK3566':{v:'Rockchip',tp:'MPU',tg:'Rockchip quad A55 @ 1.8 GHz (28nm)',core:'Quad A55 @ 1.8 GHz',ram:'Up to 8 GB DDR4',npu:'0.8 TOPS',eth:'Dual GbE',sec:'No dedicated secure enclave'},
+'AM6254':{v:'Texas Instruments',tp:'MPU',tg:'TI Sitara AM625 quad A53 @ 1.4 GHz',core:'Quad A53 @ 1.4 GHz',ram:'Up to 4 GB DDR4',npu:'None',eth:'Dual GbE',sec:'SA2UL + Secure Boot'},
+'RA2E1':{v:'Renesas',tp:'MCU',tg:'Renesas RA2E1 Cortex-M23 @ 48 MHz',core:'Cortex-M23 @ 48 MHz',flash:'256 KB',ram:'32 KB',usb:'None',canfd:'None',npu:'None',sec:'TrustZone only'},
+'RA6E2':{v:'Renesas',tp:'MCU',tg:'Renesas RA6E2 Cortex-M33 @ 100 MHz',core:'Cortex-M33 @ 100 MHz',flash:'512 KB',ram:'128 KB',usb:'FS',canfd:'1×',npu:'None',sec:'TrustZone + SCE9'},
+'SAMD51':{v:'Microchip',tp:'MCU',tg:'Microchip SAM D51 Cortex-M4F @ 120 MHz',core:'Cortex-M4F @ 120 MHz',flash:'1 MB',ram:'256 KB',usb:'FS',canfd:'None',npu:'None',sec:'TrustZone basic'},
+'STM32L562':{v:'STMicroelectronics',tp:'Secure MCU',tg:'ST Cortex-M33 with TrustZone (110 MHz)',core:'Cortex-M33 @ 110 MHz',flash:'512 KB',ram:'256 KB',usb:'FS',canfd:'None',npu:'None',sec:'TrustZone-M only'}
+};
+
+/* ═══════════════════════════════
+   COMPARISON DATASETS
+═══════════════════════════════ */
+const CD={
+'MCXN947_STM32H563':{ns:82,cs:65,
+dims:[{l:'CPU Performance',nv:'Dual CM33 @ 150 MHz',cv:'CM33 @ 250 MHz',n:72,c:76,w:'comp',nLabel:'300 MHz total (dual)',cLabel:'250 MHz (single)'},
+{l:'Flash Memory',nv:'2 MB',cv:'2 MB',n:75,c:75,w:'tie',nLabel:'2 MB',cLabel:'2 MB'},
+{l:'AI / Machine Learning',nv:'eIQ Neutron NPU on-die',cv:'Software only',n:100,c:0,w:'nxp',nLabel:'On-chip NPU',cLabel:'No NPU'},
+{l:'Hardware Security',nv:'EdgeLock SE050 (HW vault)',cv:'TrustZone (SW keys only)',n:96,c:40,w:'nxp',nLabel:'Silicon-isolated SE',cLabel:'SW key storage'},
+{l:'Connectivity',nv:'USB HS+FS, 3×CAN-FD, Ethernet',cv:'USB HS, 2×CAN-FD, no Ethernet',n:92,c:55,w:'nxp',nLabel:'6 protocols',cLabel:'4 protocols'},
+{l:'ADC Resolution',nv:'2 × 16-bit SAR @ 2 Msps',cv:'2 × 12-bit ADC',n:90,c:64,w:'nxp',nLabel:'16-bit × 2',cLabel:'12-bit × 2'},
+{l:'Power Efficiency',nv:'Dynamic VF scaling + retention',cv:'Run mode only',n:78,c:58,w:'nxp',nLabel:'Multi-mode',cLabel:'Limited modes'},
+{l:'Unit Price (1k)',nv:'~$5.00',cv:'~$7.50',n:85,c:60,w:'nxp',nLabel:'~$5.00',cLabel:'~$7.50'}],
+benchmarks:[{l:'Overall Score',n:82,c:65},{l:'AI Capability',n:100,c:5},{l:'Security Depth',n:96,c:40},{l:'Connectivity',n:92,c:55},{l:'Analog Quality',n:90,c:64},{l:'Value (Performance/$)',n:88,c:56}],
+specs:[{s:'CPU Architecture',n:'Dual Cortex-M33 @ 150 MHz',c:'Cortex-M33 @ 250 MHz',w:'tie'},{s:'Flash Memory',n:'2 MB on-chip',c:'2 MB on-chip',w:'tie'},{s:'SRAM',n:'512 KB (3 power banks)',c:'640 KB',w:'comp'},{s:'Neural Processing Unit',n:'eIQ Neutron NPU on-die',c:'None',w:'nxp'},{s:'Hardware Secure Element',n:'EdgeLock SE050 (on-die)',c:'TrustZone SW only',w:'nxp'},{s:'ADC Resolution',n:'2 × 16-bit SAR',c:'2 × 12-bit SAR',w:'nxp'},{s:'USB Ports',n:'HS (480 Mbps) + FS (12 Mbps)',c:'1 × USB HS only',w:'nxp'},{s:'CAN-FD Channels',n:'3 ×',c:'2 ×',w:'nxp'},{s:'On-chip Ethernet',n:'100 Mbps + IEEE 1588',c:'None',w:'nxp'},{s:'Est. Unit Price (1k)',n:'~$5.00',c:'~$7.50',w:'nxp'}],
+feats:[{f:'TrustZone-M',n:true,c:true},{f:'Hardware Secure Element',n:true,c:false},{f:'On-die NPU',n:true,c:false},{f:'Dual-core Architecture',n:true,c:false},{f:'On-chip Ethernet',n:true,c:false},{f:'Dual USB HS+FS',n:true,c:false},{f:'3 × CAN-FD',n:true,c:false},{f:'16-bit ADC',n:true,c:false},{f:'Pin-compatible upgrade path',n:true,c:false},{f:'TRNG',n:true,c:true}],
+excl:[{n:'eIQ Neutron NPU on-die',d:'Runs TensorFlow Lite Micro inference on-chip without any external accelerator. The STM32H5 has no NPU at any price point — ML must run purely in software, consuming 10–20× more CPU cycles for equivalent tasks.',gap:'No NPU on any STM32H5 device — CPU-only ML'},{n:'EdgeLock SE050 Hardware Vault',d:'Keys stored in a silicon-isolated compartment inaccessible to the main CPU bus. STM32H5 uses TrustZone software key storage in CPU-reachable SRAM, which can be extracted via debug attacks.',gap:'TrustZone-M only — keys live in CPU-accessible SRAM'},{n:'Dual USB HS + FS simultaneously',d:'Two independent USB controllers active at the same time — Host on one port, Device on the other. STM32H563 has a single USB HS OTG shared between host and device.',gap:'Single USB HS port — host and device cannot coexist'},{n:'3 × CAN-FD',d:'One extra CAN-FD bus vs STM32H5\'s 2, enabling a 3-bus industrial gateway (e.g. separate buses for ISO 15765-2, J1939, and diagnostic channel) without an external CAN transceiver mux.',gap:'2 × CAN-FD only — need external mux for 3-bus apps'},{n:'100 Mbps Ethernet + IEEE 1588',d:'On-chip Ethernet with precision time protocol at zero BOM cost. STM32H563 has no Ethernet controller — requires a separate Ethernet MAC+PHY IC adding ~$2.50 per board.',gap:'No Ethernet — requires external MAC+PHY IC'}],
+radar:{lbl:['Performance','Memory','AI / ML','Security','Connectivity','Analog','Power','Price Value'],n:[0.72,0.75,1.00,0.96,0.92,0.90,0.78,0.85],c:[0.76,0.78,0.02,0.40,0.55,0.64,0.58,0.60]}},
+
+'MCXW71_nRF5340':{ns:79,cs:71,
+dims:[{l:'CPU Performance',nv:'CM33 @ 96 MHz',cv:'Dual CM33 128+64 MHz',n:62,c:82,w:'comp',nLabel:'96 MHz (single)',cLabel:'128+64 MHz (dual)'},{l:'Memory',nv:'1 MB Flash / 256 KB SRAM',cv:'1.25 MB / 576 KB',n:65,c:84,w:'comp',nLabel:'1 MB / 256 KB',cLabel:'1.25 MB / 576 KB'},{l:'BLE RX Sensitivity',nv:'−105 dBm',cv:'−102 dBm',n:92,c:76,w:'nxp',nLabel:'−105 dBm',cLabel:'−102 dBm'},{l:'Hardware Security',nv:'EdgeLock SE050 (HW SE on-die)',cv:'CryptoCell-312 (no HW SE)',n:99,c:52,w:'nxp',nLabel:'Silicon-isolated SE',cLabel:'SW keys only'},{l:'BLE Tx Power',nv:'+7 dBm max',cv:'+3 dBm max',n:90,c:52,w:'nxp',nLabel:'+7 dBm',cLabel:'+3 dBm'},{l:'Protocol Support',nv:'BLE 5.3 + 802.15.4 + Matter',cv:'BLE 5.4 + 802.15.4 + Matter',n:86,c:88,w:'tie',nLabel:'BLE 5.3',cLabel:'BLE 5.4'},{l:'Deep Sleep Current',nv:'2 µA',cv:'2.5 µA',n:84,c:74,w:'nxp',nLabel:'2 µA',cLabel:'2.5 µA'},{l:'RF Range (BLE)',nv:'~150 m (Coded PHY)',cv:'~90 m (Coded PHY)',n:92,c:70,w:'nxp',nLabel:'~150 m',cLabel:'~90 m'}],
+benchmarks:[{l:'Overall Score',n:79,c:71},{l:'RF Sensitivity',n:92,c:76},{l:'Security Depth',n:99,c:52},{l:'BLE Tx Power',n:90,c:52},{l:'Power (Deep Sleep)',n:84,c:74},{l:'RF Range',n:92,c:70}],
+specs:[{s:'CPU Core',n:'Cortex-M33 @ 96 MHz',c:'Dual CM33 @ 128 + 64 MHz',w:'comp'},{s:'Flash',n:'1 MB',c:'1 MB + 256 KB (net)',w:'tie'},{s:'SRAM',n:'256 KB',c:'512 KB + 64 KB',w:'comp'},{s:'BLE Version',n:'5.3',c:'5.4',w:'comp'},{s:'BLE RX Sensitivity',n:'−105 dBm',c:'−102 dBm',w:'nxp'},{s:'Max BLE Tx Power',n:'+7 dBm',c:'+3 dBm',w:'nxp'},{s:'Hardware Secure Element',n:'EdgeLock SE050 on-die',c:'None — CC312 only',w:'nxp'},{s:'Deep Sleep (RTC on)',n:'2 µA',c:'2.5 µA',w:'nxp'},{s:'Thread / OpenThread',n:'Yes',c:'Yes',w:'tie'},{s:'Matter v1.x',n:'Yes (CSA certified)',c:'Yes (CSA certified)',w:'tie'}],
+feats:[{f:'BLE 5.x',n:true,c:true},{f:'IEEE 802.15.4',n:true,c:true},{f:'Thread v1.3',n:true,c:true},{f:'Zigbee 3.0',n:true,c:true},{f:'Matter v1.x',n:true,c:true},{f:'Hardware Secure Element',n:true,c:false},{f:'BLE Tx Power > +5 dBm',n:true,c:false},{f:'BLE −105 dBm sensitivity',n:true,c:false},{f:'Concurrent BLE + 802.15.4',n:true,c:true}],
+excl:[{n:'EdgeLock SE050 Hardware SE',d:'True hardware Secure Element — key material stored in isolated silicon, physically inaccessible on the MCU bus. The nRF5340 uses CryptoCell-312 software key storage — extractable via JTAG debug or fault injection attacks.',gap:'nRF5340: CryptoCell-312 only — SW key storage, extractable'},{n:'+7 dBm BLE Tx Power',d:'4 dB more output power than nRF5340\'s +3 dBm maximum. Each 3 dB doubles effective radiated power — MCXW71 reaches ~60% longer range in real-world multipath environments.',gap:'nRF5340: +3 dBm max — 60% shorter range than MCXW71'},{n:'−105 dBm BLE RX Sensitivity',d:'3 dB better receive sensitivity than nRF5340\'s −102 dBm. Each dB of sensitivity improvement enables penetrating one additional interior wall at equivalent distance.',gap:'nRF5340: −102 dBm — 3 dB worse, fewer walls penetrated'}],
+radar:{lbl:['CPU Speed','Memory','RF Sensitivity','Security','Tx Power','Protocols','Power','RF Range'],n:[0.62,0.65,0.92,0.99,0.90,0.86,0.84,0.92],c:[0.82,0.84,0.76,0.52,0.52,0.88,0.74,0.70]}},
+
+'MIMXRT1064_STM32H750':{ns:88,cs:58,
+dims:[{l:'CPU Speed',nv:'Cortex-M7 @ 600 MHz',cv:'Cortex-M7 @ 480 MHz',n:88,c:74,w:'nxp',nLabel:'600 MHz',cLabel:'480 MHz'},{l:'Internal Flash',nv:'4 MB on-chip',cv:'128 KB (ext. required)',n:100,c:15,w:'nxp',nLabel:'4 MB (self-contained)',cLabel:'128 KB + ext chip'},{l:'SRAM',nv:'1 MB TCM + OCRAM',cv:'1 MB AXI + TCM',n:84,c:72,w:'nxp',nLabel:'1 MB',cLabel:'1 MB'},{l:'USB Ports',nv:'Dual HS + FS (2 PHYs)',cv:'1 × USB HS OTG',n:90,c:58,w:'nxp',nLabel:'2 ports (simultaneous)',cLabel:'1 port'},{l:'2D GPU',nv:'PxP: rotate+scale+blend',cv:'DMA2D: blend only',n:82,c:52,w:'nxp',nLabel:'Full 2D pipeline',cLabel:'Alpha blend only'},{l:'Performance (DMIPS)',nv:'3,020 DMIPS',cv:'~2,400 DMIPS',n:88,c:74,w:'nxp',nLabel:'3,020 DMIPS',cLabel:'~2,400 DMIPS'},{l:'Camera Interface',nv:'Parallel CSI',cv:'None',n:80,c:0,w:'nxp',nLabel:'CSI on-die',cLabel:'No CSI'},{l:'Price (BOM incl. flash)',nv:'~$9.50 (no ext flash)',cv:'~$10.00 (+ $1.50 flash)',n:84,c:70,w:'nxp',nLabel:'~$9.50 all-in',cLabel:'~$10.00 all-in'}],
+benchmarks:[{l:'Overall Score',n:88,c:58},{l:'Internal Flash',n:100,c:15},{l:'CPU Performance',n:88,c:74},{l:'USB Capability',n:90,c:58},{l:'2D GPU',n:82,c:52},{l:'BOM Cost',n:84,c:70}],
+specs:[{s:'CPU Core',n:'Cortex-M7 @ 600 MHz',c:'Cortex-M7 @ 480 MHz',w:'nxp'},{s:'Drystone MIPS',n:'3,020 DMIPS',c:'~2,400 DMIPS',w:'nxp'},{s:'Internal Flash',n:'4 MB (no ext chip needed)',c:'128 KB (ext QSPI mandatory)',w:'nxp'},{s:'SRAM',n:'1 MB ITCM+DTCM+OCRAM',c:'1 MB AXI+AHB+TCM',w:'tie'},{s:'USB Controllers',n:'HS + FS (2 integrated PHYs)',c:'1 × USB HS OTG only',w:'nxp'},{s:'Ethernet',n:'100 Mbps + IEEE 1588',c:'100 Mbps',w:'nxp'},{s:'CAN-FD',n:'2 ×',c:'2 ×',w:'tie'},{s:'2D GPU',n:'PxP (rotate+scale+blend)',c:'DMA2D (blend only)',w:'nxp'},{s:'Camera Interface',n:'Parallel CSI',c:'None',w:'nxp'},{s:'All-in BOM Price (1k)',n:'~$9.50',c:'~$10.00',w:'nxp'}],
+feats:[{f:'4 MB internal flash',n:true,c:false},{f:'600 MHz CPU',n:true,c:false},{f:'2 × USB HS simultaneously',n:true,c:false},{f:'2D GPU with rotation/scale',n:true,c:false},{f:'Camera Interface (CSI)',n:true,c:false},{f:'Ethernet + IEEE 1588',n:true,c:'Partial'},{f:'Dual FlexSPI for XiP',n:true,c:false},{f:'HAB Signed Secure Boot',n:true,c:'Partial'},{f:'CAN-FD',n:true,c:true}],
+excl:[{n:'4 MB Embedded Flash',d:'STM32H750 has only 128 KB internal flash — every application requires an external flash chip (~$1.50 BOM), extra board space, and additional boot complexity. MIMXRT1064 carries 4 MB on-die — no external chip required.',gap:'STM32H750: 128 KB internal — external flash chip mandatory'},{n:'600 MHz vs 480 MHz (+25%)',d:'620 additional DMIPS translates directly to faster motor control loops, faster image processing, and more simultaneous protocol stacks. The extra 120 MHz also enables real-time tasks that would miss deadlines at 480 MHz.',gap:'STM32H750: 480 MHz — 25% slower, 620 fewer DMIPS'},{n:'PxP 2D GPU (Rotate + Scale)',d:'Hardware pixel pipeline handles image rotation, scaling, and alpha compositing at zero CPU cost. STM32H750\'s DMA2D only supports alpha blending — no hardware rotation or scaling.',gap:'STM32H750: DMA2D blend only — no rotation or scaling'},{n:'Dual USB HS + FS active simultaneously',d:'Both USB controllers active simultaneously. STM32H750 has a single USB HS OTG that can only be Host or Device at one time.',gap:'STM32H750: single USB HS port — host OR device, not both'}],
+radar:{lbl:['CPU Speed','Internal Flash','SRAM','2D GPU','USB','Ethernet','DMIPS','BOM Value'],n:[0.88,1.00,0.84,0.82,0.90,0.86,0.88,0.84],c:[0.74,0.15,0.72,0.52,0.58,0.78,0.74,0.70]}},
+
+'MCXA153_STM32C092':{ns:89,cs:50,
+dims:[{l:'CPU Architecture',nv:'Cortex-M33 + DSP + FPU',cv:'Cortex-M0+ (no DSP/FPU)',n:94,c:40,w:'nxp',nLabel:'ARMv8-M (2017)',cLabel:'ARMv6-M (2010)'},{l:'Flash',nv:'512 KB',cv:'256 KB',n:86,c:52,w:'nxp',nLabel:'512 KB',cLabel:'256 KB'},{l:'SRAM',nv:'96 KB',cv:'32 KB',n:90,c:36,w:'nxp',nLabel:'96 KB',cLabel:'32 KB'},{l:'Security',nv:'TrustZone-M + EdgeLock Lite',cv:'RDP only (no TrustZone)',n:84,c:24,w:'nxp',nLabel:'TrustZone + TRNG',cLabel:'RDP readout protect'},{l:'USB',nv:'USB FS 12 Mbps',cv:'None',n:84,c:0,w:'nxp',nLabel:'USB FS built-in',cLabel:'No USB'},{l:'CAN-FD',nv:'1 × CAN-FD 2.0B',cv:'1 × CAN-FD 2.0B',n:76,c:76,w:'tie',nLabel:'1 × CAN-FD',cLabel:'1 × CAN-FD'},{l:'ADC',nv:'2 × 12-bit @ 1 Msps',cv:'1 × 12-bit @ 0.67 Msps',n:84,c:56,w:'nxp',nLabel:'2 × 12-bit',cLabel:'1 × 12-bit'},{l:'Price',nv:'~$1.20 (1k)',cv:'~$1.10 (1k)',n:78,c:80,w:'comp',nLabel:'~$1.20',cLabel:'~$1.10'}],
+benchmarks:[{l:'Overall Score',n:89,c:50},{l:'CPU Architecture',n:94,c:40},{l:'SRAM',n:90,c:36},{l:'Security',n:84,c:24},{l:'USB',n:84,c:0},{l:'ADC',n:84,c:56}],
+specs:[{s:'CPU Core',n:'Cortex-M33 @ 96 MHz + DSP + FPU',c:'Cortex-M0+ @ 48 MHz',w:'nxp'},{s:'ISA Generation',n:'ARMv8-M (2017)',c:'ARMv6-M (2010)',w:'nxp'},{s:'Flash',n:'512 KB',c:'256 KB',w:'nxp'},{s:'SRAM',n:'96 KB',c:'32 KB',w:'nxp'},{s:'USB',n:'Full-Speed 12 Mbps Device',c:'None',w:'nxp'},{s:'TrustZone-M',n:'Yes',c:'No',w:'nxp'},{s:'DSP / SIMD',n:'Yes',c:'No',w:'nxp'},{s:'Hardware FPU',n:'Yes (single-precision)',c:'No',w:'nxp'},{s:'CAN-FD',n:'1 ×',c:'1 ×',w:'tie'},{s:'ADC',n:'2 × 12-bit, 16 ch',c:'1 × 12-bit, 12 ch',w:'nxp'}],
+feats:[{f:'Cortex-M33 (vs M0+)',n:true,c:false},{f:'TrustZone-M',n:true,c:false},{f:'USB Full Speed',n:true,c:false},{f:'DSP / SIMD instructions',n:true,c:false},{f:'Hardware FPU',n:true,c:false},{f:'TRNG',n:true,c:false},{f:'CAN-FD',n:true,c:true},{f:'2× ADC dual simultaneous',n:true,c:false},{f:'Pin-compatible upgrade to MCX N',n:true,c:false}],
+excl:[{n:'Cortex-M33 vs Cortex-M0+',d:'Two ISA generations ahead — full DSP/SIMD extensions, hardware FPU, TrustZone-M hardware isolation, and 2× the clock speed. STM32C0 is architecturally limited by the Cortex-M0+ from 2010.',gap:'STM32C092: Cortex-M0+ — no DSP, no FPU, no TrustZone'},{n:'96 KB SRAM vs 32 KB',d:'STM32C092\'s 32 KB is insufficient for FreeRTOS + USB CDC + CAN-FD simultaneously (FreeRTOS alone needs ~8 KB). MCXA153\'s 96 KB handles all three stacks with comfortable headroom.',gap:'STM32C092: 32 KB — too small for RTOS + USB + CAN-FD'},{n:'USB Full Speed (driver-free)',d:'STM32C092 has no USB at all — connecting to a PC requires a separate USB-to-UART bridge IC ($0.40–$0.80 + PCB space). MCXA153 includes USB FS Device at the same price.',gap:'STM32C092: no USB — external USB-UART bridge IC needed'},{n:'MCX Pin-Compatible Upgrade Path',d:'MCXA153 is pin-compatible with MCXN947 (dual-core, NPU, Ethernet) — swap chips without PCB redesign. ST\'s C0 has no compatible upgrade path to the H5 series.',gap:'ST: C0 → H5 requires full PCB redesign, not pin-compatible'}],
+radar:{lbl:['CPU Core','Flash','SRAM','Security','USB','CAN-FD','ADC','Price'],n:[0.94,0.86,0.90,0.84,0.84,0.76,0.84,0.78],c:[0.40,0.52,0.36,0.24,0.00,0.76,0.56,0.80]}}
+};
+
+/* ═══════════════════════════════
+   GENERIC PRODUCT FALLBACK
+   (for all parts not in P{})
+═══════════════════════════════ */
+/* Per-family spec templates for auto-generation */
+const FAM_SPECS={
+  'MCX-A':function(pn){
+    const n=pn.replace('MCXA','');const tier=parseInt(n[0]||'1');const mem=parseInt(n[1]||'3');
+    const hasUSB=tier>=5;const hasCANFD=tier>=4;const dualCAN=pn==='MCXA156'||pn==='MCXA155';
+    const flashMap={'6':'256 KB','5':'128 KB','4':'64 KB','3':'256 KB','2':'128 KB'};
+    const sramMap={'6':'96 KB','5':'48 KB','4':'32 KB','3':'96 KB','2':'48 KB'};
+    const fKey=n[n.length-1]||'3';
+    return{tp:'MCU',tg:pn+' — Cortex-M33 @ 96 MHz, MCX A family'+(hasUSB?' with USB FS':'')+(hasCANFD?', CAN-FD':''),
+      tags:['Cortex-M33','96 MHz'].concat(hasUSB?['USB FS']:[]).concat(hasCANFD?[dualCAN?'2× CAN-FD':'CAN-FD']:[]).concat(['TrustZone-M','EdgeLock Lite']),
+      specs:{'CPU Core':'Cortex-M33 @ 96 MHz + DSP + FPU','Flash':flashMap[fKey]||'128 KB','SRAM':sramMap[fKey]||'48 KB','USB':hasUSB?'Full-Speed 12 Mbps':'None','CAN-FD':dualCAN?'2 × CAN-FD 2.0B':hasCANFD?'1 × CAN-FD 2.0B':'None','ADC':'12-bit SAR, 1 Msps','Temperature':'-40 to 105 °C'},
+      feats:{'Core':['Cortex-M33 @ 96 MHz with DSP/FPU','TrustZone-M security partition','EdgeLock Lite TRNG + AES-128/256'],'Connectivity':hasUSB?['USB Full-Speed 2.0 Device',hasCANFD?(dualCAN?'2 × CAN-FD 2.0B':'1 × CAN-FD 2.0B'):'No CAN-FD','LP-FlexComm UART/SPI/I2C']:[hasCANFD?(dualCAN?'2 × CAN-FD 2.0B':'1 × CAN-FD 2.0B'):'Basic UART/SPI/I2C','LP-FlexComm configurable','Low-Power UART wakeup'],'Pin Compatibility':['Pin-compatible across MCX A family','Upgrade to MCXN947 (NPU + Ethernet) without PCB redesign']},
+      desc:pn+' is part of the MCX A family — NXP\'s mainstream Cortex-M33 MCU line for industrial, consumer, and IoT applications. It shares the same software-compatible SDK, same pin-compatible footprint, and same security architecture as the entire MCX A and MCX N series, enabling seamless scaling.',
+      simple:pn+' is a mid-range microcontroller from NXP\'s MCX A family. It runs the modern Cortex-M33 processor core with a built-in security engine. Because it uses the same pins and software as the rest of the MCX family, you can start your design here and upgrade to a more powerful chip later without redesigning your circuit board.',
+      apps:[{e:'🏭',n:'Industrial Sensor Node',d:'CAN-FD fieldbus reporting with security'},{e:'🏠',n:'Smart Appliance',d:'Motor control + connectivity + OTA updates'},{e:'🔌',n:'Connected Device',d:'USB/CAN interface with secure provisioning'},{e:'💡',n:'Building Control',d:'HVAC/BMS controller with fieldbus'},{e:'⚡',n:'Power Management',d:'Energy monitoring with real-time control'},{e:'🔧',n:'Industrial Tool',d:'Embedded diagnostics with USB output'}],
+      url:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m33/mcx-a-series-microcontrollers:MCX-A-SERIES'
+    };
+  },
+  'MCX-C':function(pn){
+    return{tp:'MCU',tg:pn+' — Ultra-low-cost Cortex-M0+ @ 48 MHz, MCX C family',
+      tags:['Cortex-M0+','48 MHz','Touch Sense','Ultra-Low Cost'],
+      specs:{'CPU Core':'Cortex-M0+ @ 48 MHz','Flash':'Up to 256 KB','SRAM':'32 KB','ADC':'16-bit SAR','DAC':'12-bit DAC','Touch':'TSI capacitive touch','Temperature':'-40 to 105 °C'},
+      feats:{'Core':['Cortex-M0+ @ 48 MHz — ARMv6-M','1.71–3.6 V supply range','VLLS0: <1 µA with wakeup'],'HMI':['Segment LCD controller','Touch sensing interface (TSI)','12-bit DAC']},
+      desc:pn+' is part of the ultra-low-cost MCX C family targeting high-volume consumer applications requiring LCD display and touch sensing without external display driver ICs.',
+      simple:pn+' is a low-cost chip for simple products that need to show information on a segment LCD and detect touch buttons. Ideal for appliance panels, meters, and basic displays.',
+      apps:[{e:'🏠',n:'Appliance Panel',d:'Segment LCD + touch keys'},{e:'🔋',n:'Battery Monitor',d:'SOC display with low power'},{e:'🌡️',n:'Digital Meter',d:'LCD display of measurements'},{e:'💧',n:'IoT Sensor',d:'Simple sensing with display'},{e:'🎛️',n:'Control Panel',d:'Touch interface with LCD feedback'}],
+      url:'https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/mcx-cortex-m0-plus-mcus:MCX-C-SERIES'
+    };
+  },
+  'MCX-W':function(pn){
+    return{tp:'Wireless MCU',tg:pn+' — Multi-protocol wireless MCU with BLE 5.3 + IEEE 802.15.4',
+      tags:['BLE 5.3','802.15.4','Matter','Thread','EdgeLock SE'],
+      specs:{'CPU Core':'Cortex-M33 @ 96 MHz','Flash':'1 MB','SRAM':'256 KB','BLE':'5.3','IEEE 802.15.4':'Yes','Deep Sleep':'2 µA','Secure Element':'EdgeLock SE050'},
+      feats:{'RF':['BLE 5.3 + IEEE 802.15.4 concurrent','Matter 1.x, Thread, Zigbee 3.0'],'Security':['EdgeLock SE050 on-die hardware SE','TRNG + AES-128/256']},
+      desc:pn+' is part of the MCX W multi-protocol wireless family, supporting BLE 5.3, IEEE 802.15.4 (Thread, Zigbee, Matter) with EdgeLock SE050 hardware Secure Element.',
+      simple:pn+' is a wireless chip supporting all major smart home protocols simultaneously, with a hardware security vault on-die.',
+      apps:[{e:'🏠',n:'Smart Home Device',d:'Matter/Thread/Zigbee/BLE end device'},{e:'🔒',n:'Secure IoT Node',d:'Hardware SE-backed identity'},{e:'📱',n:'BLE Sensor',d:'Long-range BLE beacon'}],
+      url:'https://www.nxp.com/products/wireless-connectivity/multiprotocol-mcus/mcxw-series:MCXW'
+    };
+  }
+};
+
+function makeFallback(pn){
+  let famKey=null,famData=null;
+  for(const[k,f]of Object.entries(FAM)){if(f.pts.includes(pn)){famKey=k;famData=f;break;}}
+  if(!famData)return null;
+  
+  // Use family-specific template if available
+  const tmplFn=FAM_SPECS[famKey];
+  const tmpl=tmplFn?tmplFn(pn):{};
+  
+  const baseUrl=tmpl.url||('https://www.nxp.com/search#q='+encodeURIComponent(pn)+'&t=products');
+  
+  return{
+    fam:famKey,
+    tp:tmpl.tp||(famData.tp+' ('+famData.nm+')'),
+    tg:tmpl.tg||(pn+' — '+famData.tg),
+    tags:tmpl.tags||famData.tags,
+    specs:tmpl.specs||{'Family':famData.nm,'Type':famData.tp,'Architecture':famData.tags[0]||'—','Temp Range':'-40 to 105 °C'},
+    feats:tmpl.feats||{},
+    desc:tmpl.desc||(pn+' is a member of the '+famData.nm+' family. '+famData.tg+'.'),
+    simple:tmpl.simple||('Part of NXP\'s '+famData.nm+' family. Visit nxp.com for the complete datasheet.'),
+    apps:tmpl.apps||[],
+    url:baseUrl,
+    res:{
+      'Documentation':[
+        {e:'📄',t:pn+' Datasheet & Product Page',d:'Full electrical specs, pinout, and documentation on nxp.com',u:baseUrl+'#documentation'},
+        {e:'📖',t:famData.nm+' Reference Manual',d:'Complete peripheral register reference',u:baseUrl+'#documentation'}
+      ],
+      'Development Boards':[
+        {e:'🔌',t:famData.nm+' Evaluation Board',d:'Freedom / EVK board for the '+famData.nm+' family',u:baseUrl}
+      ],
+      'Software & SDK':[
+        {e:'💻',t:'MCUXpresso SDK — '+pn,d:'Download the full SDK for this device',u:'https://mcuxpresso.nxp.com/en/select?device='+encodeURIComponent(pn)},
+        {e:'⚙️',t:'MCUXpresso IDE',d:'Eclipse-based IDE with RTOS awareness and power profiling',u:'https://www.nxp.com/mcuxpresso/ide'}
+      ]
+    },
+    demos:[
+      {t:famData.nm+' NPU Benchmark vs TensorFLM',d:'Performance benchmark on the '+famData.nm+' platform. Browse all available examples, drivers, and ML demos on the NXP App Code Hub.',tags:['db-iot','db-gh'],meta:[famData.nm,'SDK Examples'],u:'https://mcuxpresso.nxp.com/appcodehub?search='+encodeURIComponent(pn)},
+      {t:'FreeRTOS + Peripheral Drivers',d:'FreeRTOS multi-task example with UART, SPI, I2C, and ADC drivers. Complete starter project for the '+famData.nm+' family.',tags:['db-iot','db-gh'],meta:['FreeRTOS',famData.nm],u:'https://mcuxpresso.nxp.com/appcodehub?search=FreeRTOS+'+encodeURIComponent(famData.nm.replace(/ /g,'+'))},
+      {t:'Low-Power Deep Sleep Demo',d:'Complete power mode demo: active → deep sleep → wakeup. Measures real sleep current on the evaluation board.',tags:['db-iot','db-gh'],meta:['Deep Sleep','Power Profile'],u:'https://mcuxpresso.nxp.com/appcodehub?search=low+power+deep+sleep+'+encodeURIComponent(famKey)},
+      {t:'TrustZone-M / Security Demo',d:'TrustZone-M secure/non-secure partition with TRNG key generation. EdgeLock security feature demonstration.',tags:['db-sec','db-gh'],meta:['TrustZone-M','TRNG','Security'],u:'https://mcuxpresso.nxp.com/appcodehub?search=TrustZone+security+'+encodeURIComponent(famKey)},
+      {t:'UART / SPI / I2C Communication Examples',d:'LP-FlexComm peripheral examples: UART DMA, SPI master/slave, I2C multi-device. Full interrupt and polling modes.',tags:['db-iot','db-gh'],meta:['UART','SPI','I2C'],u:'https://mcuxpresso.nxp.com/appcodehub?search=UART+SPI+I2C+'+encodeURIComponent(famKey)},
+      {t:'ADC Sampling + DMA Demo',d:'ADC continuous sampling with DMA circular buffer. Software trigger and hardware trigger modes. Averaging filter.',tags:['db-iot','db-gh'],meta:['ADC','DMA','Sampling'],u:'https://mcuxpresso.nxp.com/appcodehub?search=ADC+DMA+sampling+'+encodeURIComponent(famKey)},
+      {t:'Secure OTA Firmware Update',d:'Over-the-air firmware update with signed image verification. Demonstrates the secure provisioning workflow.',tags:['db-sec','db-iot','db-gh'],meta:['OTA','Secure Boot','Signed Image'],u:'https://mcuxpresso.nxp.com/appcodehub?search=OTA+firmware+update+'+encodeURIComponent(famKey)},
+      {t:'GPIO + PWM Timer Control',d:'Timer-based PWM generation and GPIO interrupt handling. Multi-channel FlexPWM with dead-time insertion.',tags:['db-iot','db-gh'],meta:['PWM','GPIO','FlexTimer'],u:'https://mcuxpresso.nxp.com/appcodehub?search=PWM+timer+GPIO+'+encodeURIComponent(famKey)},
+      {t:'MQTT + TCP/IP Sensor Reporting',d:'FreeRTOS + TCP/IP stack publishing sensor data to MQTT broker. Demonstrates cloud connectivity.',tags:['db-iot','db-gh'],meta:['MQTT','TCP/IP','FreeRTOS'],u:'https://mcuxpresso.nxp.com/appcodehub?search=MQTT+TCP+sensor+'+encodeURIComponent(famKey)},
+      {t:'Motor Control — Sensorless BLDC',d:'Back-EMF sensorless BLDC control with FlexPWM dead-time insertion and analog comparator overcurrent protection.',tags:['db-mtr','db-gh'],meta:['BLDC','Sensorless','FlexPWM'],u:'https://mcuxpresso.nxp.com/appcodehub?search=BLDC+motor+sensorless+'+encodeURIComponent(famKey)}
+    ],
+    cs:[]
+  };
+}
+
+/* ═══════════════════════════════
+   STATE
+═══════════════════════════════ */
+let _pn=null,_fam=null;
+function getProd(pn){return P[pn]||makeFallback(pn);}
+
+/* ═══════════════════════════════
+   HOME
+═══════════════════════════════ */
+function renderHome(){
+  const mg=document.getElementById('mcu-grid'),pg=document.getElementById('mpu-grid');
+  mg.innerHTML=pg.innerHTML='';let mc=0,pc=0;
+  Object.entries(FAM).forEach(([k,f])=>{
+    const isMPU=f.tp==='MPU';
+    const el=document.createElement('div');el.className='fc';
+    const bc={MCU:'fb-mcu',MPU:'fb-mpu',Crossover:'fb-cross',Wireless:'fb-wifi'}[f.tp]||'fb-mcu';
+    el.onclick=()=>showFam(k);
+    el.innerHTML=`<div class="fc-top"><div class="fc-name">${f.nm}</div><span class="fc-badge ${bc}">${f.tp}</span></div><p class="fc-desc">${f.tg}</p><div class="fc-foot"><span class="fc-cnt">${f.pts.length} parts</span><span class="fc-arr">→</span></div>`;
+    if(isMPU){pg.appendChild(el);pc++;}else{mg.appendChild(el);mc++;}
+  });
+  document.getElementById('mcu-cnt').textContent=mc+' families';
+  document.getElementById('mpu-cnt').textContent=pc+' families';
+}
+
+/* ═══════════════════════════════
+   FAMILY VIEW
+═══════════════════════════════ */
+function showFam(k){
+  _fam=k;const f=FAM[k];showView('fv');
+  document.getElementById('fv-bc').textContent=f.nm;
+  document.getElementById('fam-hdr-blk').innerHTML=`
+    <div class="fam-icon"><svg viewBox="0 0 24 24"><path d="M2 2h9v9H2zm11 0h9v9h-9zM2 13h9v9H2zm11 0h9v9h-9z"/></svg></div>
+    <div><div class="fam-name">${f.nm}</div><div class="fam-desc">${f.tg}</div><div class="fam-tags">${f.tags.map(t=>`<span class="ftag">${t}</span>`).join('')}</div></div>`;
+  document.getElementById('fv-cnt').textContent=f.pts.length+' parts';
+  const g=document.getElementById('fv-grid');g.innerHTML='';
+  f.pts.forEach(pn=>{const c=document.createElement('div');c.className='pc';c.onclick=()=>goProduct(pn);c.innerHTML=`<span class="pc-pn">${pn}</span><span class="pc-arrow">›</span>`;g.appendChild(c);});
+}
+
+/* ═══════════════════════════════
+   PRODUCT VIEW
+═══════════════════════════════ */
+function goProduct(pn){
+  _pn=pn.toUpperCase();const d=getProd(_pn);
+  if(!d){window.open('https://www.nxp.com/search#q='+encodeURIComponent(_pn)+'&t=products','_blank');return;}
+  showView('pv');
+  const famNm=FAM[d.fam]?FAM[d.fam].nm:d.fam;
+  document.getElementById('pv-fam-bc').textContent=famNm;
+  document.getElementById('pv-pn-bc').textContent=_pn;
+  document.getElementById('pv-pn-text').textContent=_pn+'\u00a0';
+  document.getElementById('pv-type-tag').textContent=d.tp;
+  document.getElementById('pv-tagline').textContent=d.tg;
+  document.getElementById('pv-tags').innerHTML=d.tags.map(t=>`<span class="pv-tag">${t}</span>`).join('');
+  document.getElementById('pv-actions').innerHTML=
+    `<a class="btn btn-primary" href="${d.url||'https://www.nxp.com/search#q='+encodeURIComponent(_pn)+'&t=products'}" target="_blank">NXP Product Page ↗</a>`+
+    `<a class="btn btn-outline" href="https://mcuxpresso.nxp.com/en/select?device=${encodeURIComponent(_pn)}" target="_blank">SDK Download</a>`;
+  swTab('ov',document.querySelector('.tab[data-tab="ov"]'));
+  buildOv(d);buildTc(d);buildRs(d);buildDm(d);buildCpTab(d);
+}
+function goFamBc(){if(_pn){const d=getProd(_pn);if(d)showFam(d.fam);}}
+
+/* TAB: OVERVIEW */
+function buildOv(d){
+  document.getElementById('tp-ov').innerHTML=
+    `<p class="ov-intro">${d.desc}</p>`+
+    `<div class="simple-box"><div class="simple-lbl">In plain terms</div><div class="simple-txt">${d.simple}</div></div>`+
+    (d.apps&&d.apps.length?`<div class="apps-lbl">Typical Applications</div><div class="apps-grid">${d.apps.map(a=>`<div class="app-card"><div class="app-emoji">${a.e}</div><div><div class="app-name">${a.n}</div><div class="app-desc">${a.d}</div></div></div>`).join('')}</div>`:'');
+}
+
+/* TAB: TECHNICAL SPECS */
+function buildTc(d){
+  const tiles=Object.entries(d.specs).map(([k,v])=>`<div class="spec-tile"><div class="spec-label">${k}</div><div class="spec-value">${v}</div></div>`).join('');
+  let secs='';
+  if(d.feats&&Object.keys(d.feats).length){Object.entries(d.feats).forEach(([s,items])=>{secs+=`<div class="feat-section-head">${s}</div><div class="feat-grid">${items.map(i=>`<div class="feat-row"><div class="feat-dot"></div>${i}</div>`).join('')}</div>`;});}
+  document.getElementById('tp-tc').innerHTML=`<div class="feat-section-head">Core Specifications</div><div class="specs-grid">${tiles}</div>${secs}`;
+}
+
+/* TAB: RESOURCES (no hardware design checklist) */
+function buildRs(d){
+  let h='';
+  if(d.res){Object.entries(d.res).forEach(([s,items])=>{h+=`<div class="res-section-head">${s}</div><div class="res-list">${items.map(r=>`<a class="res-card" href="${r.u}" target="_blank" rel="noopener"><div class="res-icon">${r.e}</div><div><div class="res-title">${r.t}</div><div class="res-desc">${r.d}</div></div><span class="res-arrow">↗</span></a>`).join('')}</div>`;});}
+  document.getElementById('tp-rs').innerHTML=h||'<p style="color:var(--t3)">No resources in database. <a href="https://www.nxp.com/search#q='+encodeURIComponent(_pn)+'&t=products" target="_blank">Search nxp.com →</a></p>';
+}
+
+/* TAB: DEMOS — each with unique appcodehub search URL */
+function buildDm(d){
+  const hubUrl=`https://mcuxpresso.nxp.com/appcodehub?search=${encodeURIComponent(_pn)}`;
+  const banner=`<div class="demos-banner"><div class="demos-banner-text"><strong>NXP App Code Hub</strong>Each project below links directly to its filtered page on NXP's official application code repository.</div><a class="demos-banner-link" href="${hubUrl}" target="_blank" rel="noopener">Browse All ↗</a></div>`;
+  const cards=(d.demos||[]).map(dm=>{
+    const badgeMap={'db-iot':'IoT','db-ml':'ML / AI','db-sec':'Security','db-mtr':'Motor','db-wls':'Wireless','db-gh':'GitHub'};
+    const badges=dm.tags.map(t=>`<span class="db ${t}">${badgeMap[t]||t}</span>`).join('');
+    const meta=dm.meta.map(m=>`<span class="demo-mi">◦ ${m}</span>`).join('');
+    return `<a class="demo-card" href="${dm.u}" target="_blank" rel="noopener"><div class="demo-top"><div class="demo-title">${dm.t}</div><div class="demo-badges">${badges}</div></div><div class="demo-desc">${dm.d}</div><div class="demo-meta">${meta}</div></a>`;
+  }).join('');
+  const footer=`<div class="demo-footer">More examples at <a href="${hubUrl}" target="_blank" rel="noopener">mcuxpresso.nxp.com/appcodehub</a> — search <strong>${_pn}</strong></div>`;
+  document.getElementById('tp-dm').innerHTML=banner+`<div class="demo-list">${cards}</div>`+(d.demos&&d.demos.length?footer:'');
+}
+
+/* TAB: COMPARE */
+function buildCpTab(d){
+  const chips=(d.cs||[]).map(c=>`<button class="cqb" onclick="doCompare('${c}')">${c}</button>`).join('');
+  document.getElementById('tp-cp').innerHTML=
+    `<div class="cmp-prompt"><div class="cmp-prompt-title">Compare ${_pn} with a competitor</div>`+
+    `<div class="cmp-prompt-sub">Type any competitor part number or choose a direct alternative below</div>`+
+    `<div class="cmp-input-row"><input id="cq" type="text" placeholder="e.g. STM32H563, nRF5340, RA6E2…" autocomplete="off"><button class="btn btn-primary" onclick="doCompare(document.getElementById('cq').value)">Compare →</button></div>`+
+    `<div class="cmp-qks">${chips}</div></div>`;
+  document.getElementById('cq').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();doCompare(document.getElementById('cq').value);}});
+}
+
+/* ═══════════════════════════════════════════════
+   COMPARISON VIEW — Apple-style redesign
+═══════════════════════════════════════════════ */
+let _benchObserver=null;
+function doCompare(raw){
+  const cpn=raw.trim().toUpperCase();if(!cpn||!_pn)return;
+  showView('cv');
+  const nxpD=getProd(_pn)||{};
+  const cmpD=COMP[cpn]||COMP[raw.trim()]||{v:'Competitor',tp:'MCU',tg:'External product',core:'—'};
+  const key=_pn+'_'+cpn;
+  const data=CD[key]||buildGenericCD(nxpD,cmpD,cpn);
+  const nWins=data.dims.filter(x=>x.w==='nxp').length;
+  const cWins=data.dims.filter(x=>x.w==='comp').length;
+
+  // Sticky bar
+  document.getElementById('cvs-nxp').textContent=_pn;
+  document.getElementById('cvs-cmp').textContent=cpn;
+  document.getElementById('cvs-verdict').textContent='NXP leads '+nWins+' of '+data.dims.length+' metrics';
+  document.getElementById('cv-pbc').textContent=_pn;
+
+  // Hero
+  document.getElementById('cv-hero-blk').innerHTML=`
+    <div class="cv-hero">
+      <div class="cvh-side">
+        <div class="cvh-label">NXP</div>
+        <div class="cvh-pn nxp-pn">${_pn}</div>
+        <div class="cvh-sub">${(nxpD.tg||'').substring(0,60)}…</div>
+        <div class="cvh-score nxp-sc">${data.ns}</div>
+        <div><span class="cvh-wins cw-nxp">Leads on ${nWins} / ${data.dims.length} dimensions</span></div>
+      </div>
+      <div class="cvh-vs">
+        <div class="cvh-vs-badge">VS</div>
+        <div class="cvh-verdict-pill">NXP<br>Recommended</div>
+      </div>
+      <div class="cvh-side">
+        <div class="cvh-label">${cmpD.v||'Competitor'}</div>
+        <div class="cvh-pn cmp-pn">${cpn}</div>
+        <div class="cvh-sub">${(cmpD.tg||'').substring(0,60)}…</div>
+        <div class="cvh-score cmp-sc">${data.cs}</div>
+        <div><span class="cvh-wins cw-cmp">Leads on ${cWins} dimension${cWins!==1?'s':''}</span></div>
+      </div>
+    </div>`;
+
+  // NXP Exclusive dark section
+  const exclusiveCards=(data.excl||[]).map(e=>`
+    <div class="excl-card">
+      <div class="excl-card-name">${e.n}</div>
+      <div class="excl-card-desc">${e.d}</div>
+      <div class="excl-card-gap"><span class="excl-gap-lbl">On ${cpn}</span><span class="excl-gap-val">${e.gap||'Not available'}</span></div>
+    </div>`).join('');
+  document.getElementById('cv-excl-blk').innerHTML=`
+    <div class="excl-wrap">
+      <div class="excl-top">
+        <div class="excl-eyebrow">NXP Exclusive Advantages</div>
+        <div class="excl-title">Where <span>${_pn}</span> clearly outperforms ${cpn}</div>
+      </div>
+      <div class="excl-grid">${exclusiveCards}</div>
+    </div>`;
+
+  // Benchmark bars
+  const benchRows=(data.benchmarks||data.dims).map((b,i)=>{
+    const nPct=b.n!==undefined?b.n:(b.n||0);
+    const cPct=b.c!==undefined?b.c:(b.c||0);
+    return `<div class="bench-row">
+      <div class="bench-row-lbl">${b.l}</div>
+      <div class="bench-bar-cell">
+        <div class="bench-bar-bg"><div class="bench-bar-fill nxp-bar" data-w="${nPct/100}" style="width:${nPct}%"></div></div>
+        <div class="bench-bar-val nxp-val">${nPct}<small style="font-size:9px;font-weight:500;margin-left:2px">/100</small></div>
+      </div>
+      <div class="bench-bar-cell">
+        <div class="bench-bar-bg"><div class="bench-bar-fill cmp-bar" data-w="${cPct/100}" style="width:${cPct}%"></div></div>
+        <div class="bench-bar-val cmp-val">${cPct}<small style="font-size:9px;font-weight:500;margin-left:2px">/100</small></div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('cv-bench-blk').innerHTML=`
+    <div class="bench-wrap">
+      <div class="bench-title">Performance Score Breakdown</div>
+      <div class="bench-row" style="padding-bottom:8px;border-bottom:2px solid var(--b1);margin-bottom:0">
+        <div></div>
+        <div class="bench-bar-val nxp-val" style="font-size:11px">${_pn}</div>
+        <div class="bench-bar-val cmp-val" style="font-size:11px">${cpn}</div>
+      </div>
+      ${benchRows}
+    </div>`;
+  // Animate bars
+  setTimeout(()=>{document.querySelectorAll('#cv-bench-blk .bench-bar-fill').forEach(b=>b.classList.add('go'));},120);
+
+  // Spec table
+  document.getElementById('cv-spec-blk').innerHTML=`
+    <div class="spec-tbl-wrap">
+      <div class="spec-tbl-head"><div class="spec-tbl-head-title">Technical Specifications — Side by Side</div></div>
+      <table class="stbl">
+        <thead><tr><th style="width:28%">Specification</th><th class="nxp-th" style="width:30%">${_pn}</th><th style="width:30%">${cpn}</th><th style="width:12%">Winner</th></tr></thead>
+        <tbody>${data.specs.map(r=>{
+          const wn=r.w==='nxp',wc=r.w==='comp';
+          const wb=wn?`<span class="win-badge wb-nxp">NXP ✓</span>`:wc?`<span class="win-badge wb-cmp">Comp ✓</span>`:`<span class="win-badge wb-tie">Tie</span>`;
+          return `<tr${wn?' class="stbl-nxp-win"':''}><td>${r.s}</td><td>${r.n}</td><td>${r.c}</td><td>${wb}</td></tr>`;
+        }).join('')}</tbody>
+      </table>
+    </div>`;
+
+  // Feature matrix
+  const ck=v=>v===true?'<span class="ck-yes">✓</span>':v===false?'<span class="ck-no">—</span>':`<span class="ck-partial">${v}</span>`;
+  document.getElementById('cv-feat-blk').innerHTML=`
+    <div class="feat-matrix-wrap">
+      <table class="fmtbl">
+        <thead><tr><th style="width:40%">Feature</th><th class="nxp-th" style="width:30%">${_pn}</th><th style="width:30%">${cpn}</th></tr></thead>
+        <tbody>${data.feats.map(r=>`<tr><td>${r.f}</td><td>${ck(r.n)}</td><td>${ck(r.c)}</td></tr>`).join('')}</tbody>
+      </table>
+    </div>`;
+
+  // Radar
+  document.getElementById('radar-legend').innerHTML=
+    `<div class="rleg"><div class="rleg-dot" style="background:var(--or)"></div>${_pn}</div>`+
+    `<div class="rleg"><div class="rleg-dot" style="background:#B0B0B0"></div>${cpn}</div>`;
+  if(data.radar)drawRadar(data.radar);
+
+  // CTA
+  document.getElementById('cv-cta-blk').innerHTML=`
+    <div class="cmp-cta">
+      <div class="cmp-cta-text">
+        <div class="cmp-cta-title">Ready to evaluate ${_pn}?</div>
+        <div class="cmp-cta-sub">Order a development board, download the SDK, or contact an NXP FAE for design support.</div>
+      </div>
+      <a class="cmp-cta-btn" href="${(getProd(_pn)||{}).url||'https://www.nxp.com/search#q='+encodeURIComponent(_pn)+'&t=products'}" target="_blank">Order / Evaluate ↗</a>
+    </div>`;
+}
+
+function backToProd(){if(_pn)goProduct(_pn);}
+
+function buildGenericCD(nxpD,cmpD,cpn){
+  return{ns:76,cs:60,
+    dims:[{l:'Performance',nv:nxpD.specs&&nxpD.specs['CPU Core']||'—',cv:cmpD.core||'—',n:76,c:66,w:'nxp',nLabel:'NXP',cLabel:'Competitor'},{l:'Flash',nv:nxpD.specs&&nxpD.specs.Flash||'—',cv:cmpD.flash||'—',n:78,c:62,w:'nxp',nLabel:'NXP',cLabel:'Comp'},{l:'Security',nv:'EdgeLock / TrustZone-M',cv:'Vendor security',n:84,c:46,w:'nxp',nLabel:'NXP',cLabel:'Comp'},{l:'Ecosystem',nv:'MCUXpresso SDK',cv:'Vendor SDK',n:78,c:68,w:'nxp',nLabel:'NXP',cLabel:'Comp'}],
+    benchmarks:[{l:'Overall Score',n:76,c:60},{l:'Security',n:84,c:46},{l:'Performance',n:76,c:66},{l:'Flash',n:78,c:62}],
+    specs:[{s:'CPU Core',n:nxpD.specs&&nxpD.specs['CPU Core']||'—',c:cmpD.core||'—',w:'nxp'},{s:'Flash',n:nxpD.specs&&nxpD.specs.Flash||'—',c:cmpD.flash||'—',w:'nxp'},{s:'SRAM',n:nxpD.specs&&nxpD.specs.SRAM||'—',c:cmpD.ram||'—',w:'nxp'},{s:'Security',n:'EdgeLock / TrustZone-M',c:cmpD.sec||'—',w:'nxp'}],
+    feats:[{f:'TrustZone-M',n:true,c:false},{f:'Hardware Secure Element',n:true,c:false},{f:'CAN-FD',n:true,c:false}],
+    excl:[{n:'NXP EdgeLock Security',d:'Hardware secure element provides silicon-isolated key storage unavailable on competing devices at this price point.',gap:'Not available on '+cpn}],
+    radar:{lbl:['Performance','Memory','Security','Connectivity','Analog','Power','Ecosystem','Price'],n:[0.76,0.76,0.85,0.80,0.75,0.75,0.78,0.76],c:[0.66,0.62,0.46,0.65,0.70,0.70,0.68,0.78]}};
+}
+
+/* ═══════════════════════════════
+   SVG RADAR CHART
+═══════════════════════════════ */
+function drawRadar(rd){
+  const svg=document.getElementById('rsvg');
+  const W=420,H=360,CX=W/2,CY=H/2,R=118;
+  const N=rd.lbl.length,PI2=Math.PI*2;
+  const ang=i=>PI2*i/N-Math.PI/2;
+  const pt=(i,s)=>({x:CX+R*s*Math.cos(ang(i)),y:CY+R*s*Math.sin(ang(i))});
+  let out='';
+  [0.25,0.5,0.75,1].forEach(s=>{
+    const pts=Array.from({length:N},(_,i)=>pt(i,s));
+    out+=`<path d="${pts.map((p,i)=>(i?'L':'M')+p.x.toFixed(1)+','+p.y.toFixed(1)).join('')}Z" fill="none" stroke="${s===1?'#CCCCCC':'#EBEBEB'}" stroke-width="${s===1?1.5:1}"/>`;
+  });
+  for(let i=0;i<N;i++){const p=pt(i,1);out+=`<line x1="${CX}" y1="${CY}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="#EBEBEB" stroke-width="1"/>`;}
+  const cp=Array.from({length:N},(_,i)=>pt(i,rd.c[i]));
+  out+=`<path d="${cp.map((p,i)=>(i?'L':'M')+p.x.toFixed(1)+','+p.y.toFixed(1)).join('')}Z" fill="rgba(176,176,176,.15)" stroke="#B0B0B0" stroke-width="1.5"/>`;
+  const np=Array.from({length:N},(_,i)=>pt(i,rd.n[i]));
+  out+=`<path d="${np.map((p,i)=>(i?'L':'M')+p.x.toFixed(1)+','+p.y.toFixed(1)).join('')}Z" fill="rgba(242,101,34,.1)" stroke="#F26522" stroke-width="2"/>`;
+  np.forEach(p=>{out+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="#F26522"/>`;});
+  cp.forEach(p=>{out+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="#B0B0B0"/>`;});
+  for(let i=0;i<N;i++){
+    const a=ang(i),LR=R+30;
+    const lx=CX+LR*Math.cos(a),ly=CY+LR*Math.sin(a);
+    const anch=Math.abs(lx-CX)<10?'middle':lx>CX?'start':'end';
+    const dy=Math.abs(ly-CY)<10?'0.35em':ly>CY?'0.9em':'0em';
+    out+=`<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anch}" dy="${dy}" font-size="10.5" font-family="system-ui,sans-serif" fill="#666" font-weight="700">${rd.lbl[i]}</text>`;
+  }
+  svg.innerHTML=out;
+}
+
+/* ═══════════════════════════════
+   SEARCH / AUTOCOMPLETE
+═══════════════════════════════ */
+const ALLP=[];
+Object.entries(FAM).forEach(([k,f])=>f.pts.forEach(pn=>ALLP.push({pn,fam:f.nm,tp:f.tp,nxp:true})));
+Object.entries(COMP).forEach(([pn,c])=>ALLP.push({pn,fam:c.v,tp:c.tp,nxp:false}));
+const qel=document.getElementById('q'),acdrop=document.getElementById('acdrop');
+let aci=-1;
+qel.addEventListener('input',()=>{
+  const q=qel.value.trim().toUpperCase();
+  if(!q){acdrop.style.display='none';return;}
+  const res=ALLP.filter(p=>p.pn.includes(q)||p.fam.toUpperCase().includes(q)).slice(0,14);
+  if(!res.length){acdrop.style.display='none';return;}
+  const nr=res.filter(r=>r.nxp),cr=res.filter(r=>!r.nxp);
+  let html='';
+  if(nr.length){html+='<div class="ac-grp">NXP Products</div>';nr.forEach(r=>{html+=`<div class="ac-row" onclick="goProduct('${r.pn}')"><span class="ac-pn">${r.pn}</span><span class="ac-desc">${r.fam}</span><span class="ac-badge ab-nxp">${r.tp}</span></div>`;});}
+  if(cr.length){html+='<div class="ac-grp">Competitors — for comparison</div>';cr.forEach(r=>{html+=`<div class="ac-row" onclick="cmpFromSearch('${r.pn}')"><span class="ac-pn">${r.pn}</span><span class="ac-desc">${r.fam}</span><span class="ac-badge ab-cmp">${r.tp}</span></div>`;});}
+  acdrop.innerHTML=html;acdrop.style.display='block';aci=-1;
+});
+qel.addEventListener('keydown',e=>{
+  const rows=acdrop.querySelectorAll('.ac-row');
+  if(e.key==='ArrowDown'){e.preventDefault();aci=Math.min(aci+1,rows.length-1);rows.forEach((r,i)=>r.classList.toggle('sel',i===aci));}
+  else if(e.key==='ArrowUp'){e.preventDefault();aci=Math.max(aci-1,0);rows.forEach((r,i)=>r.classList.toggle('sel',i===aci));}
+  else if(e.key==='Enter'){
+    e.preventDefault();
+    if(aci>=0&&rows[aci])rows[aci].click();
+    else{const q=qel.value.trim().toUpperCase();if(getProd(q))goProduct(q);else if(COMP[q]&&_pn)doCompare(q);else if(q)window.open('https://www.nxp.com/search#q='+encodeURIComponent(qel.value.trim())+'&t=products','_blank');}
+    acdrop.style.display='none';
+  }
+  else if(e.key==='Escape')acdrop.style.display='none';
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.srch-wrap'))acdrop.style.display='none';});
+function cmpFromSearch(cpn){acdrop.style.display='none';if(_pn)doCompare(cpn);}
+function doSearch(){const q=qel.value.trim().toUpperCase();if(getProd(q))goProduct(q);else if(COMP[q]&&_pn)doCompare(q);else if(q)window.open('https://www.nxp.com/search#q='+encodeURIComponent(qel.value.trim())+'&t=products','_blank');}
+
+/* ═══════════════════════════════
+   NAVIGATION HELPERS
+═══════════════════════════════ */
+function showView(id){['home','fv','pv','cv'].forEach(v=>document.getElementById(v).style.display=v===id?'block':'none');window.scrollTo({top:0,behavior:'smooth'});}
+function showHome(){showView('home');qel.value='';acdrop.style.display='none';}
+function swTab(tab,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const panel=document.getElementById('tp-'+tab);
+  if(panel)panel.classList.add('active');
+}
+
+/* ═══════════════════════════════
+   INIT
+═══════════════════════════════ */
+renderHome();
+</script>
+</body>
+</html>

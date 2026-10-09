@@ -1655,11 +1655,22 @@ function closeEscape(x){return String(x||'').replace(/[&<>"']/g,function(m){retu
 /* V14: fixed closest-competitor lineups for every cataloged NXP part. */
 const CLOSE_FAMILY={"MCX-A":{"reason":"Mainstream secure Cortex-M33 alternatives for industrial sensing, control and IoT designs.","competitors":[{"id":"STM32U3C5VI","name":"STM32U3","vendor":"STMicroelectronics","source":"https://www.st.com/en/microcontrollers-microprocessors/stm32u3-series.html","cpu":"Cortex-M33 up to 96 MHz","flash":"Up to 2 MB","ram":"Up to 640 KB","ai":"No dedicated NPU","security":"TrustZone; crypto and secure-memory features vary by part","connectivity":"FDCAN, USB FS, I3C; device-dependent high-speed interfaces","analog":"12-bit ADC; device-dependent analog mix"},{"id":"R7FA4M3AF3CFP","name":"RA4M3","vendor":"Renesas","source":"https://www.renesas.com/en/products/microcontrollers-microprocessors/ra-cortex-m-mcus/ra4m3","cpu":"Cortex-M33 up to 100 MHz","flash":"Up to 1 MB","ram":"Up to 128 KB","ai":"No dedicated NPU","security":"TrustZone; secure crypto features vary by part","connectivity":"USB FS, CAN 2.0B, I2C, SPI","analog":"12-bit ADC; 12-bit DAC on selected devices"}]},"MCX-N":{"reason":"High-performance edge-AI MCU alternatives with larger compute, memory and connectivity envelopes.","competitors":[{"id":"STM32H7A3VIT6","name":"STM32H7A3","vendor":"STMicroelectronics","source":"https://www.st.com/en/microcontrollers-microprocessors/stm32h7a3-3.html","cpu":"Cortex-M7 up to 280 MHz + Cortex-M4","flash":"Up to 2 MB","ram":"Up to 1.4 MB","ai":"No integrated NPU","security":"TrustZone; secure boot and crypto features","connectivity":"Ethernet, USB HS, FDCAN; device-dependent interfaces","analog":"12-bit ADC; device-dependent analog peripherals"},{"id":"MAX78000","name":"MAX78000","vendor":"Analog Devices","source":"https://www.analog.com/en/products/max78000.html","cpu":"Cortex-M4 up to 100 MHz + RISC-V core","flash":"3 MB","ram":"2 MB","ai":"Integrated CNN accelerator","security":"AES, secure boot features","connectivity":"USB 2.0, I2S, SPI, I2C; device-dependent interfaces","analog":"12-bit ADC"}]},"MCX-W":{"reason":"Wireless MCU alternatives for BLE, 802.15.4, Matter, Thread and connected IoT endpoints.","competitors":[{"id":"nRF5340-QKAA","name":"nRF5340","vendor":"Nordic Semiconductor","source":"https://www.nordicsemi.com/Products/nRF5340","cpu":"Dual Cortex-M33 up to 128 MHz","flash":"1 MB application + 256 KB network","ram":"512 KB application + 64 KB network","ai":"No dedicated NPU","security":"TrustZone; Arm CryptoCell","connectivity":"Bluetooth LE 5.4, 802.15.4 via stack/companion options","analog":"12-bit ADC"},{"id":"STM32WB55RG","name":"STM32WB55","vendor":"STMicroelectronics","source":"https://www.st.com/en/microcontrollers-microprocessors/stm32wb55rg.html","cpu":"Cortex-M4 up to 64 MHz + Cortex-M0+ radio core","flash":"1 MB","ram":"256 KB","ai":"No dedicated NPU","security":"Secure boot, crypto and TrustZone-related security features","connectivity":"Bluetooth LE 5.4, 802.15.4, Thread/Zigbee","analog":"12-bit ADC"}]},"MCX-C":{"reason":"Entry-level MCU alternatives for cost-sensitive control, sensing, touch and connectivity designs.","competitors":[{"id":"STM32C071K8U6","name":"STM32C0","vendor":"STMicroelectronics","source":"https://www.st.com/en/microcontrollers-microprocessors/stm32c0-series.html","cpu":"Cortex-M0+ up to 48 MHz","flash":"Up to 128 KB","ram":"Up to 24 KB","ai":"No dedicated NPU","security":"Device-dependent crypto and secure boot","connectivity":"USB FS, FDCAN and serial interfaces on selected parts","analog":"12-bit ADC; device-dependent analog"},{"id":"R7FA0E1073CFJ","name":"RA0E1","vendor":"Renesas","source":"https://www.renesas.com/en/products/microcontrollers-microprocessors/ra-cortex-m-mcus/ra0e1","cpu":"Cortex-M23 up to 32 MHz","flash":"Up to 64 KB","ram":"Up to 12 KB","ai":"No dedicated NPU","security":"TrustZone-M; security features vary by part","connectivity":"UART, I2C, SPI; device-dependent interfaces","analog":"12-bit ADC"}]},"MCX-E":{"reason":"Industrial MCU alternatives for CAN-FD, RS-485, Modbus and safety-oriented control nodes.","competitors":[{"id":"STM32G0B1CET6","name":"STM32G0B1","vendor":"STMicroelectronics","source":"https://www.st.com/en/microcontrollers-microprocessors/stm32g0b1ce.html","cpu":"Cortex-M0+ up to 64 MHz","flash":"Up to 512 KB","ram":"Up to 144 KB","ai":"No dedicated NPU","security":"Hardware crypto and secure boot features vary by part","connectivity":"FDCAN, USB FS and serial interfaces","analog":"12-bit ADC; device-dependent analog"},{"id":"R7FA4M3AF3CFP","name":"RA4M3","vendor":"Renesas","source":"https://www.renesas.com/en/products/microcontrollers-microprocessors/ra-cortex-m-mcus/ra4m3","cpu":"Cortex-M33 up to 100 MHz","flash":"Up to 1 MB","ram":"Up to 128 KB","ai":"No dedicated NPU","security":"TrustZone and secure crypto features","connectivity":"USB FS, CAN 2.0B, I2C, SPI","analog":"12-bit ADC; 12-bit DAC on selected devices"}]},"RT-10":{"reason":"High-performance crossover MCU alternatives for HMI, motor control, graphics and industrial networking.","competitors":[{"id":"STM32H743VIT6","name":"STM32H743","vendor":"STMicroelectronics","source":"https://www.st.com/en/microcontrollers-microprocessors/stm32h743vi.html","cpu":"Cortex-M7 up to 480 MHz","flash":"2 MB","ram":"1 MB","ai":"No dedicated NPU","security":"Crypto accelerators; device-dependent secure boot","connectivity":"Ethernet, USB HS, FDCAN, display interfaces","analog":"3 \u00d7 16-bit ADC; device-dependent analog"},{"id":"R7FA8M1AHECBD","name":"RA8M1","vendor":"Renesas","source":"https://www.renesas.com/en/products/microcontrollers-microprocessors/ra-cortex-m-mcus/ra8m1","cpu":"Cortex-M85 up to 480 MHz","flash":"Up to 2 MB","ram":"Up to 1 MB","ai":"Helium/MVE acceleration; no dedicated NPU","security":"TrustZone-M and secure crypto features","connectivity":"Ethernet, USB HS, CAN-FD; device-dependent interfaces","analog":"12-bit ADC; device-dependent analog"}]},"RT-11":{"reason":"Premium crossover MCU alternatives for dual-core real-time processing, graphics, camera and display systems.","competitors":[{"id":"STM32H7B3ZIT6","name":"STM32H7B3","vendor":"STMicroelectronics","source":"https://www.st.com/en/microcontrollers-microprocessors/stm32h7b3zi.html","cpu":"Cortex-M7 up to 280 MHz","flash":"2 MB","ram":"1.4 MB","ai":"No dedicated NPU","security":"TrustZone and hardware cryptography","connectivity":"Ethernet, USB HS, FDCAN, MIPI-DSI on selected devices","analog":"16-bit ADC; device-dependent analog"},{"id":"R7FA8D1AHECBD","name":"RA8D1","vendor":"Renesas","source":"https://www.renesas.com/en/products/microcontrollers-microprocessors/ra-cortex-m-mcus/ra8d1","cpu":"Cortex-M85 up to 800 MHz","flash":"Up to 2 MB","ram":"Up to 1 MB","ai":"Helium/MVE acceleration; no dedicated NPU","security":"TrustZone-M and secure crypto features","connectivity":"Ethernet, USB HS, CAN-FD, display-oriented interfaces","analog":"12-bit ADC; device-dependent analog"}]},"RT-5":{"reason":"Low-power audio, voice and HMI crossover MCU alternatives with DSP and large on-chip memory.","competitors":[{"id":"STM32U585ZIT6","name":"STM32U585","vendor":"STMicroelectronics","source":"https://www.st.com/en/microcontrollers-microprocessors/stm32u585ai.html","cpu":"Cortex-M33 up to 160 MHz","flash":"Up to 2 MB","ram":"Up to 786 KB","ai":"No dedicated NPU","security":"TrustZone, secure boot and crypto accelerators","connectivity":"USB HS, FDCAN, Octo-SPI; device-dependent interfaces","analog":"12-bit ADC; device-dependent analog"},{"id":"R7FA8E1A8GEBG","name":"RA8E1","vendor":"Renesas","source":"https://www.renesas.com/en/products/microcontrollers-microprocessors/ra-cortex-m-mcus/ra8e1","cpu":"Cortex-M85 up to 1 GHz","flash":"Up to 2 MB","ram":"Up to 1 MB","ai":"Helium/MVE acceleration; no dedicated NPU","security":"TrustZone-M and secure crypto features","connectivity":"USB HS, Ethernet and serial interfaces","analog":"12-bit ADC; device-dependent analog"}]},"IMX8":{"reason":"Linux-capable application-processor alternatives for HMI, vision, multimedia and industrial edge systems.","competitors":[{"id":"STM32MP157F","name":"STM32MP157","vendor":"STMicroelectronics","source":"https://www.st.com/en/microcontrollers-microprocessors/stm32mp157f.html","cpu":"Dual Cortex-A7 up to 800 MHz + Cortex-M4","flash":"External memory supported","ram":"External DDR3/DDR4/LPDDR2/LPDDR3","ai":"No dedicated NPU","security":"Secure boot and cryptography","connectivity":"GbE, USB HS, MIPI-DSI/CSI, CAN","analog":"System-dependent external analog"},{"id":"AM625","name":"AM625","vendor":"Texas Instruments","source":"https://www.ti.com/product/AM625","cpu":"Quad Cortex-A53 up to 1.4 GHz + Cortex-M4F","flash":"External memory supported","ram":"External DDR4/LPDDR4","ai":"No dedicated NPU","security":"Secure boot and hardware security","connectivity":"GbE, USB, display and camera interfaces","analog":"System-dependent external analog"}]},"IMX9":{"reason":"Modern Linux MPU alternatives for edge AI, secure HMI, industrial networking and real-time control.","competitors":[{"id":"STM32MP257F","name":"STM32MP25","vendor":"STMicroelectronics","source":"https://www.st.com/en/microcontrollers-microprocessors/stm32mp25.html","cpu":"Dual Cortex-A35 + Cortex-M33 real-time domain","flash":"External memory supported","ram":"External LPDDR4/DDR4 supported","ai":"Vision and multimedia acceleration; device-dependent AI","security":"TrustZone and secure boot","connectivity":"GbE, USB, MIPI display/camera and CAN-FD","analog":"System-dependent external analog"},{"id":"AM62P","name":"AM62P","vendor":"Texas Instruments","source":"https://www.ti.com/product/AM62P","cpu":"Quad Cortex-A53 + Cortex-M4F","flash":"External memory supported","ram":"External DDR4/LPDDR4","ai":"Vision acceleration on selected devices","security":"Secure boot and hardware security","connectivity":"GbE, USB, display and camera interfaces","analog":"System-dependent external analog"}]}};
 function closeFamilyFor(fk){return CLOSE_FAMILY[fk]||CLOSE_FAMILY['MCX-A'];}
+const CLOSE_NXP_PARTS={
+ 'MCXW71':{source:'https://www.nxp.com/part/MCXW716CMFTAT',position:'MCX W71 wireless MCU',cpu:'Arm Cortex M33 at 96 MHz',flash:'1 MB application plus 256 KB radio subsystem',ram:'128 KB application plus 88 KB radio subsystem',ai:'No dedicated NPU',security:'EdgeLock Secure Enclave with secure boot and debug protection',connectivity:'Bluetooth LE 5.3, IEEE 802.15.4, Matter, Thread, Zigbee',analog:'12 bit ADC'},
+ 'MCXW716':{source:'https://www.nxp.com/part/MCXW716CMFTAT',position:'MCX W71 wireless MCU',cpu:'Arm Cortex M33 at 96 MHz',flash:'1 MB application plus 256 KB radio subsystem',ram:'128 KB application plus 88 KB radio subsystem',ai:'No dedicated NPU',security:'EdgeLock Secure Enclave with secure boot and debug protection',connectivity:'Bluetooth LE 5.3, IEEE 802.15.4, Matter, Thread, Zigbee',analog:'12 bit ADC'},
+ 'MCXW72':{source:'https://www.nxp.com/products/MCX-W72',position:'MCX W72 wireless MCU',cpu:'Arm Cortex M33 at 96 MHz',flash:'2 MB application plus 512 KB radio subsystem',ram:'256 KB application plus 170 KB radio subsystem',ai:'No dedicated NPU',security:'EdgeLock Secure Enclave',connectivity:'Bluetooth LE with Channel Sounding, IEEE 802.15.4, Matter, Thread, Zigbee',analog:'12 bit ADC'},
+ 'MCXW727':{source:'https://www.nxp.com/products/MCX-W72',position:'MCX W72 wireless MCU',cpu:'Arm Cortex M33 at 96 MHz',flash:'2 MB application plus 512 KB radio subsystem',ram:'256 KB application plus 170 KB radio subsystem',ai:'No dedicated NPU',security:'EdgeLock Secure Enclave',connectivity:'Bluetooth LE with Channel Sounding, IEEE 802.15.4, Matter, Thread, Zigbee',analog:'12 bit ADC'},
+ 'MCXW23':{source:'https://www.nxp.com/products/MCX-W23',position:'MCX W23 wireless MCU',cpu:'Arm Cortex M33 at 32 MHz',flash:'Up to 1 MB',ram:'Up to 128 KB',ai:'No dedicated NPU',security:'Secure boot and device security features',connectivity:'Bluetooth LE',analog:'12 bit ADC'},
+ 'MCXW235':{source:'https://www.nxp.com/products/MCX-W23',position:'MCX W23 wireless MCU',cpu:'Arm Cortex M33 at 32 MHz',flash:'Up to 1 MB',ram:'Up to 128 KB',ai:'No dedicated NPU',security:'Secure boot and device security features',connectivity:'Bluetooth LE',analog:'12 bit ADC'},
+ 'MCXW236':{source:'https://www.nxp.com/products/MCX-W23',position:'MCX W23 wireless MCU',cpu:'Arm Cortex M33 at 32 MHz',flash:'Up to 1 MB',ram:'Up to 128 KB',ai:'No dedicated NPU',security:'Secure boot and device security features',connectivity:'Bluetooth LE',analog:'12 bit ADC'}
+};
 function closeNxpRecord(pn,fk){
- const fam=FAM[fk]||{nm:'NXP product family'};
+ const fam=FAM[fk]||{nm:'NXP product family',tags:[]};
  const exact=(typeof P!=='undefined'&&P[pn])?P[pn]:null;
  const specs=exact&&exact.specs?exact.specs:{};
- return {id:pn,name:pn,vendor:'NXP',source:(exact&&exact.url)?exact.url:'https://www.nxp.com/search#q='+encodeURIComponent(pn)+'&t=products',cpu:specs.Core||fam.nm,flash:specs.Flash||fam.tags.slice(0,2).join(' · '),ram:specs.SRAM||'See product page',ai:fam.tags.indexOf('Edge AI')>=0?'On-chip NPU / edge-AI capability':'See product page',security:fam.tags.indexOf('EdgeLock SE')>=0?'EdgeLock secure element / security features':'TrustZone / device-specific security features',connectivity:fam.tags.slice(0,3).join(' · '),analog:'See exact part page',position:fam.tg};
+ const preset=CLOSE_NXP_PARTS[pn]||{};
+ const read=function(keys,fallback){for(let i=0;i<keys.length;i++){if(specs[keys[i]])return specs[keys[i]]}return fallback};
+ return {id:pn,name:pn,vendor:'NXP',source:preset.source||(exact&&exact.url)||('https://www.nxp.com/search#q='+encodeURIComponent(pn)+'&t=products'),cpu:preset.cpu||read(['CPU Core','Core','CPU','CPU (A Core)'],fam.nm),flash:preset.flash||read(['Flash','Flash Memory','PFlash'],fam.tags.slice(0,2).join(' · ')),ram:preset.ram||read(['SRAM','RAM','Memory'], 'Device specific memory configuration'),ai:preset.ai||read(['NPU','AI','Neural Processing Unit'],fam.tags.indexOf('Edge AI')>=0?'On chip NPU capability':'No dedicated NPU listed'),security:preset.security||read(['Security','Secure Element'],fam.tags.indexOf('EdgeLock SE')>=0?'EdgeLock security features':'Device security features'),connectivity:preset.connectivity||read(['Connectivity','Interfaces','USB'],fam.tags.slice(0,3).join(' · ')),analog:preset.analog||read(['ADC','Analog','Analog / sensing'],'Analog features vary by orderable part'),position:preset.position||exact&&exact.tg||fam.nm};
 }
 Object.keys(FAM).forEach(function(fk){
  FAM[fk].pts.forEach(function(pn){
@@ -2297,6 +2308,157 @@ renderHome();
   var input=document.getElementById('q');if(input)input.placeholder='Try: MCXN947 · MCXW71 · MIMXRT1064 · STM32H563…';
   var oldShowHome=window.showHome;window.renderHome=draw;window.showHome=function(){if(oldShowHome)oldShowHome();draw()};
   draw();
+})();
+</script>
+
+
+<script id="v25-product-data-fix">
+(function(){
+  'use strict';
+  var w71=P.MCXW71;
+  if(w71){
+    w71.specs=Object.assign({},w71.specs,{
+      'CPU Core':'Arm Cortex M33 at 96 MHz',
+      'Flash':'1 MB application plus 256 KB radio subsystem',
+      'SRAM':'128 KB application plus 88 KB radio subsystem',
+      'Bluetooth':'Bluetooth LE 5.3',
+      'IEEE 802.15.4':'Matter, Thread and Zigbee',
+      'Security':'EdgeLock Secure Enclave with secure boot and debug protection'
+    });
+    w71.tg='Arm Cortex M33 at 96 MHz with Bluetooth LE, IEEE 802.15.4, Matter, Thread and Zigbee';
+    w71.url='https://www.nxp.com/part/MCXW716CMFTAT';
+  }
+  if(w71){
+    P.MCXW716=Object.assign({},w71,{url:'https://www.nxp.com/part/MCXW716CMFTAT',tg:'Arm Cortex M33 at 96 MHz with Bluetooth LE, IEEE 802.15.4, Matter, Thread and Zigbee',specs:Object.assign({},w71.specs)});
+  }
+  var w72={
+    fam:'MCX-W',tp:'Wireless MCU',tg:'Arm Cortex M33 at 96 MHz with Bluetooth LE Channel Sounding, Matter, Thread and Zigbee',
+    tags:['Bluetooth LE','Channel Sounding','Matter','Thread','Zigbee'],
+    specs:{'CPU Core':'Arm Cortex M33 at 96 MHz','Flash':'2 MB application plus 512 KB radio subsystem','SRAM':'256 KB application plus 170 KB radio subsystem','Bluetooth':'Bluetooth LE with Channel Sounding','IEEE 802.15.4':'Matter, Thread and Zigbee','Security':'EdgeLock Secure Enclave'},
+    desc:'MCX W72 is a wireless MCU for connected products that need Bluetooth LE Channel Sounding, Matter, Thread and Zigbee in one platform.',
+    simple:'A connected wireless MCU that can speak several smart home languages and measure distance with Bluetooth Channel Sounding.',
+    apps:[{e:'📍',n:'Asset Tracking',d:'Bluetooth Channel Sounding for precise indoor ranging'},{e:'🏠',n:'Smart Home',d:'Matter, Thread and Zigbee connected products'},{e:'🔋',n:'Battery Devices',d:'Low power wireless sensing and control'}],
+    url:'https://www.nxp.com/products/MCX-W72',res:{'Documentation':[{e:'PDF',t:'MCX W72 Datasheet',d:'Official NXP MCX W72 family data sheet',u:'https://www.nxp.com/products/MCX-W72#documentation'},{e:'RM',t:'MCX W72 Reference Manual',d:'Official NXP MCX W72 reference manual entry',u:'https://www.nxp.com/products/MCX-W72#documentation'}]},demos:[],cs:[]
+  };
+  P.MCXW72=w72;P.MCXW727=Object.assign({},w72,{url:'https://www.nxp.com/products/MCX-W72'});
+})();
+</script>
+<script id="v25-comparison-data-fix">
+(function(){
+  'use strict';
+  Object.keys(CLOSE_NXP_PARTS).forEach(function(part){
+    if(CLOSE_DATA[part] && CLOSE_DATA[part].products){
+      CLOSE_DATA[part].products[part]=Object.assign({},CLOSE_DATA[part].products[part],CLOSE_NXP_PARTS[part],{id:part,name:part,vendor:'NXP'});
+    }
+  });
+})();
+</script>
+<style id="v25-comparison-readability">
+  .close-card-row{min-height:62px;align-items:start}
+  .close-card-row span{padding-top:2px}
+  .close-card-row strong{line-height:1.38;overflow-wrap:anywhere}
+  .close-table th,.close-table td{vertical-align:top;line-height:1.42}
+  .close-table td{overflow-wrap:anywhere}
+</style>
+<style id="v27-comparison-fix">
+.close-v15-card-name{line-height:1.12}
+.close-v15-card .close-v15-source{display:inline-block;margin-top:6px}
+.close-table th,.close-table td{vertical-align:top;line-height:1.45}
+.close-table td{min-width:150px}
+</style>
+<script id="v27-comparison-fix">
+(function(){
+  'use strict';
+  var esc=window.closeEscape||function(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+  var bad=function(v){
+    var x=String(v==null?'':v).toLowerCase();
+    return !x || x.indexOf('see product page')>=0 || x.indexOf('part memory value')>=0 || x==='mcx w series' || x==='mcx a series' || x==='mcx c series' || x==='imx 8 series' || x==='imx 9 series' || x.indexOf('family tags')>=0;
+  };
+  var pick=function(s,keys){for(var i=0;i<keys.length;i++){if(s&&s[keys[i]]&&!bad(s[keys[i]]))return s[keys[i]]}return ''};
+  var GROUP={
+    'MCX-A-BASE':{cpu:'Arm Cortex M33 at 48 or 96 MHz, depending on device',flash:'Up to 128 KB embedded flash',ram:'Up to 32 KB SRAM',ai:'No dedicated NPU',security:'Device dependent security features',connectivity:'LP FlexComm UART, SPI and I2C',analog:'16 bit ADC and device dependent analog'},
+    'MCX-A-145':{cpu:'Arm Cortex M33 at 48 MHz',flash:'Up to 1 MB embedded flash',ram:'Up to 128 KB SRAM',ai:'No dedicated NPU',security:'TrustZone and EdgeLock features depend on device',connectivity:'CAN FD, USB Full Speed and serial interfaces',analog:'ADC and motor control peripherals depend on device'},
+    'MCX-A-155':{cpu:'Arm Cortex M33 at 96 MHz',flash:'Up to 1 MB embedded flash',ram:'Up to 128 KB SRAM',ai:'No dedicated NPU',security:'TrustZone and EdgeLock features depend on device',connectivity:'CAN FD, USB Full Speed, I3C and serial interfaces',analog:'Two 16 bit ADCs on the family platform'},
+    'MCX-A-5':{cpu:'Arm Cortex M33 at 240 MHz',flash:'Up to 2 MB dual bank flash',ram:'Up to 640 KB SRAM',ai:'No dedicated NPU',security:'Enhanced security features with secure boot support',connectivity:'USB High Speed, Ethernet and CAN FD on selected devices',analog:'Rich analog and motor control peripherals'},
+    'MCX-C-04':{cpu:'Arm Cortex M0 plus at 48 MHz',flash:'32 KB embedded flash',ram:'2 KB SRAM',ai:'No dedicated NPU',security:'Device security features',connectivity:'UART, SPI and I2C',analog:'12 bit SAR ADC and comparator'},
+    'MCX-C-14':{cpu:'Arm Cortex M0 plus at 48 MHz',flash:'Up to 256 KB embedded flash',ram:'Up to 32 KB SRAM',ai:'No dedicated NPU',security:'Device security features',connectivity:'USB Full Speed, UART, SPI and I2C',analog:'16 bit SAR ADC, 12 bit DAC and comparator'},
+    'MCX-C-15':{cpu:'Arm Cortex M23 up to 72 MHz',flash:'Up to 64 KB embedded flash',ram:'Up to 12 KB SRAM',ai:'No dedicated NPU',security:'TrustZone M security on the Cortex M23 platform',connectivity:'UART, SPI, I2C and FlexPWM',analog:'16 bit SAR ADC and comparator'},
+    'MCX-C-24':{cpu:'Arm Cortex M0 plus at 48 MHz',flash:'Up to 256 KB embedded flash',ram:'Up to 32 KB SRAM',ai:'No dedicated NPU',security:'Device security features',connectivity:'USB Full Speed, UART, SPI and I2C',analog:'16 bit SAR ADC, 12 bit DAC and comparator'},
+    'MCX-C-44':{cpu:'Arm Cortex M0 plus at 48 MHz',flash:'Up to 256 KB embedded flash',ram:'Up to 32 KB SRAM',ai:'No dedicated NPU',security:'Device security features',connectivity:'USB Full Speed, segment LCD, UART, SPI and I2C',analog:'16 bit SAR ADC, 12 bit DAC and comparator'},
+    'RT-11-116':{cpu:'Arm Cortex M7 at 600 MHz plus Cortex M4 at 240 MHz',flash:'External flash interface',ram:'Up to 1 MB on chip SRAM',ai:'No dedicated NPU',security:'Secure boot and hardware cryptography',connectivity:'Ethernet, USB, CAN FD, camera and display interfaces',analog:'Digital crossover MCU platform'},
+    'RT-11-117':{cpu:'Arm Cortex M7 up to 1 GHz plus Cortex M4 up to 400 MHz',flash:'External flash interface',ram:'2 MB on chip SRAM',ai:'No dedicated NPU',security:'Secure boot and hardware cryptography',connectivity:'Two Gigabit Ethernet, USB, CAN FD, camera and display interfaces',analog:'Digital crossover MCU platform'},
+    'RT-11-118':{cpu:'Arm Cortex M7 at 800 MHz plus Cortex M33 at 300 MHz',flash:'External flash interface',ram:'Up to 1.5 MB on chip SRAM',ai:'No dedicated NPU',security:'EdgeLock Secure Enclave and secure boot features',connectivity:'TSN Ethernet switch, EtherCAT, USB, CAN FD, camera and display interfaces',analog:'Digital crossover MCU platform'},
+    'IMX8':{cpu:'Up to four Arm Cortex A53 cores at 1.8 GHz plus a real time Cortex M7 or M4 core, depending on device',flash:'External boot flash interface',ram:'External LPDDR4, DDR4 or DDR3L memory interface',ai:'NPU is available on selected i.MX 8M devices',security:'High Assurance Boot and hardware cryptography',connectivity:'Gigabit Ethernet, USB, PCIe, camera and display interfaces',analog:'Applications processor platform'},
+    'IMX9':{cpu:'One or two Arm Cortex A55 cores up to 1.7 GHz plus Cortex M33 up to 250 MHz, depending on device',flash:'External boot flash interface',ram:'640 KB on chip RAM plus external LPDDR4X or LPDDR4 interface',ai:'Arm Ethos U65 NPU on i.MX 93 family devices',security:'EdgeLock Secure Enclave and secure boot',connectivity:'Gigabit Ethernet, USB, camera, display and CAN FD interfaces',analog:'Applications processor platform'}
+  };
+  function groupFor(pn,fk){
+    var n=String(pn||'').toUpperCase();
+    if(fk==='IMX8')return GROUP.IMX8;
+    if(fk==='IMX9')return GROUP.IMX9;
+    if(fk==='RT-11'){
+      if(n.indexOf('RT118')===4)return GROUP['RT-11-118'];
+      if(n.indexOf('RT117')===4)return GROUP['RT-11-117'];
+      return GROUP['RT-11-116'];
+    }
+    if(fk==='MCX-C'){
+      if(n.indexOf('MCXC04')===0)return GROUP['MCX-C-04'];
+      if(n.indexOf('MCXC15')===0||n.indexOf('MCXC16')===0)return GROUP['MCX-C-15'];
+      if(n.indexOf('MCXC24')===0)return GROUP['MCX-C-24'];
+      if(n.indexOf('MCXC44')===0)return GROUP['MCX-C-44'];
+      return GROUP['MCX-C-14'];
+    }
+    if(fk==='MCX-A'){
+      if(/^MCXA5/.test(n))return GROUP['MCX-A-5'];
+      if(/^MCXA14[456]/.test(n)||/^MCXA15[456]/.test(n))return GROUP['MCX-A-155'];
+      return GROUP['MCX-A-BASE'];
+    }
+    return null;
+  }
+  function sourceFor(pn,p){return (p&&p.url)||('https://www.nxp.com/search#q='+encodeURIComponent(pn)+'&t=products&s=relevance')}
+  function record(pn,fk){
+    var p=(typeof P!=='undefined'&&P[pn])||{};
+    var s=p.specs||{};
+    var g=groupFor(pn,fk)||{};
+    var r={id:pn,name:pn,vendor:'NXP',source:sourceFor(pn,p)};
+    r.cpu=pick(s,['CPU Core','CPU (A Core)','CPU (RT Core)','Core','CPU'])||g.cpu||'Device specific processor configuration';
+    r.flash=pick(s,['Flash','Flash Memory','PFlash','Program Flash'])||g.flash||'Device specific embedded or external flash configuration';
+    r.ram=pick(s,['SRAM','RAM','Memory','On chip RAM'])||g.ram||'Device specific memory configuration';
+    r.ai=pick(s,['NPU','AI','Neural Processing Unit'])||g.ai||'No dedicated NPU listed';
+    r.security=pick(s,['Security','Secure Element'])||g.security||'Device security features';
+    r.connectivity=pick(s,['Connectivity','Interfaces','USB'])||g.connectivity||'Device specific interfaces';
+    r.analog=pick(s,['ADC','Analog','Analog / sensing'])||g.analog||'Device specific analog features';
+    r.position=p.tg||p.desc||fk||'NXP device';
+    return r;
+  }
+  if(typeof FAM!=='undefined'&&typeof CLOSE_DATA!=='undefined'){
+    Object.keys(FAM).forEach(function(fk){
+      var f=FAM[fk];
+      (f.pts||[]).forEach(function(pn){
+        if(!CLOSE_DATA[pn])return;
+        CLOSE_DATA[pn].products=CLOSE_DATA[pn].products||{};
+        CLOSE_DATA[pn].products[pn]=record(pn,fk);
+      });
+    });
+  }
+  function build(){
+    var cfg=CLOSE_DATA&&CLOSE_DATA[_pn],el=document.getElementById('tp-close');
+    if(!el||!cfg)return;
+    var list=[cfg.products[_pn],cfg.products[cfg.pool[0]],cfg.products[cfg.pool[1]]].filter(Boolean);
+    var set=(typeof v15ScoreSet==='function')?v15ScoreSet(cfg):null;
+    var score=(typeof v15ScoresBlock==='function'&&set)?v15ScoresBlock(cfg,list):{html:'',set:set};
+    var rows=[['Architecture / CPU','cpu'],['Flash','flash'],['RAM / memory','ram'],['AI acceleration','ai'],['Security','security'],['Connectivity','connectivity'],['Analog / sensing','analog']];
+    var h='<div class="close-v15-intro"><div><div class="close-v15-kicker">Closest alternatives</div><div class="close-v15-title">'+esc(_pn)+' against two direct alternatives</div><div class="close-v15-sub">'+esc(cfg.reason||'Closest products for the same design decision')+'</div></div></div>'+(score.html||'');
+    h+='<div class="close-table-wrap"><table class="close-table"><thead><tr><th>Metric</th>'+list.map(function(p,i){return '<th class="'+(i===0?'close-nxp':'')+'">'+esc(p.name)+'<small>'+esc(p.vendor)+'</small></th>'}).join('')+'</tr></thead><tbody>';
+    h+=rows.map(function(row){return '<tr><td>'+row[0]+'</td>'+list.map(function(p,i){var value=p[row[1]]||'Not listed in the verified family summary';return '<td class="'+(i===0?'close-nxp':'')+'">'+esc(value)+'</td>'}).join('')+'</tr>'}).join('');
+    h+='</tbody></table></div><div class="close-footer-line">Use the official source links for exact ordering codes, package, temperature grade, and device specific options.</div>';
+    el.innerHTML=h;
+    if(score.set){
+      var update=function(){var weights=Array.from(el.querySelectorAll('[data-v15-weight]')).map(function(x){return Number(x.value)});weights.forEach(function(v,i){var o=el.querySelector('[data-v15-output="'+i+'"]');if(o)o.value=v});var scores=list.map(function(_,i){return v15Weighted(score.set.vals.map(function(row){return row[i]}),weights)});scores.forEach(function(sc,i){var ring=el.querySelector('[data-v15-ring="'+i+'"]');if(ring)ring.style.setProperty('--score',sc);var out=el.querySelector('[data-v15-score="'+i+'"]');if(out)out.textContent=sc;var lead=el.querySelector('[data-v15-lead="'+i+'"]');if(lead)lead.textContent=sc===Math.max.apply(null,scores)?'Leading fit':'Relative fit';score.set.vals.forEach(function(row,j){var v=row[i],fill=el.querySelector('[data-v15-fill="'+i+'-'+j+'"]'),num=el.querySelector('[data-v15-card-dim="'+i+'-'+j+'"]'),gf=el.querySelector('[data-v15-grid-fill="'+i+'-'+j+'"]'),gn=el.querySelector('[data-v15-grid-score="'+i+'-'+j+'"]');if(fill)fill.style.width=v+'%';if(num)num.textContent=v;if(gf)gf.style.width=v+'%';if(gn)gn.textContent=v})})};
+      el.querySelectorAll('[data-v15-weight]').forEach(function(x){x.addEventListener('input',update)});update();
+    }
+  }
+  window.buildCloseTab=build;
+  if(typeof _pn!=='undefined'&&_pn)build();
 })();
 </script>
 </body>

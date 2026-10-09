@@ -420,7 +420,28 @@ button{cursor:pointer;font-family:var(--ff)}
 
 
 </style>
-</head>
+<style id="v18-style">
+  .family-explainer{max-width:760px;margin:-5px 0 16px;color:var(--t2);font-size:13px;line-height:1.65}
+  .fc-desc{margin-bottom:7px}
+  .v18-family-meaning{padding-top:9px;margin-top:8px;border-top:1px solid var(--b1);font-size:11px;line-height:1.5;color:var(--t2)}
+  .v18-family-meaning strong{display:block;color:var(--or);font-size:10px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+  .specs-shell{max-width:900px;margin:0 auto;padding:2px 4px 12px}
+  .specs-kicker{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--or);font-weight:800;margin-bottom:7px}
+  .specs-title{font-size:27px;line-height:1.15;letter-spacing:-.03em;color:var(--dk);margin-bottom:8px}
+  .specs-lead{font-size:14px;line-height:1.65;color:var(--t2);max-width:700px;margin-bottom:24px}
+  .spec-table{border-top:1px solid var(--b2);margin-bottom:28px}
+  .spec-row{display:grid;grid-template-columns:minmax(150px,27%) 1fr;gap:24px;padding:13px 4px;border-bottom:1px solid var(--b1);align-items:start}
+  .spec-row:nth-child(even){background:var(--s1)}
+  .spec-key{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--t3)}
+  .spec-val{font-family:var(--mn);font-size:13px;line-height:1.5;color:var(--dk);font-weight:650}
+  .feature-section{margin-top:26px;padding-top:5px}
+  .feature-section h3{font-size:15px;color:var(--dk);font-weight:800;letter-spacing:-.01em;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--b1)}
+  .feature-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 24px}
+  .feature-item{display:flex;gap:10px;align-items:flex-start;padding:9px 0;font-size:13px;line-height:1.55;color:var(--t2)}
+  .feature-mark{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--or-lt);color:var(--or);font-weight:900;flex-shrink:0;font-size:14px;line-height:1}
+  @media(max-width:680px){.spec-row{grid-template-columns:1fr;gap:4px}.feature-list{grid-template-columns:1fr}.specs-title{font-size:23px}}
+</style>
+<style>@media print { @page { size: auto !important; } }</style></head>
 <body>
 
 <header id="nav">
@@ -438,8 +459,8 @@ button{cursor:pointer;font-family:var(--ff)}
 <section id="hero">
   <div class="hero-inner">
     <span class="hero-ey">NXP Semiconductors</span>
-    <h1 class="hero-h">Find, Explore &amp; <em>Compare</em><br>MCUs and MPUs</h1>
-    <p class="hero-sub">Search any NXP part number to explore specs, docs, demos — or type a competitor part number to compare head-to-head.</p>
+    <h1 class="hero-h">Find and explore <em>MCUs and MPUs</em></h1>
+    <p class="hero-sub">Search any NXP part number to explore its technical profile, demonstrations, and closest alternatives.</p>
     <div class="srch-wrap">
       <div class="srch-bar">
         <input id="q" type="text" autocomplete="off" spellcheck="false"
@@ -460,9 +481,11 @@ button{cursor:pointer;font-family:var(--ff)}
 
 <div id="wrap">
   <div id="home">
-    <div class="sec-head"><span class="sec-lbl">MCU &amp; Crossover Families</span><span class="sec-cnt" id="mcu-cnt"></span></div>
+    <div class="sec-head"><span class="sec-lbl">MCU and crossover families</span><span class="sec-cnt" id="mcu-cnt"></span></div>
+    <p class="family-explainer">MCU means microcontroller unit. Think of it as a small dedicated brain that runs one job efficiently, with low power use, fast startup, and no Linux requirement.</p>
     <div class="fam-grid" id="mcu-grid"></div>
-    <div class="sec-head"><span class="sec-lbl">MPU / Application Processor Families</span><span class="sec-cnt" id="mpu-cnt"></span></div>
+    <div class="sec-head"><span class="sec-lbl">MPU and application processor families</span><span class="sec-cnt" id="mpu-cnt"></span></div>
+    <p class="family-explainer">MPUs are designed for richer systems that may run Linux, drive displays, process cameras, and combine application software with real time control.</p>
     <div class="fam-grid" id="mpu-grid"></div>
   </div>
 
@@ -492,17 +515,13 @@ button{cursor:pointer;font-family:var(--ff)}
     <div class="tab-bar">
       <button class="tab active" data-tab="ov" onclick="swTab('ov',this)">Overview</button>
       <button class="tab" data-tab="tc" onclick="swTab('tc',this)">Technical Specs</button>
-      <button class="tab" data-tab="rs" onclick="swTab('rs',this)">Resources &amp; Docs</button>
       <button class="tab" data-tab="dm" onclick="swTab('dm',this)">Demo Projects</button>
-      <button class="tab" data-tab="cp" onclick="swTab('cp',this)">Compare</button>
       <button class="tab" data-tab="close" onclick="swTab('close',this)">Closest Competitors</button>
     </div>
     <div class="tab-body">
       <div id="tp-ov" class="tab-panel active"></div>
       <div id="tp-tc" class="tab-panel"></div>
-      <div id="tp-rs" class="tab-panel"></div>
       <div id="tp-dm" class="tab-panel"></div>
-      <div id="tp-cp" class="tab-panel"></div>
       <div id="tp-close" class="tab-panel"></div>
     </div>
   </div>
@@ -1199,10 +1218,21 @@ function getProd(pn){return P[pn]||makeFallback(pn);}
 /* ═══════════════════════════════
    HOME
 ═══════════════════════════════ */
+const HOME_MEANING={
+  'MCX-E':'Built for the factory floor, where clean power and quiet conditions are optional.',
+  'MCX-N':'The small brain with a serious AI side hustle.',
+  'MCX-A':'The dependable all rounder that keeps industrial designs moving.',
+  'MCX-C':'The value focused choice that gets the job done without bringing a limousine to a bicycle ride.',
+  'MCX-W':'Wireless without the extra boxes, and smart enough to keep the battery happy.',
+  'RT-10':'MCU simplicity with extra muscle for graphics, control, and connected products.',
+  'RT-11':'Two real time cores working together for interfaces that feel quick and polished.',
+  'RT-5':'A quiet low power specialist for voice, audio, and always ready products.',
+  'IMX8':'A compact application processor for Linux, graphics, vision, and connected edge systems.',
+  'IMX9':'A modern edge processor for serious compute, AI, security, and rich user experiences.'
+};
 function renderHome(){
   const mg=document.getElementById('mcu-grid'),pg=document.getElementById('mpu-grid');
   mg.innerHTML=pg.innerHTML='';let mc=0,pc=0;
-  // Count videos per family for ordering (most demos first)
   const vidCount=(famKey)=>Object.keys(VIDEOS).filter(pn=>FAM[famKey]&&FAM[famKey].pts.includes(pn)).length;
   const sortedFams=Object.entries(FAM).sort(([ak,af],[bk,bf])=>{
     if(af.tp==='MPU'&&bf.tp!=='MPU')return 1;
@@ -1211,10 +1241,16 @@ function renderHome(){
   });
   sortedFams.forEach(([k,f])=>{
     const isMPU=f.tp==='MPU';
-    const el=document.createElement('div');el.className='fc';
+    const el=document.createElement('div');
+    el.className='fc';
+    el.setAttribute('role','button');
+    el.setAttribute('tabindex','0');
+    el.setAttribute('data-glean-id','family-card-'+k.toLowerCase());
     const bc={MCU:'fb-mcu',MPU:'fb-mpu',Crossover:'fb-cross',Wireless:'fb-wifi'}[f.tp]||'fb-mcu';
+    const meaning=HOME_MEANING[k]||'A focused NXP platform designed to make the next product easier to build.';
     el.onclick=()=>showFam(k);
-    el.innerHTML=`<div class="fc-top"><div class="fc-name">${f.nm}</div><span class="fc-badge ${bc}">${f.tp}</span></div><p class="fc-desc">${f.tg}</p><div class="fc-foot"><span class="fc-cnt">${f.pts.length} parts</span><span class="fc-arr">→</span></div>`;
+    el.onkeydown=(event)=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();showFam(k);}};
+    el.innerHTML=`<div class="fc-top"><div class="fc-name">${f.nm}</div><span class="fc-badge ${bc}">${f.tp}</span></div><p class="fc-desc">${meaning}</p><div class="fc-foot"><span class="fc-cnt">${f.pts.length} parts</span><span class="fc-arr" aria-hidden="true">→</span></div>`;
     if(isMPU){pg.appendChild(el);pc++;}else{mg.appendChild(el);mc++;}
   });
   document.getElementById('mcu-cnt').textContent=mc+' families';
@@ -1256,7 +1292,7 @@ function goProduct(pn){
     `<a class="btn btn-outline btn-blue" href="${pageUrl}" target="_blank" rel="noopener">Product Page</a>`+
     `<a class="btn btn-outline" href="https://mcuxpresso.nxp.com/en/select?device=${encodeURIComponent(_pn)}" target="_blank" rel="noopener">SDK Download</a>`;
   swTab('ov',document.querySelector('.tab[data-tab="ov"]'));
-  buildOv(d);buildTc(d);buildRs(d);buildDm(d);buildCpTab(d);buildCloseTab(d);
+  buildOv(d);buildTc(d);buildDm(d);buildCloseTab(d);
 }
 function goFamBc(){if(_pn){const d=getProd(_pn);if(d)showFam(d.fam);}}
 
@@ -1270,10 +1306,18 @@ function buildOv(d){
 
 /* TAB: TECHNICAL SPECS */
 function buildTc(d){
-  const tiles=Object.entries(d.specs).map(([k,v])=>`<div class="spec-tile"><div class="spec-label">${k}</div><div class="spec-value">${v}</div></div>`).join('');
-  let secs='';
-  if(d.feats&&Object.keys(d.feats).length){Object.entries(d.feats).forEach(([s,items])=>{secs+=`<div class="feat-section-head">${s}</div><div class="feat-grid">${items.map(i=>`<div class="feat-row"><div class="feat-dot"></div>${i}</div>`).join('')}</div>`;});}
-  document.getElementById('tp-tc').innerHTML=`<div class="feat-section-head">Core Specifications</div><div class="specs-grid">${tiles}</div>${secs}`;
+  const rows=Object.entries(d.specs||{}).map(([k,v])=>`<div class="spec-row" data-glean-id="spec-${String(k).toLowerCase().replace(/[^a-z0-9]+/g,'-')}"><div class="spec-key">${k}</div><div class="spec-val">${v}</div></div>`).join('');
+  let sections='';
+  if(d.feats&&Object.keys(d.feats).length){
+    sections=Object.entries(d.feats).map(([name,items])=>`<section class="feature-section" data-glean-id="feature-section-${String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-')}"><h3>${name}</h3><div class="feature-list">${items.map(item=>`<div class="feature-item"><span class="feature-mark">+</span><span>${item}</span></div>`).join('')}</div></section>`).join('');
+  }
+  document.getElementById('tp-tc').innerHTML=`<div class="specs-shell" data-glean-id="technical-specs-${_pn}">
+    <div class="specs-kicker">Technical profile</div>
+    <h2 class="specs-title">${_pn} at a glance</h2>
+    <p class="specs-lead">A clean view of the device characteristics and capabilities that matter during architecture selection.</p>
+    <div class="spec-table" data-glean-id="core-specification-table">${rows}</div>
+    ${sections}
+  </div>`;
 }
 
 /* TAB: RESOURCES (no hardware design checklist) */
@@ -1728,6 +1772,532 @@ function buildCloseTab(d){
    INIT
 ═══════════════════════════════ */
 renderHome();
+</script>
+
+<style id="v17-style">
+  .v17-meaning{margin:5px 0 12px;color:#20262b;font-size:13px;line-height:1.45;font-weight:650}
+  .v17-meaning b{color:var(--or)}
+  .v17-scope{display:inline-block;margin-top:9px;padding:4px 8px;border-radius:999px;background:#f1f4f6;color:#53616b;font-size:11px;font-weight:700;letter-spacing:.02em}
+  .v17-ach-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:22px 0 12px;padding-top:22px;border-top:1px solid #e5e8ea}
+  .v17-ach-title{font-size:20px;font-weight:750;color:#11181d}
+  .v17-ach-sub{margin-top:4px;color:#68747d;font-size:13px;line-height:1.45}
+  .v17-ach-count{white-space:nowrap;color:#53616b;font-size:12px;font-weight:700}
+  .v17-ach-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:15px}
+  .v17-ach-card{display:flex;flex-direction:column;justify-content:space-between;min-height:145px;padding:17px 17px 15px;background:#fff;border:1px solid #dde3e7;border-radius:15px;color:#131a1f;text-decoration:none;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+  .v17-ach-card:hover{transform:translateY(-3px);border-color:var(--or);box-shadow:0 12px 28px rgba(22,31,37,.11)}
+  .v17-ach-kicker{color:var(--or);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .v17-ach-name{margin:9px 0 7px;font-size:15px;font-weight:750;line-height:1.28}
+  .v17-ach-scope{color:#67737c;font-size:12px;line-height:1.38}
+  .v17-ach-link{margin-top:15px;color:#1a5f86;font-size:12px;font-weight:750}
+  .v17-ach-empty{padding:18px 19px;border:1px solid #e2e6e8;border-radius:14px;background:#fafbfb;color:#68747d;font-size:13px;line-height:1.5}
+  .v17-hub{margin:12px 0 24px;padding:14px 16px;border-radius:13px;background:#f3f6f8;color:#4d5b64;font-size:13px;line-height:1.45}
+  .v17-hub a{color:#165f88;font-weight:750;text-decoration:none}
+  .v17-video-note{margin:0 0 15px;color:#68747d;font-size:12px;line-height:1.45}
+  @media(max-width:900px){.v17-ach-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:620px){.v17-ach-grid{grid-template-columns:1fr}.v17-ach-head{display:block}.v17-ach-count{display:block;margin-top:8px}}
+</style>
+
+<script id="v17-script">
+(function(){
+  'use strict';
+  const v17esc=function(value){return String(value==null?'':value).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]})};
+  const v17Video=function(title,url,desc,scope,tags){return {title:title,url:url,desc:desc,scope:scope,tags:tags||['NXP demo']}};
+  const V17_BASE='https://www.nxp.com/company/about-nxp/smarter-world-videos/';
+  const V17_VIDEOS={};
+  const v17Add=function(parts,items){parts.forEach(function(p){V17_VIDEOS[p]=(V17_VIDEOS[p]||[]).concat(items)})};
+  const n94=[
+    v17Video('Multiple Face Detection',''+V17_BASE+'FACE-DETECTION-MCXN947-VID','Face detection using the MCX N94x edge AI platform.','MCX N94x family',['Edge AI','Vision']),
+    v17Video('MNIST Image Recognition',''+V17_BASE+'MNIST-FASHION-MCXN947-VID','Fashion MNIST image recognition using the MCX N94x platform.','MCX N94x family',['Edge AI','Vision']),
+    v17Video('eIQ Neutron NPU Benchmark',''+V17_BASE+'NPU-BENCHMARK-MCXN947-VID','Benchmarking neural network workloads with the eIQ Neutron NPU.','MCX N94x family',['Edge AI','Benchmark']),
+    v17Video('Multiple Person Detection',''+V17_BASE+'PERSON-DETECTION-MCXN947-VID','Person detection using the MCX N94x edge AI platform.','MCX N94x family',['Edge AI','Vision']),
+    v17Video('On Device Fan Anomaly Training',''+V17_BASE+'FAN-ANOMALY-DETECTION-MCXN94-VID','On device training for fan anomaly detection on the MCX N94x platform.','MCX N94x family',['Edge AI','Anomaly detection']),
+    v17Video('CIFAR10 Image Recognition',''+V17_BASE+'LABEL-CIFAR10-IMAGE-MCXN947-VID','CIFAR10 image classification on the MCX N94x platform.','MCX N94x family',['Edge AI','Vision']),
+    v17Video('Wi Fi Touchscreen LCD Demo',''+V17_BASE+'WI-FI-TOUCHSCREEN-LCD-DEMO-MCXN-IW416-VID','Wi Fi touchscreen LCD demonstration using IW416 connectivity with an MCX MCU.','MCX N family',['Connectivity','HMI'])
+  ];
+  v17Add(['MCXN947','MCXN946'],n94);
+  v17Add(['MCXN548','MCXN547'],[n94[0],n94[6]]);
+  v17Add(['MCXW72'],[
+    v17Video('Bluetooth Localization',''+V17_BASE+'BLUETOOTH-LOCALIZATION-FRDM-MCXW72','Bluetooth localization demonstration using FRDM MCXW72.','MCXW72',['Wireless','Bluetooth']),
+    v17Video('Channel Sounding with Pixel 10',''+V17_BASE+'CHANNEL-SOUNDING-PIXEL-10-MCXW72LOC','Channel sounding demonstration using Pixel 10 and MCXW72LOC.','MCXW72',['Wireless','Ranging'])
+  ]);
+  v17Add(['MCXA156','MCXA155','MCXA154','MCXA153','MCXA152','MCXA146','MCXA145','MCXA144','MCXA143','MCXA142','MCXA134','MCXA133','MCXA132'],[
+    v17Video('Smarter Motor Control with MCX and FreeMASTER',''+V17_BASE+'SMARTER-MOTOR-CONTROL-WITH-MCX-FREEMASTER','Motor control demonstration using an MCX MCU and FreeMASTER.','MCX A family',['Motor control','FreeMASTER'])
+  ]);
+  v17Add(['MCXE31B'],[v17Video('FRDM MCXE31B CAN Modbus and Zephyr',''+V17_BASE+'NXP-FRDM-MCXE31B-CAN-MODBUS-ZEPHYR-VID','CAN, Modbus and Zephyr demonstration on FRDM MCXE31B.','MCXE31B',['Industrial','Zephyr'])]);
+  const imx8All=['MIMX8MP8','MIMX8MM6','MIMX8MN6','MIMX8ML8'];
+  const imx8General=[
+    v17Video('i.MX 8 Based Neural Networks for Object Recognition',''+V17_BASE+'NEURAL-NETWORKS-VID','Neural network object recognition on an i.MX 8 based platform.','i.MX 8 family',['Edge AI','Vision']),
+    v17Video('Twelve Axis Sensor Platform',''+V17_BASE+'12AXISSNSPLWN8_VID','Twelve axis sensor platform demonstration using an i.MX 8 based system.','i.MX 8 family',['Sensing']),
+    v17Video('Text to Speech Powered by MCUs and MPUs',''+V17_BASE+'TEXT-TO-SPEECH-VID','Text to speech demonstration using NXP processing platforms.','i.MX 8 and i.MX 9 family',['Voice AI']),
+    v17Video('AI Based Noise Reduction for i.MX 8M and i.MX 9',''+V17_BASE+'AI-NR-VID','AI based noise reduction for i.MX 8M and i.MX 9 platforms.','i.MX 8 and i.MX 9 family',['Voice AI','Audio']),
+    v17Video('Converting Speech to Text with i.MX 8M and i.MX 9',''+V17_BASE+'SPEECH-TO-TEXT-IMX8M-IMX9-VID','Speech to text demonstration for i.MX 8M and i.MX 9 platforms.','i.MX 8 and i.MX 9 family',['Voice AI','Audio'])
+  ];
+  v17Add(imx8All,imx8General);
+  v17Add(['MIMX8MP8'],[
+    v17Video('i.MX 8M Plus Intelligence at the IoT Edge',''+V17_BASE+'IMX-8-PLUS-INTELLIGENCE-IOT','Edge intelligence demonstration with i.MX 8M Plus.','i.MX 8M Plus',['Edge AI']),
+    v17Video('Altia Health Monitor GUI',''+V17_BASE+'HEALTH-MONITOR-NXP-IMX-8M-PLUS-VID','Health monitor HMI demonstration on i.MX 8M Plus.','i.MX 8M Plus',['HMI']),
+    v17Video('LLM Studio with Llama 2 7B',''+V17_BASE+'LLM-STUDIO-SHOWCASING-LLAMA-2-7B-VID2','LLM Studio demonstration showcasing Llama 2 7B.','i.MX 8M Plus',['Generative AI']),
+    v17Video('Industry 4.0 Machine Learning and TSN',''+V17_BASE+'CES-2021-INDUSTRY-4-ML-TSN-SOLUTIONS','Industry 4.0 machine learning and TSN demonstration.','i.MX 8M Plus',['Industrial','TSN']),
+    v17Video('Machine Learning at the Edge Basler Vision',''+V17_BASE+'BASLER-MALENE-FRICKE','Machine learning vision demonstration on i.MX 8M Quad.','i.MX 8 family',['Vision']),
+    v17Video('Health Monitor on i.MX 8M Plus',''+V17_BASE+'HM-IMX8M-PLUS-VSP','Health monitor demonstration on i.MX 8M Plus.','i.MX 8M Plus',['HMI']),
+    v17Video('CPU and NPU Machine Learning Performance',''+V17_BASE+'CPU-NPU-ML-PERFORMANCE-DEMO-RUNNING-ON-IMX-8M','CPU and NPU machine learning performance demonstration.','i.MX 8M Plus',['Edge AI','Benchmark'])
+  ]);
+  v17Add(['MIMX8MM6'],[v17Video('i.MX 8M Mini HMI Solution',''+V17_BASE+'I.MX-8M-MINI-APPLICATIONS-PROCESSOR-BASED-HMI','HMI solution based on an i.MX 8M Mini applications processor.','i.MX 8M Mini',['HMI'])]);
+  v17Add(['MIMX8MP8','MIMX8MM6'],[v17Video('Food Classification on i.MX 8 and RT1050',''+V17_BASE+'i.MX8-AND-RT1050-FOOD-CLASSIFICATION','Food classification demonstration using i.MX 8 and i.MX RT1050.','i.MX 8 and RT1050',['Edge AI','Vision'])]);
+  const imx9All=['MIMX9352','MIMX9351','MIMX9311'];
+  v17Add(imx9All,[
+    v17Video('Conversa Voice Call Processing',''+V17_BASE+'CONVERSA-IMX-VOICE-PLUGIN-VID','Conversa voice call processing for i.MX processors.','i.MX 9 family',['Voice AI']),
+    v17Video('eIQ GenAI Flow Vision Language Model',''+V17_BASE+'EIQ-GENAI-FLOW-VISION-LANGUAGE-MODEL','Vision language model demonstration using eIQ GenAI Flow.','i.MX 9 family',['Generative AI','Vision']),
+    v17Video('eIQ GenAI Flow Conversational AI',''+V17_BASE+'CONVERSATIONAL-AI-VID','Conversational AI at the edge using eIQ GenAI Flow.','i.MX 9 family',['Generative AI','Voice AI']),
+    v17Video('Voice Plugins for i.MX Applications Processors',''+V17_BASE+'IMX-VOICE-PLUGINS-VID','Voice plugins for i.MX applications processors.','i.MX 9 family',['Voice AI']),
+    v17Video('Text to Speech Powered by MCUs and MPUs',''+V17_BASE+'TEXT-TO-SPEECH-VID','Text to speech demonstration using NXP processing platforms.','i.MX 8 and i.MX 9 family',['Voice AI']),
+    v17Video('eIQ GenAI Flow Conversational AI with RAG and LLM',''+V17_BASE+'EIQ-GENAI-FLOW-CONVERSATIONAL-AI-ON-EDGE-RAG-LLM','Retrieval augmented generation and LLM demonstration at the edge.','i.MX 9 family',['Generative AI']),
+    v17Video('AI Echo Cancellation and Noise Reduction',''+V17_BASE+'AI-AECNR-VID1','AI echo cancellation and noise reduction for an MPU.','i.MX 9 family',['Audio','Voice AI']),
+    v17Video('AI Based Noise Reduction for i.MX 8M and i.MX 9',''+V17_BASE+'AI-NR-VID','AI based noise reduction for i.MX 8M and i.MX 9 platforms.','i.MX 8 and i.MX 9 family',['Voice AI','Audio']),
+    v17Video('Converting Speech to Text with i.MX 8M and i.MX 9',''+V17_BASE+'SPEECH-TO-TEXT-IMX8M-IMX9-VID','Speech to text demonstration for i.MX 8M and i.MX 9 platforms.','i.MX 8 and i.MX 9 family',['Voice AI','Audio']),
+    v17Video('NXP AI Enhanced eCockpit',''+V17_BASE+'ECOCKPIT-VSP','AI enhanced eCockpit demonstration using NXP processing.','i.MX 9 family',['Automotive','AI']),
+    v17Video('EtherCAT Leader Solution 9 Axis Robot Arm',''+V17_BASE+'ETHERCAT-SOLUTION-9-AXIS-ROBOT-ARM-CONTROL-VID','EtherCAT leader solution for nine axis robot arm control.','i.MX 9 family',['Industrial','EtherCAT'])
+  ]);
+  const rt105=['MIMXRT1051','MIMXRT1052'];
+  v17Add(rt105,[
+    v17Video('Qt for MCUs Thermostat Demo',''+V17_BASE+'QT_MCUDEMO_i.MXRT1050','Qt for MCUs thermostat demonstration using an i.MX RT1050 evaluation kit.','i.MX RT1050',['HMI','Qt']),
+    v17Video('Alexa on an MCU',''+V17_BASE+'MCU-AVS_EW2019','Alexa voice experience demonstration on an MCU platform.','i.MX RT1050 family',['Voice AI']),
+    v17Video('i.MX RT1050 Embedded Wizard GUI',''+V17_BASE+'IMX-RT1050-EMBEDDED-WIZARD','Embedded Wizard powered GUI application on i.MX RT1050.','i.MX RT1050',['HMI']),
+    v17Video('Embedded Wizard GUI Demo',''+V17_BASE+'EMBEDDED-WIZARD-GUI','Embedded Wizard GUI demonstration on an i.MX RT platform.','i.MX RT family',['HMI']),
+    v17Video('Local Voice Control on an MCU',''+V17_BASE+'VOICECONTROL_CES2019','Local voice control demonstration on an MCU.','NXP MCU platform',['Voice AI']),
+    v17Video('NFC Reader Library on i.MX RT1050',''+V17_BASE+'IMXRT1050-PORTING-NFC-READER-LIBRARY','Using i.MX RT1050 with the CLRC663 plus family and NFC Reader Library.','i.MX RT1050',['NFC'])
+  ]);
+  const rt106=['MIMXRT1061','MIMXRT1062','MIMXRT1064'];
+  v17Add(rt106,[
+    v17Video('eIQ Software Platform for i.MX RT',''+V17_BASE+'EIQ-RT1060','eIQ software platform demonstration for the i.MX RT series.','i.MX RT1060 family',['Edge AI']),
+    v17Video('Anomaly Detection with i.MX RT1060',''+V17_BASE+'ANOMALYDETECTION_IMXRT1060','Machine learning based anomaly detection on i.MX RT1060.','i.MX RT1060 family',['Edge AI','Anomaly detection']),
+    v17Video('Facial Recognition with i.MX RT1060',''+V17_BASE+'FACIALRECOGNITION_IMXRT1060','Facial recognition demonstration on i.MX RT1060.','i.MX RT1060 family',['Edge AI','Vision']),
+    v17Video('eIQ ML for AI Driven HMIs',''+V17_BASE+'DIEHLS-SMARTSENSING-DEMO','eIQ machine learning for AI driven HMI applications.','i.MX RT1060 family',['Edge AI','HMI'])
+  ]);
+  const rt117=['MIMXRT1171','MIMXRT1172','MIMXRT1173','MIMXRT1175','MIMXRT1176'];
+  v17Add(rt117,[
+    v17Video('Cost Effective Embedded HMI with i.MX RT1170',''+V17_BASE+'MCU-MINUTES-SIILI-AUTO-RT1170-DEMO','Embedded HMI demonstration using i.MX RT1170.','i.MX RT1170 family',['HMI']),
+    v17Video('Qt for MCUs Motorcycle Instrument Cluster',''+V17_BASE+'MCU-TECH-MINUTES-QT-FOR-MCUS-MOTORCYCLE-INSTRUMENT','Motorcycle instrument cluster demonstration using Qt for MCUs and i.MX RT1170.','i.MX RT1170 family',['HMI','Qt'])
+  ]);
+  const rt5=['MIMXRT533S','MIMXRT555S','MIMXRT595S','MIMXRT633S','MIMXRT685S','MIMXRT735S','MIMXRT758S','MIMXRT798S'];
+  v17Add(rt5,[
+    v17Video('Speech to Intent Local Voice Control',''+V17_BASE+'iMX-RT500-SMART-WATCH-DEMO','Local voice control with Speech to Intent on i.MX RT500.','i.MX RT5xx and RT6xx',['Voice AI']),
+    v17Video('Smart Voice Solution with VIT S2I and Matter',''+V17_BASE+'SMART-VOICE-MATTER-DEMO-VID','Smart voice solution using VIT Speech to Intent and Matter.','i.MX RT5xx and RT6xx',['Voice AI','Matter'])
+  ]);
+  Object.keys(VIDEOS).forEach(function(k){delete VIDEOS[k]});
+  Object.keys(V17_VIDEOS).forEach(function(k){VIDEOS[k]=V17_VIDEOS[k]});
+
+  const v17AddUnique=function(famKey,parts){if(!FAM[famKey])return;parts.forEach(function(p){if(FAM[famKey].pts.indexOf(p)<0)FAM[famKey].pts.push(p)})};
+  v17AddUnique('MCX C',['MCXC041','MCXC151','MCXC242','MCXC243','MCXC244','MCXC443','MCXC444']);
+  v17AddUnique('MCX W',['MCXW343','MCXW345']);
+  v17AddUnique('RT-11',['MIMXRT1166','MIMXRT1171','MIMXRT1172']);
+  v17AddUnique('RT-5',['MIMXRT735S','MIMXRT758S','MIMXRT798S']);
+  const v17Meaning={
+    'MCX C':'Cost effective entry MCUs for simple control, sensing, USB and segment LCD designs.',
+    'MCX A':'Advanced mainstream MCUs for connected industrial, motor control and IoT products.',
+    'MCX N':'Neural processing MCUs with integrated edge AI acceleration for demanding real time workloads.',
+    'MCX W':'Wireless MCUs for Bluetooth LE, Matter, Thread, Zigbee and connected sensing.',
+    'MCX E':'Industrial MCUs for safety focused control, CAN FD, Ethernet and harsh environments.',
+    'RT-10':'Crossover MCUs for rich HMI, motor control, audio and industrial networking.',
+    'RT-11':'High performance crossover MCUs for graphics, camera, display and multi core real time systems.',
+    'RT-5':'Low power crossover MCUs for voice, audio, HMI and always on edge applications.',
+    'IMX8':'Linux capable application processors for vision, multimedia, HMI and industrial edge systems.',
+    'IMX9':'Modern secure application processors for energy efficient edge AI, voice, HMI and industrial control.'
+  };
+  Object.keys(v17Meaning).forEach(function(k){if(FAM[k])FAM[k].meaning=v17Meaning[k]});
+
+  const V17_ACH={
+    'MCXN947':[
+      ['Multiple Face Detection on MCXN947','MCXN947 board','https://mcuxpresso.nxp.com/appcodehub?search=dm-multiple-face-detection-on-mcxn947'],
+      ['Fashion MNIST Recognition on MCXN947','MCXN947 board','https://mcuxpresso.nxp.com/appcodehub?search=dm-fashion-mnist-recognition-on-mcxn947'],
+      ['Multiple Person Detection on MCXN947','MCXN947 board','https://mcuxpresso.nxp.com/appcodehub?search=dm-multiple-person-detection-on-mcxn947'],
+      ['On Device Training Fan Anomaly on MCXN947','MCXN947 board','https://mcuxpresso.nxp.com/appcodehub?search=dm-on-device-training-fan-anomaly-on-mcxn947'],
+      ['MCX Accel and Pressure Monitor','MCX N family example','https://mcuxpresso.nxp.com/appcodehub?search=dm-mcx-accel-and-pressure-monitor'],
+      ['MCXN947 Remote IO with NAFE13388','MCXN947 board','https://mcuxpresso.nxp.com/appcodehub?search=dm-mcxn947-remote-io-with-nafe13388'],
+      ['NAFE13388 Application Examples','MCX N family example','https://mcuxpresso.nxp.com/appcodehub?search=dm-nafe13388-application-examples'],
+      ['FRDM MCXN947 Industrial Panel','MCXN947 board','https://mcuxpresso.nxp.com/appcodehub?search=dm-industrial-panel-frdm-mcxn947'],
+      ['MCX Streamdeck Demo','MCX N family example','https://mcuxpresso.nxp.com/appcodehub?search=dm-mcx-streamdeck']
+    ],
+    'MCXA156':[
+      ['Time Series Studio Fan Anomaly','FRDM MCXA156','https://mcuxpresso.nxp.com/appcodehub?search=dm-tss-powered-on-device-learning-fan-anomaly-based-on-mcxa156'],
+      ['PMSM Motor Control on FRDM MCXA156','FRDM MCXA156','https://mcuxpresso.nxp.com/appcodehub?search=dm-mc-pmsm-ncp-frdm-mcxa156'],
+      ['PMSM Motor Control on MCXA156','FRDM MCXA156','https://mcuxpresso.nxp.com/appcodehub?search=dm-motor-control-pmsm-frdm-mcxa156']
+    ],
+    'MCXA153':[
+      ['PMSM Sensorless FOC on MCXA153','MCXA153','https://mcuxpresso.nxp.com/appcodehub?search=an-pmsm-foc-mcxa153']
+    ],
+    'MCXW71':[
+      ['Driving LCD PAR S035 with Wireless UART','MCXW71','https://mcuxpresso.nxp.com/appcodehub?search=dm-mcxw71-driving-lcd-wireless-uart'],
+      ['Smart Sensing Inhaler','MCXW7X family','https://mcuxpresso.nxp.com/appcodehub?search=dm-smart-sensing-inhaler'],
+      ['Tamper Detection over BLE','MCXW7X family','https://mcuxpresso.nxp.com/appcodehub?search=dm-tamper-detection-using-low-power-wakeup-sensor-over-ble'],
+      ['KNX IoT Examples on MCXW71','MCXW71','https://mcuxpresso.nxp.com/appcodehub?search=dm-knx-iot-examples-on-nxp-mcxw71']
+    ],
+    'MCXW72':[
+      ['Driving LCD PAR S035 with Wireless UART','MCXW7X family','https://mcuxpresso.nxp.com/appcodehub?search=dm-mcxw71-driving-lcd-wireless-uart'],
+      ['Smart Sensing Inhaler','MCXW7X family','https://mcuxpresso.nxp.com/appcodehub?search=dm-smart-sensing-inhaler'],
+      ['Tamper Detection over BLE','MCXW7X family','https://mcuxpresso.nxp.com/appcodehub?search=dm-tamper-detection-using-low-power-wakeup-sensor-over-ble']
+    ],
+    'MIMXRT1061':[
+      ['LVGL VIT Smart Voice User Interface','i.MX RT1060 family','https://mcuxpresso.nxp.com/appcodehub?search=dm-lvgl-vit-rt1060'],
+      ['ML Person Detector','i.MX RT1060 family','https://mcuxpresso.nxp.com/appcodehub?search=ap-ml-person-detector'],
+      ['EasyEVSE on i.MX RT106x','i.MX RT106x family','https://mcuxpresso.nxp.com/appcodehub?search=rd-nxp-easyevse-imxrt106x'],
+      ['Snoring Detection on RT1060','i.MX RT1060 family','https://mcuxpresso.nxp.com/appcodehub?search=dm-snoring-detection-based-on-rt1060']
+    ],
+    'MIMXRT1062':[
+      ['LVGL VIT Smart Voice User Interface','i.MX RT1060 family','https://mcuxpresso.nxp.com/appcodehub?search=dm-lvgl-vit-rt1060'],
+      ['ML Person Detector','i.MX RT1060 family','https://mcuxpresso.nxp.com/appcodehub?search=ap-ml-person-detector'],
+      ['EasyEVSE on i.MX RT106x','i.MX RT106x family','https://mcuxpresso.nxp.com/appcodehub?search=rd-nxp-easyevse-imxrt106x'],
+      ['Snoring Detection on RT1060','i.MX RT1060 family','https://mcuxpresso.nxp.com/appcodehub?search=dm-snoring-detection-based-on-rt1060']
+    ],
+    'MIMXRT1064':[
+      ['LVGL VIT Smart Voice User Interface','i.MX RT1060 family','https://mcuxpresso.nxp.com/appcodehub?search=dm-lvgl-vit-rt1060'],
+      ['ML Person Detector','i.MX RT1060 family','https://mcuxpresso.nxp.com/appcodehub?search=ap-ml-person-detector'],
+      ['EasyEVSE on i.MX RT106x','i.MX RT106x family','https://mcuxpresso.nxp.com/appcodehub?search=rd-nxp-easyevse-imxrt106x'],
+      ['Snoring Detection on RT1060','i.MX RT1060 family','https://mcuxpresso.nxp.com/appcodehub?search=dm-snoring-detection-based-on-rt1060']
+    ],
+    'MIMXRT1173':[
+      ['Full Appliance Demo on RT1170 EVKB','i.MX RT1170 family','https://mcuxpresso.nxp.com/appcodehub?search=dm-rt1170evkb-full-appliance'],
+      ['Smart Panel RM67162 on RT1170','i.MX RT1170 family','https://mcuxpresso.nxp.com/appcodehub?search=gs-smart-panel-rm67162-rt1170'],
+      ['VGLite Examples for RT1170','i.MX RT1170 family','https://mcuxpresso.nxp.com/appcodehub?search=gs-vglite_examples_rt1170']
+    ],
+    'MIMXRT1175':[
+      ['Full Appliance Demo on RT1170 EVKB','i.MX RT1170 family','https://mcuxpresso.nxp.com/appcodehub?search=dm-rt1170evkb-full-appliance'],
+      ['Smart Panel RM67162 on RT1170','i.MX RT1170 family','https://mcuxpresso.nxp.com/appcodehub?search=gs-smart-panel-rm67162-rt1170'],
+      ['VGLite Examples for RT1170','i.MX RT1170 family','https://mcuxpresso.nxp.com/appcodehub?search=gs-vglite_examples_rt1170']
+    ],
+    'MIMX8MP8':[
+      ['eIQ GenAI Flow Demonstrator','i.MX 8M Plus and i.MX 9 family','https://mcuxpresso.nxp.com/appcodehub?search=dm-eiq-genai-flow-demonstrator']
+    ],
+    'MIMX9352':[
+      ['eIQ GenAI Flow Demonstrator','i.MX 9 family','https://mcuxpresso.nxp.com/appcodehub?search=dm-eiq-genai-flow-demonstrator']
+    ],
+    'MIMX9351':[
+      ['eIQ GenAI Flow Demonstrator','i.MX 9 family','https://mcuxpresso.nxp.com/appcodehub?search=dm-eiq-genai-flow-demonstrator']
+    ],
+    'MIMX9311':[
+      ['eIQ GenAI Flow Demonstrator','i.MX 9 family','https://mcuxpresso.nxp.com/appcodehub?search=dm-eiq-genai-flow-demonstrator']
+    ]
+  };
+
+  function v17RenderHome(){
+    const mg=document.getElementById('mcu-grid'),pg=document.getElementById('mpu-grid');
+    if(!mg||!pg)return;
+    mg.innerHTML='';pg.innerHTML='';let mc=0,pc=0;
+    const count=function(k){return (FAM[k].pts||[]).reduce(function(n,p){return n+(VIDEOS[p]||[]).length},0)};
+    Object.entries(FAM).sort(function(a,b){const am=a[1].tp==='MPU',bm=b[1].tp==='MPU';if(am!==bm)return am?1:-1;return count(b[0])-count(a[0])}).forEach(function(entry){
+      const k=entry[0],f=entry[1],isMPU=f.tp==='MPU',el=document.createElement('div');el.className='fc';el.onclick=function(){showFam(k)};
+      const bc={MCU:'fb-mcu',MPU:'fb-mpu',Crossover:'fb-cross',Wireless:'fb-wifi'}[f.tp]||'fb-mcu';
+      el.innerHTML='<div class="fc-top"><div class="fc-name">'+v17esc(f.nm)+'</div><span class="fc-badge '+bc+'">'+v17esc(f.tp)+'</span></div><p class="fc-desc">'+v17esc(f.tg)+'</p><p class="v17-meaning"><b>What it means</b><br>'+v17esc(f.meaning||'NXP product family for embedded designs.')+'</p><div class="fc-foot"><span class="fc-cnt">'+f.pts.length+' parts</span><span class="fc-arr">→</span></div>';
+      if(isMPU){pg.appendChild(el);pc++}else{mg.appendChild(el);mc++}
+    });
+    const mcuCnt=document.getElementById('mcu-cnt'),mpuCnt=document.getElementById('mpu-cnt');if(mcuCnt)mcuCnt.textContent=mc+' families';if(mpuCnt)mpuCnt.textContent=pc+' families';
+  }
+  function v17ShowFam(k){
+    _fam=k;const f=FAM[k];showView('fv');
+    document.getElementById('fv-bc').textContent=f.nm;
+    document.getElementById('fam-hdr-blk').innerHTML='<div class="fam-icon"><svg viewBox="0 0 24 24"><path d="M2 2h9v9H2zm11 0h9v9h-9zM2 13h9v9H2zm11 0h9v9h-9z"/></svg></div><div><div class="fam-name">'+v17esc(f.nm)+'</div><div class="fam-desc">'+v17esc(f.tg)+'</div><div class="v17-meaning"><b>What it means</b><br>'+v17esc(f.meaning||'NXP product family for embedded designs.')+'</div><div class="fam-tags">'+(f.tags||[]).map(function(t){return '<span class="ftag">'+v17esc(t)+'</span>'}).join('')+'</div></div>';
+    document.getElementById('fv-cnt').textContent=f.pts.length+' parts';const g=document.getElementById('fv-grid');g.innerHTML='';f.pts.forEach(function(pn){const c=document.createElement('div');c.className='pc';c.onclick=function(){goProduct(pn)};c.innerHTML='<span class="pc-pn">'+v17esc(pn)+'</span><span class="pc-arrow">›</span>';g.appendChild(c)})
+  }
+  function v17BuildDm(d){
+    const vids=VIDEOS[_pn]||[];
+    let h='';
+    if(vids.length){
+      h+='<div class="vid-section-hdr"><div class="vid-section-title">Demo Videos</div><div class="vid-section-sub">'+vids.length+' video'+(vids.length===1?'':'s')+' from NXP Smarter World</div></div>';
+      h+='<p class="v17-video-note">Each video is shown only on the product or family scope described on its card. Select a card to open the exact NXP video page.</p><div class="vid-grid">';
+      h+=vids.map(function(v){const tags=(v.tags||[]).map(function(t){return '<span class="vid-tag">'+v17esc(t)+'</span>'}).join('');return '<a class="vid-card" href="'+v17esc(v.url)+'" target="_blank" rel="noopener"><div class="vid-thumb"><div class="vid-tag-row">'+tags+'</div><div class="vid-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><div class="vid-body"><div class="vid-title">'+v17esc(v.title)+'</div><div class="vid-desc">'+v17esc(v.desc)+'</div><span class="v17-scope">'+v17esc(v.scope)+'</span><div class="vid-cta">Watch on NXP.com →</div></div></a>'}).join('');
+      h+='</div><hr class="vid-divider">';
+    } else {
+      h+='<div class="v17-ach-empty" style="margin:0 0 22px">No NXP demo video is currently assigned to '+v17esc(_pn)+'. Exact Application Code Hub projects are listed below when available.</div>';
+    }
+    const projects=V17_ACH[_pn]||[];
+    h+='<div class="v17-ach-head"><div><div class="v17-ach-title">Application Code Hub projects</div><div class="v17-ach-sub">Only project records with an identified NXP Application Code Hub link are shown.</div></div><div class="v17-ach-count">'+projects.length+' exact project'+(projects.length===1?'':'s')+'</div></div>';
+    if(projects.length){h+='<div class="v17-ach-grid">'+projects.map(function(p){return '<a class="v17-ach-card" href="'+v17esc(p[2])+'" target="_blank" rel="noopener"><div><div class="v17-ach-kicker">Application Code Hub</div><div class="v17-ach-name">'+v17esc(p[0])+'</div><div class="v17-ach-scope">'+v17esc(p[1])+'</div></div><div class="v17-ach-link">Open exact project result →</div></a>'}).join('')+'</div>'}
+    else h+='<div class="v17-ach-empty">No exact Application Code Hub project link has been added for this part. This section is intentionally not padded with a generic or unverified project.</div>';
+    h+='<div class="v17-hub">Browse the complete NXP Application Code Hub catalog: <a href="https://mcuxpresso.nxp.com/appcodehub" target="_blank" rel="noopener">Open Application Code Hub →</a></div>';
+    document.getElementById('tp-dm').innerHTML=h;
+  }
+  window.renderHome=v17RenderHome;
+  window.showFam=v17ShowFam;
+  window.buildDm=v17BuildDm;
+  v17RenderHome();
+  if(_pn&&typeof getProd==='function'){const d=getProd(_pn);if(d&&document.getElementById('tp-dm'))v17BuildDm(d)}
+  function v17NoHyphenText(root){
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes=[];let n;while(n=walker.nextNode()){if(n.parentElement&&!['SCRIPT','STYLE'].includes(n.parentElement.tagName))nodes.push(n)}nodes.forEach(function(node){if(node.nodeValue.indexOf('-')>=0)node.nodeValue=node.nodeValue.replace(/-/g,'–')});
+  }
+  v17NoHyphenText(document.body);
+  const obs=new MutationObserver(function(){v17NoHyphenText(document.body)});obs.observe(document.body,{subtree:true,childList:true});
+})();
+</script>
+<script id="v18-patch">
+(function(){
+  function addUnique(arr, items){
+    const seen={};(arr||[]).forEach(function(v){seen[v.url]=1});items.forEach(function(v){if(!seen[v.url]){arr.push(v);seen[v.url]=1}});
+  }
+  function video(title,url,desc,scope,tags){return {title:title,url:url,desc:desc,scope:scope,tags:tags||[]};}
+  const base='https://www.nxp.com/company/about-nxp/smarter-world-videos/';
+  const n94x=[
+    video('Multiple Face Detection on MCX N94x',base+'FACE-DETECTION-MCXN947-VID','Real time multiple face detection using the NPU.','MCX N94x family',['AI and ML']),
+    video('MNIST Image Recognition on MCX N94x',base+'MNIST-FASHION-MCXN947-VID','Image classification running locally on the MCX N94x NPU.','MCX N94x family',['AI and ML']),
+    video('eIQ Neutron NPU Benchmark',base+'NPU-BENCHMARK-MCXN947-VID','A practical comparison of NPU accelerated and CPU only inference.','MCX N family',['AI and ML']),
+    video('Multiple Person Detection on MCX N94x',base+'PERSON-DETECTION-MCXN947-VID','On device person detection for vision enabled edge products.','MCX N94x family',['AI and ML']),
+    video('CIFAR10 Image Recognition on MCX N94x',base+'LABEL-CIFAR10-IMAGE-MCXN947-VID','CIFAR10 image classification on the local NPU.','MCX N94x family',['AI and ML']),
+    video('On Device Fan Anomaly Detection',base+'FAN-ANOMALY-DETECTION-MCXN94-VID','Train and detect an industrial fan anomaly locally at the edge.','MCX N94x and N54x family',['AI and ML','Industrial']),
+    video('Wi Fi Touchscreen LCD with IW416 and MCX',base+'WI-FI-TOUCHSCREEN-LCD-DEMO-MCXN-IW416-VID','Wireless touchscreen HMI using an IW416 module with an MCX MCU.','MCX N family',['Wireless','HMI'])
+  ];
+  const n54x=n94x.filter(function(v){return /Face|MNIST|NPU|Person|CIFAR|Anomaly/.test(v.title)}).map(function(v){return Object.assign({},v,{scope:'MCX N54x family'});});
+  ['MCXN947','MCXN946'].forEach(function(p){VIDEOS[p]=n94x.map(function(v){return Object.assign({},v,{scope:'MCX N94x family'});});});
+  ['MCXN548','MCXN547'].forEach(function(p){VIDEOS[p]=n54x;});
+  ['MCXN235','MCXN236'].forEach(function(p){VIDEOS[p]=VIDEOS[p]||[];});
+  ['MCXC041','MCXC142','MCXC143','MCXC144','MCXC151','MCXC161','MCXC162','MCXC163','MCXC164','MCXC242','MCXC243','MCXC244','MCXC443','MCXC444'].forEach(function(p){VIDEOS[p]=[];});
+  const w72=[video('Bluetooth Localization with FRDM MCXW72',base+'BLUETOOTH-LOCALIZATION-FRDM-MCXW72','Bluetooth Channel Sounding for precise indoor localization.','MCXW72 only',['Wireless']),video('Channel Sounding with Pixel 10 and MCXW72LOC',base+'CHANNEL-SOUNDING-PIXEL-10-MCXW72LOC','Channel Sounding measurements using a Pixel 10 and the MCXW72LOC board.','MCXW72 only',['Wireless'])];
+  VIDEOS.MCXW72=w72;VIDEOS.MCXW71=[];['MCXW716','MCXW727','MCXW748','MCXW235','MCXW236','MCXW343','MCXW345','MCXW23'].forEach(function(p){VIDEOS[p]=[];});
+  const aVideo=video('Smarter Motor Control with MCX and FreeMASTER',base+'SMARTER-MOTOR-CONTROL-WITH-MCX-FREEMASTER','Motor control demonstration using an MCX MCU and FreeMASTER.','MCX A family',['Motor control']);
+  ['MCXA132','MCXA133','MCXA134','MCXA142','MCXA143','MCXA144','MCXA145','MCXA146','MCXA152','MCXA153','MCXA154','MCXA155','MCXA156','MCXA174','MCXA266','MCXA344','MCXA346','MCXA366'].forEach(function(p){VIDEOS[p]=[aVideo];});
+  VIDEOS.MCXE31B=[video('FRDM MCXE31B CAN Modbus and Zephyr',base+'NXP-FRDM-MCXE31B-CAN-MODBUS-ZEPHYR-VID','CAN, Modbus, and Zephyr running on the FRDM MCXE31B board.','MCXE31B only',['Industrial','RTOS'])];
+  VIDEOS.MCXE247=[];
+  // Product family explanations and complete family index used by the home page.
+  FAM['MCX-N'].tp='MCU';FAM['MCX-N'].tg='MCX Neural Series · Cortex M33 plus M33 dual core up to 250 MHz';FAM['MCX-N'].meaning='Neural and AI · built in NPU for face detection, anomaly detection, keyword spotting, and local machine learning.';FAM['MCX-N'].pts=['MCXN947','MCXN946','MCXN948','MCXN548','MCXN547','MCXN236','MCXN235'];
+  FAM['MCX-W'].tg='MCX Wireless Series · Cortex M33 up to 96 MHz';FAM['MCX-W'].meaning='Wireless · Bluetooth, Zigbee, Thread, and Matter built into the device for connected and battery powered products.';FAM['MCX-W'].pts=['MCXW71','MCXW72','MCXW716','MCXW727','MCXW748','MCXW235','MCXW236','MCXW343','MCXW345','MCXW23'];
+  FAM['MCX-A'].tg='MCX Advanced Series · Cortex M33 up to 240 MHz';FAM['MCX-A'].meaning='Advanced · the all purpose MCX workhorse for sensing, motor control, industrial IoT, and HMI.';FAM['MCX-A'].pts=['MCXA132','MCXA133','MCXA134','MCXA142','MCXA143','MCXA144','MCXA145','MCXA146','MCXA152','MCXA153','MCXA154','MCXA155','MCXA156','MCXA174','MCXA266','MCXA344','MCXA346','MCXA366'];
+  FAM['MCX-C'].tg='MCX Cost effective Series · Cortex M0 plus up to 48 MHz or Cortex M23 up to 72 MHz';FAM['MCX-C'].meaning='Cost effective · modern 32 bit control for simple sensing, appliances, touch, segment LCD, USB, and price sensitive products.';FAM['MCX-C'].pts=['MCXC041','MCXC142','MCXC143','MCXC144','MCXC151','MCXC161','MCXC162','MCXC163','MCXC164','MCXC242','MCXC243','MCXC244','MCXC443','MCXC444'];
+  FAM['MCX-E'].tg='MCX Enhanced and Edge Series · robust industrial control';FAM['MCX-E'].meaning='Enhanced and Edge · built for demanding industrial environments, motor drives, transport, medical equipment, and safety focused control.';FAM['MCX-E'].pts=['MCXE247','MCXE31B'];
+  FAM['RT-10'].meaning='High performance crossover MCU · rich HMI, motor control, camera, networking, and fast real time software.';
+  FAM['RT-11'].meaning='Premium crossover MCU · dual core real time processing for advanced displays, cameras, and connected equipment.';
+  FAM['RT-5'].meaning='Low power crossover MCU · voice, audio, display, and machine learning in a compact embedded platform.';
+  FAM['IMX8'].meaning='Linux capable applications processor · vision, multimedia, industrial HMI, and edge intelligence.';
+  FAM['IMX9'].meaning='Modern Linux MPU · secure edge AI, real time control, industrial networking, and rich user interfaces.';
+  // Remove any obsolete tab controls if a host cached an older markup.
+  ['[data-tab="rs"]','[data-tab="cp"]','#tp-rs','#tp-cp'].forEach(function(sel){document.querySelectorAll(sel).forEach(function(el){el.remove()})});
+  // Make the family meaning a first class block in every card.
+  function refreshFamilyCards(){
+    document.querySelectorAll('#mcu-grid .fc,#mpu-grid .fc').forEach(function(card){const name=card.querySelector('.fc-name');if(!name)return;const f=Object.values(FAM).find(function(x){return x.nm===name.textContent});if(!f)return;let m=card.querySelector('.v17-meaning');if(!m){m=document.createElement('p');m.className='v17-meaning';card.querySelector('.fc-foot').before(m)}m.innerHTML='<b>What it means</b><br>'+String(f.meaning||'').replace(/-/g,'–')})
+  }
+  if(typeof window.renderHome==='function')window.renderHome();
+  refreshFamilyCards();
+  // Redraw the family meaning after every home render.
+  const oldRender=window.renderHome;window.renderHome=function(){oldRender();refreshFamilyCards()};
+  // Rebuild demo projects using exact supplied video URLs and the existing exact ACH records only.
+  buildDm=function(d){
+    const vids=VIDEOS[_pn]||[];let h='';
+    if(vids.length){h+='<div class="vid-section-hdr"><div class="vid-section-title">Demo Videos</div><div class="vid-section-sub">'+vids.length+' video'+(vids.length===1?'':'s')+' for '+_pn+'</div></div><div class="vid-grid">';h+=vids.map(function(v){return '<a class="vid-card" href="'+v.url+'" target="_blank" rel="noopener"><div class="vid-thumb"><div class="vid-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><div class="vid-body"><div class="vid-title">'+v.title+'</div><div class="vid-desc">'+v.desc+'</div><div class="v18-scope">'+v.scope+'</div><div class="vid-cta">Watch on NXP.com →</div></div></a>' }).join('');h+='</div><hr class="vid-divider">'}else{h+='<div class="v17-ach-empty">No demo video is currently assigned to '+_pn+'.</div>'}
+    const projects=(typeof ACH_PROJECTS!=='undefined'&&ACH_PROJECTS[_pn])||[];
+    h+='<div class="ach-section"><div class="ach-section-title">Application Code Hub projects</div><div class="ach-section-sub">Open an identified NXP project directly. The catalog link below remains available for the complete collection.</div>';
+    if(projects.length)h+='<div class="ach-grid">'+projects.map(function(p){return '<a class="ach-card" href="'+achUrl(p.slug)+'" target="_blank" rel="noopener"><div class="ach-kicker">NXP Application Code Hub</div><div class="ach-title">'+p.t+'</div><div class="ach-slug">Open project ↗</div></a>'}).join('')+'</div>';else h+='<div class="ach-empty">No identified Application Code Hub project is listed for '+_pn+' yet.</div>';
+    h+='<div class="source-links"><a href="https://mcuxpresso.nxp.com/appcodehub" target="_blank" rel="noopener">Browse all NXP Application Code Hub projects →</a></div></div>';
+    document.getElementById('tp-dm').innerHTML=h;
+  };
+  window.buildDm=buildDm;
+  // Final visible text pass: no ASCII hyphen punctuation is rendered to customers.
+  function clean(root){const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=walker.nextNode()){if(n.parentElement&&n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE')n.nodeValue=n.nodeValue.replace(/-/g,'–')}}
+  clean(document.body);
+  new MutationObserver(function(){clean(document.body)}).observe(document.body,{subtree:true,childList:true});
+})();
+</script>
+<style id="v19-style">
+/* V19 navigation cleanup and ACH product search */
+#tp-rs,#tp-cp,[data-tab="rs"],[data-tab="cp"]{display:none!important}
+.close-v15-controls{display:none!important}
+.v19-ach-action{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:18px 0 24px;padding:18px 20px;border:1px solid #dce4e8;border-radius:16px;background:#f7f9fa}
+.v19-ach-action-copy{color:#53616b;font-size:13px;line-height:1.5}
+.v19-ach-action-copy strong{display:block;color:#172128;font-size:15px;margin-bottom:3px}
+.v19-ach-action a{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:11px 15px;border-radius:999px;background:var(--or);color:#fff;text-decoration:none;font-size:12px;font-weight:800}
+.v19-ach-action a:hover{background:#d95016}
+.v19-ach-full{display:inline-block;margin-left:10px;color:#165f88;font-size:12px;font-weight:750;text-decoration:none}
+@media(max-width:640px){.v19-ach-action{display:block}.v19-ach-action a{margin-top:12px}.v19-ach-full{margin-left:8px}}
+</style>
+<script id="v19-patch">
+(function(){
+  'use strict';
+  function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]})}
+  function hubUrl(part){return 'https://mcuxpresso.nxp.com/appcodehub?search='+encodeURIComponent(part)}
+
+  /* Remove legacy controls even if an older cached markup is present. */
+  ['[data-tab="rs"]','[data-tab="cp"]','#tp-rs','#tp-cp'].forEach(function(selector){
+    document.querySelectorAll(selector).forEach(function(node){node.remove()});
+  });
+  document.querySelectorAll('button,a').forEach(function(node){
+    var label=(node.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
+    if(label==='resources and docs'||label==='resources & docs'||label==='compare')node.remove();
+  });
+
+  /* Use the requested plain language family descriptions on the home cards. */
+  var meaning={
+    'MCX N':'Neural and AI. NXP’s MCU with an integrated NPU for local face detection, anomaly detection, voice recognition, and image workloads.',
+    'MCX W':'Wireless. Bluetooth LE, Zigbee, Thread, and Matter built into the device for battery products and connected sensing.',
+    'MCX A':'Advanced. A balanced MCU for motor control, smart sensing, industrial IoT, and HMI designs.',
+    'MCX C':'Cost effective. Modern 32 bit control for simple sensing, appliances, LCD interfaces, USB, and price sensitive products.',
+    'MCX E':'Enhanced and Edge. Robust industrial control for motor drives, transport, medical equipment, safety, CAN FD, and harsh environments.',
+    'i.MX RT 10xx':'High performance crossover MCU for rich HMI, motor control, camera, networking, and real time software.',
+    'i.MX RT 11xx':'Premium crossover MCU for graphics, camera, display, and multi core real time systems.',
+    'i.MX RT 5xx, 6xx, 7xx':'Low power crossover MCU for voice, audio, HMI, and always on edge applications.',
+    'i.MX 8':'Linux capable applications processor for vision, multimedia, industrial HMI, and edge intelligence.',
+    'i.MX 9':'Modern Linux applications processor for secure edge AI, voice, HMI, industrial networking, and real time control.'
+  };
+  Object.keys(FAM||{}).forEach(function(key){
+    var family=FAM[key];
+    if(!family)return;
+    Object.keys(meaning).forEach(function(name){if(family.nm===name)family.meaning=meaning[name]});
+  });
+  if(typeof window.renderHome==='function')window.renderHome();
+
+  /* Build the demo area with exact project cards plus a product prefilled ACH search. */
+  window.buildDm=function(d){
+    var videos=(VIDEOS[_pn]||[]), html='';
+    if(videos.length){
+      html+='<div class="vid-section-hdr"><div class="vid-section-title">Demo Videos</div><div class="vid-section-sub">'+videos.length+' video'+(videos.length===1?'':'s')+' for '+esc(_pn)+'</div></div><div class="vid-grid">';
+      html+=videos.map(function(video){
+        return '<a class="vid-card" href="'+esc(video.url)+'" target="_blank" rel="noopener"><div class="vid-thumb"><div class="vid-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><div class="vid-body"><div class="vid-title">'+esc(video.title)+'</div><div class="vid-desc">'+esc(video.desc)+'</div><div class="v18-scope">'+esc(video.scope)+'</div><div class="vid-cta">Watch on NXP.com →</div></div></a>';
+      }).join('');
+      html+='</div><hr class="vid-divider">';
+    }else{
+      html+='<div class="v17-ach-empty">No demo video is currently assigned to '+esc(_pn)+'.</div>';
+    }
+    var projects=(typeof ACH_PROJECTS!=='undefined'&&ACH_PROJECTS[_pn])||[];
+    html+='<div class="ach-section"><div class="ach-section-title">Application Code Hub projects</div><div class="ach-section-sub">Exact project records are shown when available. The product search below is prefilled automatically.</div>';
+    if(projects.length){
+      html+='<div class="ach-grid">'+projects.map(function(project){
+        return '<a class="ach-card" href="'+esc(achUrl(project.slug))+'" target="_blank" rel="noopener"><div class="ach-kicker">NXP Application Code Hub</div><div class="ach-title">'+esc(project.t)+'</div><div class="ach-slug">Open exact project ↗</div></a>';
+      }).join('')+'</div>';
+    }else{
+      html+='<div class="ach-empty">No exact Application Code Hub project is listed for '+esc(_pn)+' yet.</div>';
+    }
+    html+='<div class="v19-ach-action"><div class="v19-ach-action-copy"><strong>Explore '+esc(_pn)+' projects</strong>Application Code Hub opens with '+esc(_pn)+' already entered in the search field.</div><div><a href="'+hubUrl(_pn)+'" target="_blank" rel="noopener">Open '+esc(_pn)+' in Application Code Hub ↗</a><a class="v19-ach-full" href="https://mcuxpresso.nxp.com/appcodehub" target="_blank" rel="noopener">Browse full catalog</a></div></div></div>';
+    document.getElementById('tp-dm').innerHTML=html;
+  };
+  if(typeof _pn!=='undefined'&&_pn&&typeof getProd==='function')window.buildDm(getProd(_pn));
+
+  /* Keep the screenshot’s old weight tuning block out of the customer view. */
+  document.querySelectorAll('.close-v15-controls').forEach(function(node){node.remove()});
+  var observer=new MutationObserver(function(){
+    document.querySelectorAll('.close-v15-controls').forEach(function(node){node.remove()});
+    document.querySelectorAll('[data-tab="rs"],[data-tab="cp"],#tp-rs,#tp-cp').forEach(function(node){node.remove()});
+  });
+  observer.observe(document.body,{subtree:true,childList:true});
+})();
+</script>
+<style id="v22-home-style">
+  .family-explainer{display:none!important}
+  .fam-grid{grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:16px}
+  .fc{min-height:154px;padding:22px;border-radius:12px;background:var(--s0);border:1px solid var(--b1);box-shadow:0 1px 2px rgba(0,0,0,.03);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+  .fc::after{height:3px}
+  .fc:hover{transform:translateY(-3px);box-shadow:var(--sh3);border-color:var(--or)}
+  .fc-top{margin-bottom:15px;align-items:center}
+  .fc-name{font-size:20px;letter-spacing:-.035em;font-weight:780;color:var(--dk)}
+  .fc-badge{font-size:9px;letter-spacing:.08em;padding:4px 8px}
+  .v22-family-copy{font-size:13px;line-height:1.55;color:var(--t2);max-width:31ch;min-height:42px;margin:0 0 18px}
+  .fc-foot{padding-top:12px;border-top:1px solid var(--b1)}
+  .fc-cnt{font-size:11px;color:var(--t3)}
+  .fc-arr{font-size:18px;opacity:.35}
+  .fc:hover .fc-arr{opacity:1}
+  @media(max-width:560px){.fam-grid{grid-template-columns:1fr}.fc{min-height:0}.v22-family-copy{min-height:0;max-width:none}}
+</style>
+<script id="v22-home-patch">
+(function(){
+  'use strict';
+  var copy={
+    'MCX N Series':'The clever one in the room, making useful AI decisions at the edge without calling the cloud for every answer.',
+    'MCX W Series':'The sociable one, keeping connected products talking while treating battery life with respect.',
+    'MCX A Series':'The dependable all rounder, ready for sensing, control, industrial IoT, and the occasional ambitious idea.',
+    'MCX C Series':'The sensible value choice, handling everyday control without bringing a limousine to a bicycle ride.',
+    'MCX E Series':'The tough one for demanding jobs, staying composed when the factory floor gets noisy, hot, and electrically opinionated.',
+    'i.MX RT 10xx':'The quick and capable crossover, adding graphics, networking, and real time muscle to an MCU design.',
+    'i.MX RT 11xx':'The premium multitasker, keeping rich interfaces and real time control moving together.',
+    'i.MX RT 5xx/6xx':'The quiet specialist for voice, audio, displays, and always ready products.',
+    'i.MX 8 Series':'The Linux ready application brain for cameras, displays, gateways, and intelligent edge products.',
+    'i.MX 9 Series':'The modern edge computing brain for Linux, secure AI, real time control, and room to grow.'
+  };
+  Object.keys(FAM||{}).forEach(function(key){
+    var f=FAM[key];
+    if(f&&copy[f.nm])f.homeCopy=copy[f.nm];
+  });
+  function draw(){
+    var mg=document.getElementById('mcu-grid'),pg=document.getElementById('mpu-grid');
+    if(!mg||!pg)return;
+    mg.innerHTML='';pg.innerHTML='';var mc=0,pc=0;
+    function videoCount(k){return (FAM[k].pts||[]).reduce(function(n,p){return n+(VIDEOS[p]||[]).length},0)}
+    Object.entries(FAM).sort(function(a,b){var am=a[1].tp==='MPU',bm=b[1].tp==='MPU';if(am!==bm)return am?1:-1;return videoCount(b[0])-videoCount(a[0])}).forEach(function(entry){
+      var k=entry[0],f=entry[1],el=document.createElement('div');
+      el.className='fc';el.setAttribute('role','button');el.setAttribute('tabindex','0');el.setAttribute('aria-label','Open '+f.nm);el.setAttribute('data-glean-id','family-card-'+k.toLowerCase());
+      el.onclick=function(){showFam(k)};el.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showFam(k)}};
+      var badge={MCU:'fb-mcu',MPU:'fb-mpu',Crossover:'fb-cross',Wireless:'fb-wifi'}[f.tp]||'fb-mcu';
+      el.innerHTML='<div class="fc-top"><div class="fc-name">'+v17esc(f.nm)+'</div><span class="fc-badge '+badge+'">'+v17esc(f.tp)+'</span></div><p class="v22-family-copy">'+v17esc(f.homeCopy||'A focused NXP platform for embedded products.')+'</p><div class="fc-foot"><span class="fc-cnt">'+f.pts.length+' parts</span><span class="fc-arr" aria-hidden="true">→</span></div>';
+      if(f.tp==='MPU'){pg.appendChild(el);pc++}else{mg.appendChild(el);mc++}
+    });
+    document.getElementById('mcu-cnt').textContent=mc+' families';document.getElementById('mpu-cnt').textContent=pc+' families';
+  }
+  window.renderHome=draw;
+  draw();
+  if(typeof showHome==='function'){
+    var oldShowHome=showHome;
+    window.showHome=function(){oldShowHome();draw()};
+  }
+})();
+</script>
+<style id="v23-home-style">
+  #hero{padding:24px 24px 48px}
+  .hero-ey{display:none}
+  .hero-h{font-size:clamp(2.05rem,4vw,3.05rem);line-height:1.05;letter-spacing:-.045em;margin-bottom:14px}
+  .hero-h em{color:var(--or)}
+  .hero-sub{max-width:700px;margin:0 auto 32px;font-size:15px;line-height:1.5}
+  #home{padding:26px 0 52px}
+  #home .sec-head{margin:0 0 14px}
+  #home .sec-head + .family-explainer{display:none!important}
+  .fam-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+  .fc{min-height:149px;padding:20px;border-radius:8px;background:var(--s0);border:1px solid var(--b1);box-shadow:0 1px 2px rgba(0,0,0,.03);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+  .fc::after{display:none}
+  .fc:hover{transform:translateY(-2px);box-shadow:var(--sh2);border-color:var(--or)}
+  .fc-top{margin-bottom:12px;align-items:center}
+  .fc-name{font-size:16px;line-height:1.2;letter-spacing:-.02em;font-weight:750;color:var(--dk)}
+  .fc-badge{font-size:9px;letter-spacing:.06em;padding:4px 7px}
+  .fc-desc{font-size:13px;line-height:1.48;color:var(--t2);margin:0 0 15px;min-height:56px}
+  .fc-foot{padding-top:0;border-top:0}
+  .fc-cnt{font-size:11px;color:var(--t4)}
+  .fc-arr{display:none}
+  #mpu-grid{margin-top:0}
+  @media(max-width:920px){.fam-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:560px){#hero{padding-top:28px}.fam-grid{grid-template-columns:1fr}.fc{min-height:0}.fc-desc{min-height:0}}
+</style>
+<script id="v23-home-restore">
+(function(){
+  'use strict';
+  var esc=window.v17esc||function(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+  var order=['MCX-C','MCX-W','MCX-N','RT-10','RT-5','MCX-E','MCX-A','RT-11'];
+  var descriptions={
+    'MCX-C':'Ultra cost optimised Cortex M0 plus for high volume, price sensitive applications.',
+    'MCX-W':'Multi protocol wireless MCU with Bluetooth LE, IEEE 802.15.4, Matter, Thread, and Zigbee.',
+    'MCX-N':'Dual core Cortex M33 with on chip NPU for edge AI and industrial IoT.',
+    'RT-10':'Cortex M7 up to 1 GHz for rich HMI, motor control, and industrial networking.',
+    'RT-5':'Ultra low power Cortex M33 and DSP crossover with on chip SRAM for edge voice and audio.',
+    'MCX-E':'Industrial grade Cortex M33 with dual CAN FD, RS 485, Modbus, and Zephyr support.',
+    'MCX-A':'Mainstream Cortex M33 for industrial sensing, consumer products, and IoT.',
+    'RT-11':'Dual core Cortex M7 and M4 up to 1 GHz with GPU and MIPI DSI for premium HMI.',
+    'IMX8':'Cortex A53 applications processors for Linux, multimedia, vision, and industrial HMI.',
+    'IMX9':'Cortex A55 applications processors for secure edge AI, real time control, and industrial networking.'
+  };
+  var labels={'MCX-C':'MCU','MCX-W':'WIRELESS','MCX-N':'CROSSOVER','RT-10':'CROSSOVER','RT-5':'CROSSOVER','MCX-E':'MCU','MCX-A':'MCU','RT-11':'CROSSOVER','IMX8':'MPU','IMX9':'MPU'};
+  function badgeClass(label){return label==='WIRELESS'?'fb-wifi':label==='MPU'?'fb-mpu':label==='CROSSOVER'?'fb-cross':'fb-mcu'}
+  function card(key){
+    var f=FAM[key];if(!f)return null;
+    var label=labels[key]||f.tp;
+    var el=document.createElement('div');
+    el.className='fc';el.setAttribute('role','button');el.setAttribute('tabindex','0');el.setAttribute('data-glean-id','family-card-'+key.toLowerCase());el.setAttribute('aria-label','Open '+f.nm);
+    el.onclick=function(){showFam(key)};el.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showFam(key)}};
+    el.innerHTML='<div class="fc-top"><div class="fc-name">'+esc(f.nm)+'</div><span class="fc-badge '+badgeClass(label)+'">'+esc(label)+'</span></div><p class="fc-desc">'+esc(descriptions[key]||f.tg||'NXP embedded processing platform.')+'</p><div class="fc-foot"><span class="fc-cnt">'+f.pts.length+' parts</span></div>';
+    return el;
+  }
+  function draw(){
+    var mg=document.getElementById('mcu-grid'),pg=document.getElementById('mpu-grid');if(!mg||!pg)return;
+    mg.innerHTML='';pg.innerHTML='';
+    order.forEach(function(key){var el=card(key);if(el)mg.appendChild(el)});
+    ['IMX8','IMX9'].forEach(function(key){var el=card(key);if(el)pg.appendChild(el)});
+    var mc=document.getElementById('mcu-cnt'),pc=document.getElementById('mpu-cnt');if(mc)mc.textContent=order.filter(function(k){return FAM[k]}).length+' families';if(pc)pc.textContent=['IMX8','IMX9'].filter(function(k){return FAM[k]}).length+' families';
+  }
+  var h=document.querySelector('.hero-h');if(h)h.innerHTML='Find, Explore & <em>Compare</em><br>MCUs and MPUs';
+  var sub=document.querySelector('.hero-sub');if(sub)sub.textContent='Search any NXP part number to explore specs, docs, demos, or type a competitor part number to compare head to head.';
+  var input=document.getElementById('q');if(input)input.placeholder='Try: MCXN947 · MCXW71 · MIMXRT1064 · STM32H563…';
+  var oldShowHome=window.showHome;window.renderHome=draw;window.showHome=function(){if(oldShowHome)oldShowHome();draw()};
+  draw();
+})();
 </script>
 </body>
 </html>

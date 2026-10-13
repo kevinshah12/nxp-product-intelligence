@@ -441,7 +441,60 @@ button{cursor:pointer;font-family:var(--ff)}
   .feature-mark{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--or-lt);color:var(--or);font-weight:900;flex-shrink:0;font-size:14px;line-height:1}
   @media(max-width:680px){.spec-row{grid-template-columns:1fr;gap:4px}.feature-list{grid-template-columns:1fr}.specs-title{font-size:23px}}
 </style>
-<style>@media print { @page { size: auto !important; } }</style></head>
+<style>@media print { @page { size: auto !important; } }</style>
+<style id="smart-lab-style">
+#lab{display:none;padding-bottom:72px}
+.lab-shell{max-width:1180px;margin:0 auto;padding:0 24px}
+.lab-hero{position:relative;overflow:hidden;margin:0 -24px 34px;padding:66px max(24px,calc((100% - 1180px)/2 + 24px)) 58px;background:linear-gradient(120deg,#0e74ad 0%,#0095da 48%,#6dc05f 100%);color:#fff}
+.lab-hero::after{content:"";position:absolute;right:-100px;top:-160px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.22) 0 2px,transparent 3px 100%);background-size:24px 24px;opacity:.45;transform:rotate(18deg)}
+.lab-hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:54px;align-items:center}
+.lab-kicker{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin-bottom:14px}
+.lab-title{font-size:clamp(2rem,4.2vw,4rem);line-height:1.02;letter-spacing:-.055em;font-weight:850;max-width:700px}
+.lab-title em{font-style:normal;color:#ffd247}
+.lab-lede{margin-top:18px;max-width:660px;font-size:16px;line-height:1.65;color:rgba(255,255,255,.9)}
+.lab-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:27px}
+.lab-btn{border:1px solid rgba(255,255,255,.55);border-radius:22px;padding:10px 16px;font-size:12px;font-weight:800;cursor:pointer;font-family:var(--ff);transition:transform .18s,background .18s}
+.lab-btn:hover{transform:translateY(-2px)}
+.lab-btn-primary{background:#fff;color:#006ea0;border-color:#fff}.lab-btn-primary:hover{background:#fff5ef;color:#d4501a}
+.lab-btn-ghost{background:rgba(255,255,255,.1);color:#fff}.lab-btn-ghost:hover{background:rgba(255,255,255,.2)}
+.lab-hero-visual{min-height:270px;display:grid;place-items:center}
+.lab-house{width:min(370px,100%);aspect-ratio:1.22;border:1px solid rgba(255,255,255,.42);border-radius:22px;background:rgba(255,255,255,.12);backdrop-filter:blur(5px);padding:16px;display:grid;grid-template-columns:1.2fr .8fr;grid-template-rows:1fr .75fr;gap:10px;box-shadow:0 20px 60px rgba(0,0,0,.12)}
+.lab-room{position:relative;border:1px solid rgba(255,255,255,.48);border-radius:14px;padding:13px;background:rgba(255,255,255,.12);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.lab-room::after{content:"";position:absolute;width:50px;height:50px;border-radius:50%;right:-10px;bottom:-16px;background:rgba(255,210,71,.65)}
+.lab-room:nth-child(2)::after{background:rgba(255,255,255,.55)}.lab-room:nth-child(3)::after{background:rgba(109,192,95,.7)}.lab-room:nth-child(4)::after{background:rgba(242,101,34,.65)}
+.lab-room-label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.75);font-weight:800}.lab-room-title{font-size:16px;font-weight:800;position:relative;z-index:1}.lab-room-line{height:3px;width:32px;background:#ffd247;border-radius:3px;margin-top:8px}
+.lab-proof{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 40px}.lab-stat{background:#fff;border:1px solid var(--b1);border-radius:12px;padding:18px 18px 16px;box-shadow:var(--sh1)}.lab-stat-value{font-size:29px;font-weight:850;letter-spacing:-.045em;color:var(--or)}.lab-stat-label{font-size:11px;color:var(--t3);margin-top:4px;line-height:1.35}
+.lab-section{margin-top:42px}.lab-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:15px}.lab-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--or);font-weight:850}.lab-section-title{font-size:28px;letter-spacing:-.045em;font-weight:850;margin-top:3px}.lab-section-copy{max-width:640px;color:var(--t2);font-size:13px;line-height:1.55;margin-top:7px}
+.lab-focus{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.lab-focus-item{border:1px solid var(--b1);border-radius:9px;background:#fff;padding:14px 12px;min-height:78px;transition:transform .18s,border-color .18s,box-shadow .18s}.lab-focus-item:hover{transform:translateY(-3px);border-color:var(--bl);box-shadow:var(--sh2)}.lab-focus-mark{width:22px;height:4px;border-radius:4px;background:var(--or);margin-bottom:12px}.lab-focus-item:nth-child(2) .lab-focus-mark{background:var(--bl)}.lab-focus-item:nth-child(3) .lab-focus-mark{background:var(--gn)}.lab-focus-item:nth-child(4) .lab-focus-mark{background:#8a62d6}.lab-focus-item:nth-child(5) .lab-focus-mark{background:#f2b544}.lab-focus-item:nth-child(6) .lab-focus-mark{background:#18a2a8}.lab-focus-title{font-size:12px;font-weight:800;color:var(--t1);line-height:1.25}
+.lab-map{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.lab-map-card{position:relative;border:1px solid var(--b1);border-radius:11px;background:#fff;padding:17px;cursor:pointer;transition:transform .18s,border-color .18s,box-shadow .18s;min-height:112px}.lab-map-card:hover{transform:translateY(-3px);border-color:var(--or);box-shadow:var(--sh2)}.lab-map-room{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--or);font-weight:850}.lab-map-name{font-size:18px;font-weight:800;letter-spacing:-.025em;margin-top:5px}.lab-map-count{font-size:11px;color:var(--t3);margin-top:11px}.lab-map-arrow{position:absolute;right:16px;bottom:14px;color:var(--or);font-size:20px}
+.lab-filterbar{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 18px}.lab-filter{border:1px solid var(--b2);background:#fff;color:var(--t2);border-radius:18px;padding:7px 12px;font-size:11px;font-weight:750;cursor:pointer;font-family:var(--ff);transition:all .15s}.lab-filter:hover{border-color:var(--or);color:var(--or)}.lab-filter.active{background:var(--or);border-color:var(--or);color:#fff}
+.lab-project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.lab-project{background:#fff;border:1px solid var(--b1);border-radius:12px;padding:19px;display:flex;flex-direction:column;min-height:264px;transition:transform .18s,box-shadow .18s,border-color .18s}.lab-project:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:var(--b2)}.lab-project-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.lab-project-space{font-size:10px;color:var(--or);font-weight:850;text-transform:uppercase;letter-spacing:.12em}.lab-project-category{font-size:10px;color:var(--t3);border:1px solid var(--b1);border-radius:12px;padding:3px 7px;white-space:nowrap}.lab-project-title{font-size:17px;line-height:1.2;font-weight:820;letter-spacing:-.025em;margin-top:12px;color:var(--t1)}.lab-project-summary{font-size:12px;color:var(--t2);line-height:1.55;margin-top:9px}.lab-project-footer{margin-top:auto;padding-top:16px}.lab-tech{display:flex;gap:5px;flex-wrap:wrap}.lab-tech span{font-size:10px;color:var(--bl-dk);background:var(--bl-lt);border-radius:4px;padding:4px 7px;font-weight:700}.lab-project-action{display:inline-block;margin-top:14px;color:var(--or);font-size:11px;font-weight:850;text-decoration:none}.lab-project-action:hover{text-decoration:underline}.lab-empty{padding:34px;border:1px solid var(--b1);border-radius:12px;background:#fff;color:var(--t2);text-align:center;grid-column:1/-1}
+.lab-cta{margin-top:46px;border-radius:14px;background:var(--dk);color:#fff;padding:27px 30px;display:flex;align-items:center;justify-content:space-between;gap:22px}.lab-cta h3{font-size:24px;letter-spacing:-.035em}.lab-cta p{font-size:13px;color:rgba(255,255,255,.7);margin-top:5px}.lab-cta .lab-btn-primary{flex-shrink:0}
+@media(max-width:900px){.lab-hero-inner{grid-template-columns:1fr}.lab-hero-visual{display:none}.lab-focus{grid-template-columns:repeat(3,1fr)}.lab-project-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.lab-shell{padding:0 16px}.lab-hero{margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px}.lab-proof{grid-template-columns:repeat(2,1fr)}.lab-focus{grid-template-columns:repeat(2,1fr)}.lab-map{grid-template-columns:1fr 1fr}.lab-project-grid{grid-template-columns:1fr}.lab-section-head{display:block}.lab-cta{display:block}.lab-cta .lab-btn{margin-top:18px}}
+@media(prefers-reduced-motion:reduce){.lab-btn,.lab-focus-item,.lab-map-card,.lab-project{transition:none!important}}
+.nav-lab-btn{border:1px solid var(--bl);background:var(--bl-lt);color:var(--bl-dk);border-radius:18px;padding:7px 12px;font-size:11px;font-weight:800;white-space:nowrap;font-family:var(--ff);cursor:pointer;transition:all .15s}.nav-lab-btn:hover{background:var(--bl);color:#fff}
+<style id="smart-lab-project-catalog-style">
+.lab-project-intro{margin-top:28px;margin-bottom:0}.lab-project-intro .lab-section-head{margin-bottom:0}.lab-project-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.lab-project{min-height:338px;padding:22px;border-radius:14px}.lab-project-title{font-size:19px;line-height:1.18;margin-top:14px}.lab-project-summary{font-size:13px;line-height:1.62;margin-top:11px}.lab-project-board-block{margin-top:18px;padding-top:14px;border-top:1px solid var(--b1)}.lab-project-board-label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);font-weight:850}.lab-project-boards{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.lab-project-board{font-size:11px;color:var(--bl-dk);background:var(--bl-lt);border:1px solid #cfe8f7;border-radius:6px;padding:5px 8px;font-weight:750;line-height:1.2}.lab-project-footer{padding-top:17px}.lab-project-action{font-size:12px}.lab-filterbar{margin:0 0 20px;padding:4px 0}.lab-filter{padding:8px 13px}.lab-filter.active{box-shadow:0 4px 12px rgba(242,101,34,.18)}
+@media(max-width:900px){.lab-project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.lab-project-grid{grid-template-columns:1fr}.lab-project{min-height:0}}
+</style>
+<style id="smart-lab-consistency-style">
+.lab-project-grid{grid-auto-rows:1fr;align-items:stretch}
+.lab-project{min-height:0;height:100%;display:flex;flex-direction:column;padding:22px;border-radius:14px}
+.lab-project-top{min-height:22px}
+.lab-project-title{min-height:48px;margin-top:14px}
+.lab-project-summary{min-height:104px;margin-top:11px}
+.lab-project-board-block{min-height:88px;margin-top:16px;padding-top:14px}
+.lab-project-footer{margin-top:0;min-height:68px;padding-top:16px}
+.lab-tech-label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);font-weight:850;margin-bottom:8px}
+.lab-tech{min-height:34px;align-content:flex-start}
+.lab-project-action{display:none!important}
+@media(max-width:900px){.lab-project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.lab-project-grid{grid-template-columns:1fr}.lab-project{height:auto}.lab-project-title,.lab-project-summary,.lab-project-board-block,.lab-project-footer{min-height:0}}
+</style>
+
+</head>
 <body>
 
 <header id="nav">
@@ -453,6 +506,7 @@ button{cursor:pointer;font-family:var(--ff)}
   <div class="nav-sp"></div>
   <a class="nav-lk" href="https://www.nxp.com/products" target="_blank">All Products</a>
   <a class="nav-lk" href="https://mcuxpresso.nxp.com/appcodehub" target="_blank">App Code Hub</a>
+  <button class="nav-lab-btn" onclick="showLab()">Smart Home Automation Lab</button>
   <button class="nav-btn" onclick="window.open('https://www.nxp.com/support','_blank')">Support ↗</button>
 </header>
 
@@ -487,6 +541,45 @@ button{cursor:pointer;font-family:var(--ff)}
     <div class="sec-head"><span class="sec-lbl">MPU and application processor families</span><span class="sec-cnt" id="mpu-cnt"></span></div>
     <p class="family-explainer">MPUs are designed for richer systems that may run Linux, drive displays, process cameras, and combine application software with real time control.</p>
     <div class="fam-grid" id="mpu-grid"></div>
+  </div>
+
+
+  <div id="lab">
+    <div class="lab-shell">
+      <section class="lab-hero" data-glean-id="smart-home-lab-hero">
+        <div class="lab-hero-inner">
+          <div>
+            <div class="lab-kicker">Smart Home Automation Lab</div>
+            <h1 class="lab-title">Beyond smart. Into the <em>autonomous home.</em></h1>
+            <p class="lab-lede">A living engineering environment where NXP technology turns real home experiences into connected, secure, intelligent and local solutions that customers can evaluate.</p>
+            <div class="lab-actions">
+              <button class="lab-btn lab-btn-primary" type="button" onclick="labJump('lab-projects')">Explore projects</button>
+            </div>
+          </div>
+          <div class="lab-hero-visual" aria-label="Illustrated smart home lab layout">
+            <div class="lab-house">
+              <div class="lab-room"><span class="lab-room-label">Living room</span><span class="lab-room-title">Awareness</span><span class="lab-room-line"></span></div>
+              <div class="lab-room"><span class="lab-room-label">Media room</span><span class="lab-room-title">Voice</span><span class="lab-room-line"></span></div>
+              <div class="lab-room"><span class="lab-room-label">Kitchen</span><span class="lab-room-title">AI and safety</span><span class="lab-room-line"></span></div>
+              <div class="lab-room"><span class="lab-room-label">Entryway</span><span class="lab-room-title">Access</span><span class="lab-room-line"></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lab-section lab-project-intro" data-glean-id="smart-home-lab-project-intro">
+        <div class="lab-section-head"><div><div class="lab-eyebrow">Project gallery</div><div class="lab-section-title">Explore the projects</div><p class="lab-section-copy">Customer facing demonstrations from the Smart Home Innovation Lab. Each project explains the experience, the NXP technology behind it, and the boards or platforms named in the lab deck.</p></div></div>
+      </section>
+
+      <section class="lab-section" id="lab-projects" data-glean-id="smart-home-lab-projects">
+        <div class="lab-project-grid" id="lab-project-grid"></div>
+      </section>
+
+      <section class="lab-cta" data-glean-id="smart-home-lab-cta">
+        <div><h3>Design the next home experience</h3><p>Use the lab gallery to find the right starting point for your next conversation with NXP.</p></div>
+        <button class="lab-btn lab-btn-primary" type="button" onclick="window.open('https://www.nxp.com/products','_blank')">Explore NXP platforms</button>
+      </section>
+    </div>
   </div>
 
   <div id="fv">
@@ -1601,7 +1694,7 @@ function doSearch(){const q=qel.value.trim().toUpperCase();if(getProd(q))goProdu
 /* ═══════════════════════════════
    NAVIGATION HELPERS
 ═══════════════════════════════ */
-function showView(id){['home','fv','pv','cv'].forEach(v=>document.getElementById(v).style.display=v===id?'block':'none');window.scrollTo({top:0,behavior:'smooth'});}
+function showView(id){['home','fv','pv','cv','lab'].forEach(v=>{const el=document.getElementById(v);if(el)el.style.display=v===id?'block':'none';});window.scrollTo({top:0,behavior:'smooth'});}
 function showHome(){showView('home');qel.value='';acdrop.style.display='none';}
 function swTab(tab,btn){
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
@@ -2460,6 +2553,107 @@ renderHome();
   window.buildCloseTab=build;
   if(typeof _pn!=='undefined'&&_pn)build();
 })();
+
+
+/* Smart Home Automation Lab */
+const SMART_HOME_PROJECTS=[
+ {title:'Smart Home Dashboard',space:'Living room',category:'Smart networking',summary:'A central Home Assistant based hub that brings devices and ecosystems together, then uses a digital twin to support home control and device health analysis.',tech:['Home Assistant','Digital twin','i.MX 8M Plus'],product:'MIMX8MP8'},
+ {title:'Digital Intrusion Alarm',space:'Living room',category:'Security',summary:'An edge security concept that watches network traffic for anomalies and denial of service patterns, helping protect connected devices and private data.',tech:['AI and ML','Autoencoder','Wi Fi 6'],product:'MIMX8MP8'},
+ {title:'NXP Matter Controller',space:'Living room',category:'Matter',summary:'A centralized Matter controller concept that demonstrates interoperability across commercial devices and NXP evaluation platforms.',tech:['Matter','Whole home automation','EdgeLock security'],product:'MIMX9352'},
+ {title:'Occupancy Detection with Control4',space:'Living room',category:'AI and ML',summary:'Vision based occupancy intelligence integrated with a smart home controller to make media control feel aware of the people in the room.',tech:['Vision ML','Control4','i.MX 8M Plus'],product:'MIMX8MP8'},
+ {title:'UWB Home Personalization',space:'Living room',category:'UWB',summary:'Uses precise indoor positioning to understand where a person is and adapt lights, music and blinds to the current zone.',tech:['Trimension UWB','Presence','Personalization'],product:'MIMX8MP8'},
+ {title:'Sonic UWB Optimization',space:'Living room',category:'UWB',summary:'An exploration of UWB ranging and sensing behavior for more responsive, location aware home experiences.',tech:['UWB','Ranging','Sensing']},
+ {title:'Updated Smart Dashboard',space:'Living room',category:'Smart networking',summary:'A continuously evolving dashboard concept for monitoring devices, alerts and automated actions across the connected home.',tech:['Dashboard','Device data','Automation']},
+ {title:'Control4 Scene Automations',space:'Living room',category:'Home control',summary:'Scene based automations connect devices, sensors and media into one coordinated experience that responds to what is happening at home.',tech:['Control4','Scenes','Automation']},
+ {title:'Smart Entryway and Pet Door',space:'Entryway',category:'Access and security',summary:'A smart access platform that combines UWB, face recognition, fingerprint, NFC, mobile access and a pin pad to personalize entry.',tech:['UWB','Face recognition','NFC','SR040']},
+ {title:'Home and Building Access Personalization',space:'Entryway',category:'Access and security',summary:'A multi technology access experience designed to benchmark usability while protecting identity data and privacy.',tech:['Smart access','Identity','Privacy']},
+ {title:'Pet Door Access Control',space:'Entryway',category:'Access and security',summary:'A focused access control vignette that brings secure identification and connected edge devices to a pet door experience.',tech:['Access control','Connected edge','Security']},
+ {title:'Voice Enablement in the Smart Home',space:'Media room',category:'Voice',summary:'Local voice control for media, lights and Matter devices, designed to keep working without a cloud dependency.',tech:['VoiceSeeker','VoiceSpot','VIT']},
+ {title:'VIT and Control4',space:'Media room',category:'Voice',summary:'Local wake word and command detection used to control living room media through a Control4 controller.',tech:['VIT','i.MX 8M Mini','8 microphone array'],product:'MIMX8MM6'},
+ {title:'Voice Assistant with Acoustic Echo Cancellation',space:'Media room',category:'Voice',summary:'Voice control for a home theater with echo cancellation and media volume ducking for clearer interactions during playback.',tech:['VoiceSeeker','Echo cancellation','VoiceSpot']},
+ {title:'Next Generation Home Theater',space:'Media room',category:'Multimedia',summary:'A single chip theater platform concept that consolidates audio functions while keeping the experience responsive and compact.',tech:['i.MX 8M Mini','Audio','Multi OS'],product:'MIMX8MM6'},
+ {title:'Compact Soundbar Audio System',space:'Media room',category:'Multimedia',summary:'A small footprint audio platform concept that brings a complete system into a tighter enclosure without compromising the experience.',tech:['i.MX 8M Mini','Soundbar','Audio']},
+ {title:'Voice for Next Generation Home Theater',space:'Media room',category:'Voice',summary:'Hands free media control with reference channel improvements for stronger echo cancellation during the most demanding scenes.',tech:['VoiceSeeker','VoiceSpot','VIT'],product:'MIMX8MM6'},
+ {title:'Smart Coffee Machine',space:'Kitchen',category:'AI and ML',summary:'Voice and vision help identify the user, select brewing parameters and make the full coffee experience easier to operate.',tech:['eIQ ML','VIT','Touch HMI'],product:'MIMXRT1175'},
+ {title:'NXP Barista',space:'Kitchen',category:'AI and ML',summary:'A customer friendly barista experience that brings intelligent interaction, identification and a polished embedded interface together.',tech:['Edge AI','Voice','Embedded HMI'],product:'MIMXRT1175'},
+ {title:'Coffee Bean Classification',space:'Kitchen',category:'AI and ML',summary:'A vision experiment that classifies coffee inputs and demonstrates how models can move from concept to a practical appliance experience.',tech:['Image classification','eIQ ML','Vision']},
+ {title:'Smart Pantry and Fridge',space:'Kitchen',category:'AI and ML',summary:'Vision based detection and classification can recognize pantry items and support recommendations or a smarter shopping workflow.',tech:['Object detection','Classification','eIQ ML']},
+ {title:'Safe Cook',space:'Kitchen',category:'Safety',summary:'Combines vision and sensors to understand whether a stove is safe and take action when a risk condition remains.',tech:['Presence detection','Sensors','Matter']},
+ {title:'Leak Detection and Prevention',space:'Kitchen',category:'Home control',summary:'A water sensor, dashboard and connected shutoff valve work together to detect a leak and act before the damage spreads.',tech:['Leak sensing','Zigbee','Wi Fi bridge']},
+ {title:'Smart Ceiling Fan',space:'Bedroom',category:'Voice',summary:'Local voice recognition replaces the remote and keeps the experience private by processing commands at the edge.',tech:['VIT','Acoustic library','i.MX RT106x'],product:'MIMXRT1064'},
+ {title:'Sleep Number Bed',space:'Bedroom',category:'Home health',summary:'A connected sleep experience that explores how sensing, comfort and personalized feedback can work together in the home.',tech:['Sleep sensing','Connected health','Personalization']},
+ {title:'Health Wearables',space:'Flex room',category:'Home health',summary:'A home health vignette exploring connected wearable experiences and the technology needed to make them useful in daily life.',tech:['Wearables','Sensors','Edge processing']},
+ {title:'Health and Wellbeing Micro demonstrations',space:'Flex room',category:'Home health',summary:'Small experiments that explore how sensing, connectivity and intelligent feedback can support health and wellbeing at home.',tech:['Health sensing','Connectivity','Personalization']},
+ {title:'Smart Display Treadmill',space:'Flex room',category:'Home health',summary:'An interactive display and sensing experience for a more connected and personalized exercise environment.',tech:['Smart display','HMI','Sensors']},
+ {title:'Car E Cockpit with Multi Touch',space:'Garage',category:'Multimedia',summary:'A multi touch cockpit experience that demonstrates rich graphics, connected interfaces and responsive control.',tech:['Multi touch','Graphics','Connected HMI'],product:'MIMX8MP8'},
+ {title:'Wall Box Charger',space:'Garage',category:'Energy',summary:'An energy management vignette focused on connected charging experiences and the systems around the vehicle.',tech:['Energy management','Connected charging','Control']},
+ {title:'360 Degree Car View',space:'Garage',category:'AI and ML',summary:'A vision rich automotive experience that brings multiple camera views together for a clear understanding of the space around the vehicle.',tech:['Multi camera','Vision','Graphics']},
+ {title:'Conversa Intercom and Speakerphone',space:'Conference room',category:'Voice',summary:'A conference room concept that combines voice calling, room automation and connected devices into one polished experience.',tech:['Conversa','Voice call','i.MX 8M Plus'],product:'MIMX8MP8'},
+ {title:'Presence Based Air Quality',space:'Conference room',category:'Smart networking',summary:'Presence and environmental context inform a more responsive room experience, from monitoring to automated action.',tech:['Presence','Air quality','Automation']},
+ {title:'CES Autonomous Home Micro demonstrations',space:'Display benches',category:'Matter',summary:'A collection of small demonstrations showing how Matter and connected edge technologies can work together across a complete home.',tech:['Matter','Interoperability','Edge devices']},
+ {title:'5G Industrial Stop AGV',space:'Display benches',category:'Connectivity',summary:'A connected mobility demonstration that brings industrial communication and automation concepts into the lab gallery.',tech:['5G','Industrial','Automation']},
+ {title:'Multicamera Person Counting',space:'Whole home',category:'AI and ML',summary:'Multiple camera streams are combined to understand occupancy across spaces and support more useful whole home automation.',tech:['Multi camera','Person counting','AI and ML']},
+ {title:'NXP VIT and S2I Integration',space:'Whole home',category:'Voice',summary:'Voice intelligent technology and speech to intent create a local control layer for connected home experiences.',tech:['VIT','Speech to intent','Local voice']},
+ {title:'Automatic Plant Watering',space:'Whole home',category:'Home control',summary:'A practical automation vignette that connects sensing, decision making and actuation to keep a household task moving.',tech:['Sensors','Actuation','Automation']}
+];
+const LAB_BOARD_MAP={
+ 'Smart Home Dashboard':['i.MX 8M Plus','Layerscape processors','Wi Fi router connectivity'],
+ 'Digital Intrusion Alarm':['i.MX 8M Plus','88W9098 wireless SoC'],
+ 'NXP Matter Controller':['i.MX 93','RW612','IW612','K32W148','i.MX RT1170'],
+ 'Occupancy Detection with Control4':['i.MX 8M Plus','i.MX 8M Quad','Control4 controller'],
+ 'UWB Home Personalization':['Trimension UWB','QN9090 BLE MCU'],
+ 'Sonic UWB Optimization':['Trimension UWB platform'],
+ 'Updated Smart Dashboard':['Home Assistant hub','NXP connectivity solutions'],
+ 'Control4 Scene Automations':['Control4 controller','NXP connected devices'],
+ 'Smart Entryway and Pet Door':['SR040','Trimension UWB','3D camera','NFC and fingerprint devices'],
+ 'Home and Building Access Personalization':['SR040','Trimension UWB','3D camera','NFC and fingerprint devices'],
+ 'Pet Door Access Control':['SR040','Trimension UWB','Connected edge devices'],
+ 'Voice Enablement in the Smart Home':['VoiceSeeker','VoiceSpot','VIT','Control4 or SnapOne controller'],
+ 'VIT and Control4':['i.MX 8M Mini','8MIC Array Board','i.MX 8M Quad'],
+ 'Voice Assistant with Acoustic Echo Cancellation':['VoiceSeeker','VoiceSpot','VIT','i.MX 8M Mini'],
+ 'Next Generation Home Theater':['i.MX 8M Mini'],
+ 'Compact Soundbar Audio System':['i.MX 8M Mini'],
+ 'Voice for Next Generation Home Theater':['VoiceSeeker','VoiceSpot','VIT','i.MX 8M Mini'],
+ 'Smart Coffee Machine':['i.MX RT117H','IW416','eIQ ML','VIT'],
+ 'NXP Barista':['i.MX RT117H','IW416','eIQ ML','VIT'],
+ 'Coffee Bean Classification':['NXP MCU platform','eIQ ML'],
+ 'Smart Pantry and Fridge':['NXP MCU or MPU platform','eIQ ML'],
+ 'Safe Cook':['NXP MCU platform','eIQ ML','Matter'],
+ 'Leak Detection and Prevention':['NXP low power wireless MCU','Zigbee to Wi Fi bridge'],
+ 'Smart Ceiling Fan':['i.MX RT106x','IW416','NXP acoustic library'],
+ 'Sleep Number Bed':['NXP health platform','Connected sensors'],
+ 'Health Wearables':['NXP wearable platform','Connected sensors'],
+ 'Health and Wellbeing Micro demonstrations':['NXP health platform','Connected sensors'],
+ 'Smart Display Treadmill':['NXP display platform','Connected sensors'],
+ 'Car E Cockpit with Multi Touch':['NXP i.MX platform'],
+ 'Wall Box Charger':['NXP energy management platform'],
+ '360 Degree Car View':['NXP vision platform','Multi camera system'],
+ 'Conversa Intercom and Speakerphone':['i.MX 8M Plus','Conversa voice call solution','Poly conference device'],
+ 'Presence Based Air Quality':['NXP sensing platform','Control4'],
+ 'CES Autonomous Home Micro demonstrations':['NXP Matter EVK solutions'],
+ '5G Industrial Stop AGV':['NXP 5G and industrial platforms'],
+ 'Multicamera Person Counting':['i.MX 8M Plus','NXP camera platform'],
+ 'NXP VIT and S2I Integration':['NXP VIT','Speech to Intent platform'],
+ 'Automatic Plant Watering':['NXP MCU and wireless platform']
+};
+SMART_HOME_PROJECTS.forEach(function(p){p.boards=LAB_BOARD_MAP[p.title]||['Board or platform not specified in the deck'];});
+
+function labEsc(value){return String(value==null?'':value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function labJump(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
+function openLabPlatform(pn){if(typeof getProd==='function'&&getProd(pn)){goProduct(pn)}else{window.open('https://www.nxp.com/search#q='+encodeURIComponent(pn)+'&t=products','_blank')}}
+function labRoomCounts(){const counts={};SMART_HOME_PROJECTS.forEach(function(p){counts[p.space]=(counts[p.space]||0)+1});return counts}
+function renderLab(){
+  const list=SMART_HOME_PROJECTS;
+  const grid=document.getElementById('lab-project-grid');
+  if(!grid)return;
+  grid.innerHTML=list.map(function(p){
+    const tech=(p.tech||[]).map(function(t){return '<span>'+labEsc(t)+'</span>'}).join('');
+    const boards=(p.boards||[]).map(function(b){return '<span class="lab-project-board">'+labEsc(b)+'</span>'}).join('');
+    return '<article class="lab-project" data-glean-id="lab-project-'+labEsc(p.title.toLowerCase().replace(/[^a-z0-9]+/g,'_'))+'"><div class="lab-project-top"><span class="lab-project-space">'+labEsc(p.space)+'</span></div><h3 class="lab-project-title">'+labEsc(p.title)+'</h3><p class="lab-project-summary">'+labEsc(p.summary)+'</p><div class="lab-project-board-block"><div class="lab-project-board-label">Boards and platforms</div><div class="lab-project-boards">'+boards+'</div></div><div class="lab-project-footer"><div class="lab-tech-label">Technology</div><div class="lab-tech">'+tech+'</div></div></article>';
+  }).join('');
+}
+function showLab(){showView('lab');renderLab();}
+
 </script>
 </body>
 </html>
